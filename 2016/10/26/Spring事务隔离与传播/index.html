@@ -84,25 +84,31 @@
 
 
 
-<meta name="description" content="Environment SetupStep 1: Install Nodejs via nvm1# wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh
-1source .bashrc
-1nvm install stable
-Step 2: Install Hexo1npm install -g hexo-cl">
+<meta name="description" content="#Spring事务的传播性与隔离性
+##简介
+事务的传播性：事务在系统层面的控制范围。
+事务的隔离性：事务在数据库层面的读写控制范围。
+##传播性事务传播性分为7种等级：
+12345678910111213141.	PROPAGATION_REQUIRED 	如果当前没有事务，就新建一个事务，如果当前有事务，就加入当前事务，成为其中一部分，commit和rollback与调用者一起。这是最常见也是">
 <meta property="og:type" content="article">
-<meta property="og:title" content="How To Use Hexo">
-<meta property="og:url" content="http://datalystio.github.io/2016/10/24/how-to-use-hexo/index.html">
+<meta property="og:title" content="DatalystIO">
+<meta property="og:url" content="http://datalystio.github.io/2016/10/26/Spring事务隔离与传播/index.html">
 <meta property="og:site_name" content="DatalystIO">
-<meta property="og:description" content="Environment SetupStep 1: Install Nodejs via nvm1# wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh
-1source .bashrc
-1nvm install stable
-Step 2: Install Hexo1npm install -g hexo-cl">
-<meta property="og:updated_time" content="2016-10-24T01:52:56.000Z">
+<meta property="og:description" content="#Spring事务的传播性与隔离性
+##简介
+事务的传播性：事务在系统层面的控制范围。
+事务的隔离性：事务在数据库层面的读写控制范围。
+##传播性事务传播性分为7种等级：
+12345678910111213141.	PROPAGATION_REQUIRED 	如果当前没有事务，就新建一个事务，如果当前有事务，就加入当前事务，成为其中一部分，commit和rollback与调用者一起。这是最常见也是">
+<meta property="og:updated_time" content="2016-10-25T19:51:06.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="How To Use Hexo">
-<meta name="twitter:description" content="Environment SetupStep 1: Install Nodejs via nvm1# wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh
-1source .bashrc
-1nvm install stable
-Step 2: Install Hexo1npm install -g hexo-cl">
+<meta name="twitter:title" content="DatalystIO">
+<meta name="twitter:description" content="#Spring事务的传播性与隔离性
+##简介
+事务的传播性：事务在系统层面的控制范围。
+事务的隔离性：事务在数据库层面的读写控制范围。
+##传播性事务传播性分为7种等级：
+12345678910111213141.	PROPAGATION_REQUIRED 	如果当前没有事务，就新建一个事务，如果当前有事务，就加入当前事务，成为其中一部分，commit和rollback与调用者一起。这是最常见也是">
 
 
 
@@ -123,10 +129,10 @@ Step 2: Install Hexo1npm install -g hexo-cl">
 
 
 
-  <link rel="canonical" href="http://datalystio.github.io/2016/10/24/how-to-use-hexo/"/>
+  <link rel="canonical" href="http://datalystio.github.io/2016/10/26/Spring事务隔离与传播/"/>
 
 
-  <title> How To Use Hexo | DatalystIO </title>
+  <title>  | DatalystIO </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="">
@@ -248,7 +254,7 @@ Step 2: Install Hexo1npm install -g hexo-cl">
             
             
               
-                How To Use Hexo
+                
               
             
           </h1>
@@ -260,8 +266,8 @@ Step 2: Install Hexo1npm install -g hexo-cl">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-10-24T14:49:27+13:00" content="2016-10-24">
-              2016-10-24
+            <time itemprop="dateCreated" datetime="2016-10-26T08:51:06+13:00" content="2016-10-26">
+              2016-10-26
             </time>
           </span>
 
@@ -288,13 +294,18 @@ Step 2: Install Hexo1npm install -g hexo-cl">
       
 
       
-        <h2 id="Environment-Setup"><a href="#Environment-Setup" class="headerlink" title="Environment Setup"></a>Environment Setup</h2><h3 id="Step-1-Install-Nodejs-via-nvm"><a href="#Step-1-Install-Nodejs-via-nvm" class="headerlink" title="Step 1: Install Nodejs via nvm"></a>Step 1: Install Nodejs via <code>nvm</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"># wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source .bashrc</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nvm install stable</div></pre></td></tr></table></figure>
-<h3 id="Step-2-Install-Hexo"><a href="#Step-2-Install-Hexo" class="headerlink" title="Step 2: Install Hexo"></a>Step 2: Install Hexo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g hexo-cli</div></pre></td></tr></table></figure>
-<h3 id="Step-3-Install-Hexo-plugins"><a href="#Step-3-Install-Hexo-plugins" class="headerlink" title="Step 3: Install Hexo plugins"></a>Step 3: Install Hexo plugins</h3><p>hexo-deploy-git</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
-<h2 id="Hexo-Usage"><a href="#Hexo-Usage" class="headerlink" title="Hexo Usage"></a>Hexo Usage</h2><p>Check <a href="https://hexo.io/docs/" target="_blank" rel="external">Hexo Document</a> for more details.</p>
+        <p>#Spring事务的传播性与隔离性</p>
+<p>##简介</p>
+<p>事务的传播性：事务在系统层面的控制范围。</p>
+<p>事务的隔离性：事务在数据库层面的读写控制范围。</p>
+<p>##传播性<br>事务传播性分为7种等级：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">1.	PROPAGATION_REQUIRED </div><div class="line">	如果当前没有事务，就新建一个事务，如果当前有事务，就加入当前事务，成为其中一部分，commit和rollback与调用者一起。这是最常见也是默认的选择，就比如你的方法用注解法加了@Transactional，不设置其他，就采用的是这种传播方式。</div><div class="line">2.	PROPAGATION_SUPPORTS</div><div class="line">	支持当前事务，如果当前没有事务，就以非事务方式执行。 </div><div class="line">3.	PROPAGATION_MANDATORY</div><div class="line">	支持当前事务，如果当前没有事务，就抛出异常。 </div><div class="line">4.	PROPAGATION_REQUIRES_NEW</div><div class="line">	新建一个事务，如果当前存在事务，把当前事务挂起；也就是说如果你是被调用方法，使用这种，就是一个独立的事务，调用你的外层事务commit和rollback与你无关，你的commit和rollback也与外层事务无关，即使你的方法抛出运行期异常(就是继承了RuntimeException的类)。 </div><div class="line">5.	PROPAGATION_NOT_SUPPORTED</div><div class="line">	以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。 </div><div class="line">6.	PROPAGATION_NEVER</div><div class="line">	以非事务方式执行，如果当前存在事务，则抛出异常。 </div><div class="line">7.	PROPAGATION_NESTED</div><div class="line">	该等级与PROPAGATION_REQUIRED不同之处在于，属于嵌套事务，而不是直接加入主事务，拥有自己独立的commit和rollback，会等待主事务的commit一起提交，如果主事务rollback了，该嵌套事务也会rollback；如果当前存在事务，则在嵌套事务内执行；如果当前没有事务，则进行与PROPAGATION_REQUIRED类似的操作。</div></pre></td></tr></table></figure>
+<p>是不是感觉也就是PROPAGATION_REQUIRED，PROPAGATION_REQUIRES_NEW，PROPAGATION_NESTED比较有用？不要犯傻了，其他的级别一样很重要，尤其在我们代码进行多层调用时，可以通过制定合理的级别，控制住哪些被调用方法参与事务，哪些不参与事务。</p>
+<p>##隔离性<br>由上之下，安全隔离性递减，性能递增：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1、Serializable ：最严格的级别，事务串行执行，资源消耗最大。</div><div class="line"></div><div class="line">2、REPEATABLE READ ：保证了一个事务不会修改已经由另一个事务读取但未提交（回滚）的数据。避免了“脏读取”和“不可重复读取”的情况，但是带来了更多的性能损失。</div><div class="line"></div><div class="line">3、READ COMMITTED :大多数主流数据库的默认事务等级，保证了一个事务不会读到另一个并行事务已修改但未提交的数据，避免了“脏读取”。该级别适用于大多数系统。</div><div class="line"></div><div class="line">4、Read Uncommitted ：保证了读取，但不保证读取到的数据是否是脏数据。</div></pre></td></tr></table></figure>
+<p>脏读 :所谓的脏读，其实就是读到了别的事务回滚前的脏数据。比如事务B执行过程中修改了数据X，在未提交前，事务A读取了X，而事务B却回滚了，这样事务A就形成了脏读。</p>
+<p>不可重复读 ：不可重复读字面含义已经很明了了，比如事务A首先读取了一条数据，然后执行逻辑的时候，事务B将这条数据改变了，然后事务A再次读取的时候，发现数据不匹配了，就是所谓的不可重复读了。</p>
+<p>幻读 ：小的时候数手指，第一次数十10个，第二次数是11个，怎么回事？产生幻觉了？<br>幻读也是这样子，事务A首先根据条件索引得到10条数据，然后事务B改变了数据库一条数据，导致也符合事务A当时的搜索条件，这样事务A再次搜索发现有11条数据了，就产生了幻读。</p>
 
       
     </div>
@@ -320,15 +331,15 @@ Step 2: Install Hexo1npm install -g hexo-cl">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/10/24/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2016/10/26/centos安装caravel/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/10/26/centos安装caravel/" rel="prev" title="">
+              <a href="/2016/10/26/Hibernate乐观锁/" rel="prev" title="">
                  <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -430,7 +441,7 @@ Step 2: Install Hexo1npm install -g hexo-cl">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Environment-Setup"><span class="nav-number">1.</span> <span class="nav-text">Environment Setup</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-1-Install-Nodejs-via-nvm"><span class="nav-number">1.1.</span> <span class="nav-text">Step 1: Install Nodejs via nvm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-2-Install-Hexo"><span class="nav-number">1.2.</span> <span class="nav-text">Step 2: Install Hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-3-Install-Hexo-plugins"><span class="nav-number">1.3.</span> <span class="nav-text">Step 3: Install Hexo plugins</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo-Usage"><span class="nav-number">2.</span> <span class="nav-text">Hexo Usage</span></a></li></ol></div>
+              <p class="post-toc-empty">Dieser Artikel hat kein Inhaltsverzeichnis</p>
             
           </div>
         </section>

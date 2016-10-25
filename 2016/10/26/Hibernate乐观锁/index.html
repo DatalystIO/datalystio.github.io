@@ -84,25 +84,22 @@
 
 
 
-<meta name="description" content="Environment SetupStep 1: Install Nodejs via nvm1# wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh
-1source .bashrc
-1nvm install stable
-Step 2: Install Hexo1npm install -g hexo-cl">
+<meta name="description" content="#理解Hibernate乐观锁
+##介绍
+Hibernate通过在持久化对象中增加Version属性(或者对某个属性增加@Version，采用Version属性会被Hibernate自动当做版本管理属性)来提供一套乐观锁方案，Version属性完全由Hibernate管理，开发者无需关心，只需要在你的代码中持久化类里增加一个数值型(Long，int，short)或者日期型(timestamp,ca">
 <meta property="og:type" content="article">
-<meta property="og:title" content="How To Use Hexo">
-<meta property="og:url" content="http://datalystio.github.io/2016/10/24/how-to-use-hexo/index.html">
+<meta property="og:title" content="DatalystIO">
+<meta property="og:url" content="http://datalystio.github.io/2016/10/26/Hibernate乐观锁/index.html">
 <meta property="og:site_name" content="DatalystIO">
-<meta property="og:description" content="Environment SetupStep 1: Install Nodejs via nvm1# wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh
-1source .bashrc
-1nvm install stable
-Step 2: Install Hexo1npm install -g hexo-cl">
-<meta property="og:updated_time" content="2016-10-24T01:52:56.000Z">
+<meta property="og:description" content="#理解Hibernate乐观锁
+##介绍
+Hibernate通过在持久化对象中增加Version属性(或者对某个属性增加@Version，采用Version属性会被Hibernate自动当做版本管理属性)来提供一套乐观锁方案，Version属性完全由Hibernate管理，开发者无需关心，只需要在你的代码中持久化类里增加一个数值型(Long，int，short)或者日期型(timestamp,ca">
+<meta property="og:updated_time" content="2016-10-25T19:51:06.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="How To Use Hexo">
-<meta name="twitter:description" content="Environment SetupStep 1: Install Nodejs via nvm1# wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh
-1source .bashrc
-1nvm install stable
-Step 2: Install Hexo1npm install -g hexo-cl">
+<meta name="twitter:title" content="DatalystIO">
+<meta name="twitter:description" content="#理解Hibernate乐观锁
+##介绍
+Hibernate通过在持久化对象中增加Version属性(或者对某个属性增加@Version，采用Version属性会被Hibernate自动当做版本管理属性)来提供一套乐观锁方案，Version属性完全由Hibernate管理，开发者无需关心，只需要在你的代码中持久化类里增加一个数值型(Long，int，short)或者日期型(timestamp,ca">
 
 
 
@@ -123,10 +120,10 @@ Step 2: Install Hexo1npm install -g hexo-cl">
 
 
 
-  <link rel="canonical" href="http://datalystio.github.io/2016/10/24/how-to-use-hexo/"/>
+  <link rel="canonical" href="http://datalystio.github.io/2016/10/26/Hibernate乐观锁/"/>
 
 
-  <title> How To Use Hexo | DatalystIO </title>
+  <title>  | DatalystIO </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="">
@@ -248,7 +245,7 @@ Step 2: Install Hexo1npm install -g hexo-cl">
             
             
               
-                How To Use Hexo
+                
               
             
           </h1>
@@ -260,8 +257,8 @@ Step 2: Install Hexo1npm install -g hexo-cl">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-10-24T14:49:27+13:00" content="2016-10-24">
-              2016-10-24
+            <time itemprop="dateCreated" datetime="2016-10-26T08:51:06+13:00" content="2016-10-26">
+              2016-10-26
             </time>
           </span>
 
@@ -288,13 +285,19 @@ Step 2: Install Hexo1npm install -g hexo-cl">
       
 
       
-        <h2 id="Environment-Setup"><a href="#Environment-Setup" class="headerlink" title="Environment Setup"></a>Environment Setup</h2><h3 id="Step-1-Install-Nodejs-via-nvm"><a href="#Step-1-Install-Nodejs-via-nvm" class="headerlink" title="Step 1: Install Nodejs via nvm"></a>Step 1: Install Nodejs via <code>nvm</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"># wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source .bashrc</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nvm install stable</div></pre></td></tr></table></figure>
-<h3 id="Step-2-Install-Hexo"><a href="#Step-2-Install-Hexo" class="headerlink" title="Step 2: Install Hexo"></a>Step 2: Install Hexo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g hexo-cli</div></pre></td></tr></table></figure>
-<h3 id="Step-3-Install-Hexo-plugins"><a href="#Step-3-Install-Hexo-plugins" class="headerlink" title="Step 3: Install Hexo plugins"></a>Step 3: Install Hexo plugins</h3><p>hexo-deploy-git</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
-<h2 id="Hexo-Usage"><a href="#Hexo-Usage" class="headerlink" title="Hexo Usage"></a>Hexo Usage</h2><p>Check <a href="https://hexo.io/docs/" target="_blank" rel="external">Hexo Document</a> for more details.</p>
+        <p>#理解Hibernate乐观锁</p>
+<p>##介绍</p>
+<p>Hibernate通过在持久化对象中增加Version属性(或者对某个属性增加@Version，采用Version属性会被Hibernate自动当做版本管理属性)来提供一套乐观锁方案，Version属性完全由Hibernate管理，开发者无需关心，只需要在你的代码中持久化类里增加一个数值型(Long，int，short)或者日期型(timestamp,calendars)的Version字段即可<br>。</p>
+<p>##Version与事务<br>这里采用数值型的Version来说明Hibernate如果使用Version属性来实现乐观锁与事务。Version属性都是由Hibernate自动管理，当Hibernate需要创建一个事务来更新持久化对象时，会取出本次事务中最新一次查询出的持久化对象中的Version属性，来比对当前数据库中的Version属性，如果一致，则执行事务提交，一旦发现不一致的情况，将会回滚事务，这就是Hibernate通过Version属性实现的乐观锁。如果更新成功后，Hibernate会自动增加Version属性值。</p>
+<p>##Hibernate自我管理Version VS DB自我管理<br>当然有些DBA喜欢使用数据库而不是Hibernate完成乐观锁策略，<br>Hibernate允许DB接收Version的管理，只需要在Version属性上配置generated=”always”（当然要注意，并不是所有数据库都支持管理Version）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">hibernate-mapping</span> <span class="attr">package</span>=<span class="string">”com.ffw.entity”</span>&gt;</span> </div><div class="line">  <span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">”User”</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">name</span>=<span class="string">”id”</span>&gt;</span> </div><div class="line">       <span class="tag">&lt;<span class="name">generator</span> <span class="attr">class</span>=<span class="string">”native”</span> /&gt;</span> </div><div class="line">    <span class="tag">&lt;/<span class="name">id</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">version</span> <span class="attr">name</span>=<span class="string">”version”</span> <span class="attr">type</span>=<span class="string">”long”</span> <span class="attr">generated</span>=<span class="string">”always”/</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">”name”</span> <span class="attr">not-null</span>=<span class="string">”true”</span> /&gt;</span> </div><div class="line">  <span class="tag">&lt;/<span class="name">class</span>&gt;</span> </div><div class="line"><span class="tag">&lt;/<span class="name">hibernate-mapping</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这么做后，当更新或者插入一条新纪录后，Hibernate需要额外的SQL来获取Version属性值，当然使用这种策略也可能存在一定风险，会出现更新或者插入记录后，额外的SQL无法查询出最新的Version变更信息结果。</p>
+<p>##数值型Version VS 日期型Version<br>数值型的Version<br>（1）好处：不需要保证多台服务器的时间同步问题。<br>（2）缺点：无法记录版本变更的时间信息，这种信息有时在一些特殊场景非常有用。</p>
+<p>日期型Version<br>（1）好处：可以记录版本变更的时间，这种信息在一些场景有非常重要的价值。<br>（2）缺点：如果多台服务器上时间不同步，将会导致乐观锁失败；又或者是时间精度不足，而此时并发量过高，同一毫秒数中有多个事务，导致事务失败。</p>
+<p>##不使用Version启动Hibernate乐观锁机制<br>当然你也可以不使用Version属性来运作乐观锁策略，有另外两种方案同样可以实现乐观锁。<br>第一种：使用该表中的所有属性，通过设置optimistic-lock=”all” 来启动所有属性比对，确认当前记录版本。<br>第二种：使用上一次更新的属性来比对记录的版本，设置optimistic-lock=”dirty”。</p>
+<p>##参考资料<br>[Versioning &amp; Optimistic Locking in Hibernate] <a href="https://www.intertech.com/Blog/versioning-optimistic-locking-in-hibernate/" target="_blank" rel="external">https://www.intertech.com/Blog/versioning-optimistic-locking-in-hibernate/</a></p>
+<p>[Chapter 5. Locking] <a href="http://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch05.html" target="_blank" rel="external">http://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch05.html</a></p>
+<p>[Chapter 11. Transactions and Concurrency] <a href="http://docs.jboss.org/hibernate/core/3.3/reference/en/html/transactions.html" target="_blank" rel="external">http://docs.jboss.org/hibernate/core/3.3/reference/en/html/transactions.html</a></p>
 
       
     </div>
@@ -320,15 +323,15 @@ Step 2: Install Hexo1npm install -g hexo-cl">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/10/24/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2016/10/26/Spring事务隔离与传播/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/10/26/centos安装caravel/" rel="prev" title="">
+              <a href="/2016/10/26/Docker安装Centos/" rel="prev" title="">
                  <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -430,7 +433,7 @@ Step 2: Install Hexo1npm install -g hexo-cl">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Environment-Setup"><span class="nav-number">1.</span> <span class="nav-text">Environment Setup</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-1-Install-Nodejs-via-nvm"><span class="nav-number">1.1.</span> <span class="nav-text">Step 1: Install Nodejs via nvm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-2-Install-Hexo"><span class="nav-number">1.2.</span> <span class="nav-text">Step 2: Install Hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-3-Install-Hexo-plugins"><span class="nav-number">1.3.</span> <span class="nav-text">Step 3: Install Hexo plugins</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo-Usage"><span class="nav-number">2.</span> <span class="nav-text">Hexo Usage</span></a></li></ol></div>
+              <p class="post-toc-empty">Dieser Artikel hat kein Inhaltsverzeichnis</p>
             
           </div>
         </section>
