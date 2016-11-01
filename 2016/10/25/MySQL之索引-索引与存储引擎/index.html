@@ -1,0 +1,572 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="MySQL-索引与存储引擎索引简介每张表对索引的大小和数量上都是有一定的限制，不同的存储引擎(Myisam，Innodb）都是不一样的，但有一个共性是支持至少16个索引，总的索引长度256字节。
+前缀索引(Prefix Indexes)当你设置了一个字段为TEXT或者BLOB的类型时，怎么对这个对这个字段做索引呢？要知道这两种类型存储的数据是极大的，要是允许创建所以，你的索引文件就要爆炸了；当然当">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL-索引与存储引擎">
+<meta property="og:url" content="http://datalystio.github.io/2016/10/25/MySQL之索引-索引与存储引擎/index.html">
+<meta property="og:site_name" content="DatalystIO">
+<meta property="og:description" content="MySQL-索引与存储引擎索引简介每张表对索引的大小和数量上都是有一定的限制，不同的存储引擎(Myisam，Innodb）都是不一样的，但有一个共性是支持至少16个索引，总的索引长度256字节。
+前缀索引(Prefix Indexes)当你设置了一个字段为TEXT或者BLOB的类型时，怎么对这个对这个字段做索引呢？要知道这两种类型存储的数据是极大的，要是允许创建所以，你的索引文件就要爆炸了；当然当">
+<meta property="og:updated_time" content="2016-11-01T21:42:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL-索引与存储引擎">
+<meta name="twitter:description" content="MySQL-索引与存储引擎索引简介每张表对索引的大小和数量上都是有一定的限制，不同的存储引擎(Myisam，Innodb）都是不一样的，但有一个共性是支持至少16个索引，总的索引长度256字节。
+前缀索引(Prefix Indexes)当你设置了一个字段为TEXT或者BLOB的类型时，怎么对这个对这个字段做索引呢？要知道这两种类型存储的数据是极大的，要是允许创建所以，你的索引文件就要爆炸了；当然当">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://datalystio.github.io/2016/10/25/MySQL之索引-索引与存储引擎/"/>
+
+
+  <title> MySQL-索引与存储引擎 | DatalystIO </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">DatalystIO</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Your Data Catelyst</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule" rel="section">
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                MySQL-索引与存储引擎
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-10-25T00:00:00+13:00" content="2016-10-25">
+              2016-10-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="MySQL-索引与存储引擎"><a href="#MySQL-索引与存储引擎" class="headerlink" title="MySQL-索引与存储引擎"></a>MySQL-索引与存储引擎</h1><h2 id="索引简介"><a href="#索引简介" class="headerlink" title="索引简介"></a>索引简介</h2><p>每张表对索引的大小和数量上都是有一定的限制，不同的存储引擎(Myisam，Innodb）都是不一样的，但有一个共性是支持至少16个索引，总的索引长度256字节。</p>
+<h3 id="前缀索引-Prefix-Indexes"><a href="#前缀索引-Prefix-Indexes" class="headerlink" title="前缀索引(Prefix Indexes)"></a>前缀索引(Prefix Indexes)</h3><p>当你设置了一个字段为TEXT或者BLOB的类型时，怎么对这个对这个字段做索引呢？要知道这两种类型存储的数据是极大的，要是允许创建所以，你的索引文件就要爆炸了；当然当你尝试去在这上面建立索引时，Mysql是会给你报错了，提示你不允许在它们上面建立索引。这时候你可以使用前缀索引，如字面意思，就是提取某个字段的前缀的一部分串来建立索引，格式：col_name(N)-N指代前缀的长度。<br>以下是范例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE test (blob_col BLOB, INDEX(blob_col(10)));</div></pre></td></tr></table></figure>
+<p>注意：前缀索引是可以达到1000字节长度，当然如果是Innodb，那么它只支持767字节，除非你使用innodb_large_prefix来设置。</p>
+<p>还需要额外注意的是，当前缀索引建立在非二进制类型上(CHAR, VARCHAR, TEXT)，那么该索引的长度限制是以字符(character)来衡量的；建立在二进制类型上(BINARY, VARBINARY, BLOB)，那么该索引的长度限制是以字节(byte)来衡量的。</p>
+<h3 id="全文索引-FULLTEXT-Indexes"><a href="#全文索引-FULLTEXT-Indexes" class="headerlink" title="全文索引(FULLTEXT Indexes)"></a>全文索引(FULLTEXT Indexes)</h3><p>全文索引是一种非常适合全文检索的索引方式，只在MyISAM引擎支持，并且只能是CHAR、VARCHAR、TEXT这三类的字段上，不支持前缀方式，必须是整个字段。（具体全文索引可以参考附录4来详细了解）</p>
+<h3 id="空间索引-Spatial-Indexes"><a href="#空间索引-Spatial-Indexes" class="headerlink" title="空间索引(Spatial Indexes)"></a>空间索引(Spatial Indexes)</h3><p>空间索引是只能创建在空间类型的字段上(spatial data types)的，MyISAM引擎是采用R-Tree结构来实现的，其他引擎采用的是B-Tree，当然要排除ARCHIVE引擎，它不支持该索引。</p>
+<h2 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Mysql支持的数据库存储引擎有哪些?（通过输入<strong>SHOW ENGINES</strong>可以查看当前Mysql Server支持的版本，Yes代表支持，No代表不支持，Default代表是当前支持并默认的）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">1.InnoDB-5.5.5及其以后版本的默认引擎,是事务安全型的存储引擎，支持提交(commit)、回滚(rollback)、崩溃回复(crash-recovery)，采用行级别的锁，并采用Oracle风格的非锁方式的一致性读方案，来应对多用户的并发访问。同时将用户数据存储在聚集索引(clustered index)中，来减少基于主键的查询请求，降低IO压力。为了维持数据的完整性，该引擎也支持外键关联的参照完整性约束（参照完整性约束-关系中不允许引用不存在的实体）。</div><div class="line">2.NDB-Mysql Cluster支持的分布式引擎，也叫NDBCLUSTER，通常用于高可用，高稳定性场景，在标准的Mysq5.5.5版本并不支持，需要包含Mysql Cluster NDB版本7.0或者7.1的Mysql5.1版本，以及包含Mysql Cluster NDB7.2版本的Mysql5.5。</div><div class="line">3.MyISAM-通常用于网站、数据仓库环境，是5.5.5以前版本的默认数据库引擎。</div><div class="line">4.Memory-存储数据的位置在RAM中，为了快速检索使用，又名为HEAP引擎。</div><div class="line">5.Merge-能够用于逻辑分组一堆相同的MyISAM引擎表，作为一个对象使用，非常适合数据仓库中的超大型数据环境(VLDB)使用。</div><div class="line">6.Archive-非常适合存储和检索大量很少引用的历史数据、归档数据、安全审计数据。</div><div class="line">7.Federated-能够将多个不同物理主机上的独立的Mysql Servers服务连接起来，形成一个逻辑数据库，非常适合分布式或者数据集市场景。</div><div class="line">8.CSV-该引擎使用文本文件存储数据，并用,作为分割符，可以用来很方便的处理从其他软件到处的cvs格式数据。</div><div class="line">9.Blackhole-该引擎不存储任何数据，检索的时候总是返回空集合，这个功能通常被用在分布式数据库设计中，用于那些数据自动复制，但却不需要本地存储的场景。</div><div class="line">10.Example-也叫stub引擎，也是不用来存储和检索数据的，主要用于Mysql源码演示如何写一个新的存储引擎的，没啥卵用。</div></pre></td></tr></table></figure>
+<table class="table" summary="Storage Engines Feature Summary" border="1"><colgroup><col class="feature"><col class="myisam"><col class="memory"><col class="innodb"><col class="archive"><col class="ndb"></colgroup><thead><tr><th scope="col">Feature</th><th scope="col">MyISAM</th><th scope="col">Memory</th><th scope="col">InnoDB</th><th scope="col">Archive</th><th scope="col">NDB</th></tr></thead><tbody><tr><td scope="row">Storage limits</td><td>256TB</td><td>RAM</td><td>64TB</td><td>None</td><td>384EB</td></tr><tr><td scope="row">Transactions</td><td>No</td><td>No</td><td>Yes</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Locking granularity</td><td>Table</td><td>Table</td><td>Row</td><td>Row</td><td>Row</td></tr><tr><td scope="row">MVCC</td><td>No</td><td>No</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td scope="row">Geospatial data type support</td><td>Yes</td><td>No</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Geospatial indexing support</td><td>Yes</td><td>No</td><td>Yes<a href="#ftn.idm139813344539376" class="footnote" name="idm139813344539376"><sup class="footnote">[a]</sup></a></td><td>No</td><td>No</td></tr><tr><td scope="row">B-tree indexes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td scope="row">T-tree indexes</td><td>No</td><td>No</td><td>No</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Hash indexes</td><td>No</td><td>Yes</td><td>No<a href="#ftn.idm139813344531504" class="footnote" name="idm139813344531504"><sup class="footnote">[b]</sup></a></td><td>No</td><td>Yes</td></tr><tr><td scope="row">Full-text search indexes</td><td>Yes</td><td>No</td><td>Yes<a href="#ftn.idm139813344528544" class="footnote" name="idm139813344528544"><sup class="footnote">[c]</sup></a></td><td>No</td><td>No</td></tr><tr><td scope="row">Clustered indexes</td><td>No</td><td>No</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td scope="row">Data caches</td><td>No</td><td>N/A</td><td>Yes</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Index caches</td><td>Yes</td><td>N/A</td><td>Yes</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Compressed data</td><td>Yes<a href="#ftn.idm139813344518976" class="footnote" name="idm139813344518976"><sup class="footnote">[d]</sup></a></td><td>No</td><td>Yes<a href="#ftn.idm139813344517664" class="footnote" name="idm139813344517664"><sup class="footnote">[e]</sup></a></td><td>Yes</td><td>No</td></tr><tr><td scope="row">Encrypted data<a href="#ftn.idm139813344515888" class="footnote" name="idm139813344515888"><sup class="footnote">[f]</sup></a></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Cluster database support</td><td>No</td><td>No</td><td>No</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Replication support<a href="#ftn.idm139813344510416" class="footnote" name="idm139813344510416"><sup class="footnote">[g]</sup></a></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Foreign key support</td><td>No</td><td>No</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td scope="row">Backup / point-in-time recovery<a href="#ftn.idm139813344505008" class="footnote" name="idm139813344505008"><sup class="footnote">[h]</sup></a></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Query cache support</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Update statistics for data dictionary</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr></tbody><tbody class="footnotes"><tr><td colspan="6"><br><div id="ftn.idm139813344539376" class="footnote"><br><p><a href="#idm139813344539376" class="para"><sup class="para">[a] </sup></a>InnoDB support for geospatial indexing is available in MySQL 5.7.5 and higher.</p><br></div><br><br><div id="ftn.idm139813344531504" class="footnote"><br><p><a href="#idm139813344531504" class="para"><sup class="para">[b] </sup></a>InnoDB utilizes hash indexes internally for its Adaptive Hash Index feature.</p><br></div><br><br><div id="ftn.idm139813344528544" class="footnote"><br><p><a href="#idm139813344528544" class="para"><sup class="para">[c] </sup></a>InnoDB support for FULLTEXT indexes is available in MySQL 5.6.4 and higher.</p><br></div><br><br><div id="ftn.idm139813344518976" class="footnote"><br><p><a href="#idm139813344518976" class="para"><sup class="para">[d] </sup></a>Compressed MyISAM tables are supported only when using the compressed row format. Tables using the compressed row format with MyISAM are read only.</p><br></div><br><br><div id="ftn.idm139813344517664" class="footnote"><br><p><a href="#idm139813344517664" class="para"><sup class="para">[e] </sup></a>Compressed InnoDB tables require the InnoDB Barracuda file format.</p><br></div><br><br><div id="ftn.idm139813344515888" class="footnote"><br><p><a href="#idm139813344515888" class="para"><sup class="para">[f] </sup></a>Implemented in the server (via encryption functions). Data-at-rest tablespace encryption is available in MySQL 5.7 and higher.</p><br></div><br><br><div id="ftn.idm139813344510416" class="footnote"><br><p><a href="#idm139813344510416" class="para"><sup class="para">[g] </sup></a>Implemented in the server, rather than in the storage engine.</p><br></div><br><br><div id="ftn.idm139813344505008" class="footnote"><br><p><a href="#idm139813344505008" class="para"><sup class="para">[h] </sup></a>Implemented in the server, rather than in the storage engine.</p><br></div><br></td></tr></tbody></table>
+
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><p>1.【Column Indexes】<a href="https://dev.mysql.com/doc/refman/5.5/en/column-indexes.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/column-indexes.html</a></p>
+<p>2.【Alternative Storage Engines】<a href="https://dev.mysql.com/doc/refman/5.5/en/storage-engines.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/storage-engines.html</a></p>
+<p>3.【The InnoDB Storage Engine】<a href="https://dev.mysql.com/doc/refman/5.5/en/innodb-storage-engine.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/innodb-storage-engine.html</a></p>
+<p>4.【Full-Text Search Functions】<a href="https://dev.mysql.com/doc/refman/5.5/en/fulltext-search.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/fulltext-search.html</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/25/Mysql之全文搜索函数/" rel="next" title="Mysql之全文搜索函数">
+                <i class="fa fa-chevron-left"></i> Mysql之全文搜索函数
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL-索引与存储引擎"><span class="nav-number">1.</span> <span class="nav-text">MySQL-索引与存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#索引简介"><span class="nav-number">1.1.</span> <span class="nav-text">索引简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前缀索引-Prefix-Indexes"><span class="nav-number">1.1.1.</span> <span class="nav-text">前缀索引(Prefix Indexes)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全文索引-FULLTEXT-Indexes"><span class="nav-number">1.1.2.</span> <span class="nav-text">全文索引(FULLTEXT Indexes)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#空间索引-Spatial-Indexes"><span class="nav-number">1.1.3.</span> <span class="nav-text">空间索引(Spatial Indexes)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储引擎"><span class="nav-number">1.2.</span> <span class="nav-text">存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.2.1.</span> <span class="nav-text">简介</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附录"><span class="nav-number">1.3.</span> <span class="nav-text">附录</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

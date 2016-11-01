@@ -171,7 +171,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -179,7 +179,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -238,8 +238,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/10/26/Centos安装Cloudera(Yum方式)/" itemprop="url">
-                  Unbenannt
+                <a class="post-title-link" href="/2016/10/25/MySQL之索引-索引与存储引擎/" itemprop="url">
+                  MySQL-索引与存储引擎
                 </a>
               
             
@@ -251,9 +251,9 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-10-26T08:51:06+13:00" content="2016-10-26">
-              2016-10-26
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-10-25T00:00:00+13:00" content="2016-10-25">
+              2016-10-25
             </time>
           </span>
 
@@ -282,24 +282,21 @@
       
         
           
-            <p>#Centos安装Cloudera CDH（YUM方式）</p>
-<p>##简介<br>Cloudera提供使用Yum方式或者下载RPM包进行安装，在接下来的环节，将采用Yum方式安装Cloudera。</p>
-<p>##编辑Yum的Repo<br>Cloudera的Yum安装地址：<a href="https://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/cloudera-cdh5.repo?_ga=1.50190628.383672037.1471754216" target="_blank" rel="external">https://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/cloudera-cdh5.repo?_ga=1.50190628.383672037.1471754216</a> 。</p>
-<p>在/etc/yum.repos.d目录下新建文件“cloudera-cdh5.repo”</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@e38f507299b0 yum.repos.d]#vi /etc/yum.repos.d/cloudera-cdh5.repo</div><div class="line">[cloudera-cdh5]</div><div class="line"># Packages for Cloudera&apos;s Distribution for Hadoop, Version 5, on RedHat	or CentOS 6 x86_64</div><div class="line">name=Cloudera&apos;s Distribution for Hadoop, Version 5</div><div class="line">baseurl=https://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/5/</div><div class="line">gpgkey =https://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera    </div><div class="line">gpgcheck = 1</div></pre></td></tr></table></figure>
-<p>##安装步骤（安装CDH5的YARN版本）<br>1.安装Resource Manager host</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-yarn-resourcemanager</div></pre></td></tr></table></figure>
-<p>2.安装NameNode</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-hdfs-namenode</div></pre></td></tr></table></figure>
-<p>3.安装Secondary NameNode</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-hdfs-secondarynamenode</div></pre></td></tr></table></figure>
-<p>4.安装DataNode/Yarn/MapReduce（所有节点需要执行，除了安装了Resource Manager的节点）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-yarn-nodemanager hadoop-hdfs-datanode hadoop-mapreduce</div></pre></td></tr></table></figure>
-<p>5.安装Proxy Server/History Server（选取集群中的一个节点即可）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-mapreduce-historyserver hadoop-yarn-proxyserver</div></pre></td></tr></table></figure>
-<p>6.安装Hadoop客户端</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-client</div></pre></td></tr></table></figure>
-<p>##参考来源<br>1.【Cloudera CDH下载】<a href="http://www.cloudera.com/downloads/cdh/5-8-2.html" target="_blank" rel="external">http://www.cloudera.com/downloads/cdh/5-8-2.html</a><br>2.【Cloudera企业版文档】<a href="http://www.cloudera.com/content/dam/www/static/documents/datasheets/cloudera-enterprise-datasheet.pdf" target="_blank" rel="external">http://www.cloudera.com/content/dam/www/static/documents/datasheets/cloudera-enterprise-datasheet.pdf</a><br>3.【Cloudera安装文档】<a href="http://www.cloudera.com/documentation/enterprise/latest/topics/cdh_ig_cdh5_install.html#topic_4_4_1__p_32" target="_blank" rel="external">http://www.cloudera.com/documentation/enterprise/latest/topics/cdh_ig_cdh5_install.html#topic_4_4_1__p_32</a></p>
+            <h1 id="MySQL-索引与存储引擎"><a href="#MySQL-索引与存储引擎" class="headerlink" title="MySQL-索引与存储引擎"></a>MySQL-索引与存储引擎</h1><h2 id="索引简介"><a href="#索引简介" class="headerlink" title="索引简介"></a>索引简介</h2><p>每张表对索引的大小和数量上都是有一定的限制，不同的存储引擎(Myisam，Innodb）都是不一样的，但有一个共性是支持至少16个索引，总的索引长度256字节。</p>
+<h3 id="前缀索引-Prefix-Indexes"><a href="#前缀索引-Prefix-Indexes" class="headerlink" title="前缀索引(Prefix Indexes)"></a>前缀索引(Prefix Indexes)</h3><p>当你设置了一个字段为TEXT或者BLOB的类型时，怎么对这个对这个字段做索引呢？要知道这两种类型存储的数据是极大的，要是允许创建所以，你的索引文件就要爆炸了；当然当你尝试去在这上面建立索引时，Mysql是会给你报错了，提示你不允许在它们上面建立索引。这时候你可以使用前缀索引，如字面意思，就是提取某个字段的前缀的一部分串来建立索引，格式：col_name(N)-N指代前缀的长度。<br>以下是范例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE test (blob_col BLOB, INDEX(blob_col(10)));</div></pre></td></tr></table></figure>
+<p>注意：前缀索引是可以达到1000字节长度，当然如果是Innodb，那么它只支持767字节，除非你使用innodb_large_prefix来设置。</p>
+<p>还需要额外注意的是，当前缀索引建立在非二进制类型上(CHAR, VARCHAR, TEXT)，那么该索引的长度限制是以字符(character)来衡量的；建立在二进制类型上(BINARY, VARBINARY, BLOB)，那么该索引的长度限制是以字节(byte)来衡量的。</p>
+<h3 id="全文索引-FULLTEXT-Indexes"><a href="#全文索引-FULLTEXT-Indexes" class="headerlink" title="全文索引(FULLTEXT Indexes)"></a>全文索引(FULLTEXT Indexes)</h3><p>全文索引是一种非常适合全文检索的索引方式，只在MyISAM引擎支持，并且只能是CHAR、VARCHAR、TEXT这三类的字段上，不支持前缀方式，必须是整个字段。（具体全文索引可以参考附录4来详细了解）</p>
+<h3 id="空间索引-Spatial-Indexes"><a href="#空间索引-Spatial-Indexes" class="headerlink" title="空间索引(Spatial Indexes)"></a>空间索引(Spatial Indexes)</h3><p>空间索引是只能创建在空间类型的字段上(spatial data types)的，MyISAM引擎是采用R-Tree结构来实现的，其他引擎采用的是B-Tree，当然要排除ARCHIVE引擎，它不支持该索引。</p>
+<h2 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Mysql支持的数据库存储引擎有哪些?（通过输入<strong>SHOW ENGINES</strong>可以查看当前Mysql Server支持的版本，Yes代表支持，No代表不支持，Default代表是当前支持并默认的）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">1.InnoDB-5.5.5及其以后版本的默认引擎,是事务安全型的存储引擎，支持提交(commit)、回滚(rollback)、崩溃回复(crash-recovery)，采用行级别的锁，并采用Oracle风格的非锁方式的一致性读方案，来应对多用户的并发访问。同时将用户数据存储在聚集索引(clustered index)中，来减少基于主键的查询请求，降低IO压力。为了维持数据的完整性，该引擎也支持外键关联的参照完整性约束（参照完整性约束-关系中不允许引用不存在的实体）。</div><div class="line">2.NDB-Mysql Cluster支持的分布式引擎，也叫NDBCLUSTER，通常用于高可用，高稳定性场景，在标准的Mysq5.5.5版本并不支持，需要包含Mysql Cluster NDB版本7.0或者7.1的Mysql5.1版本，以及包含Mysql Cluster NDB7.2版本的Mysql5.5。</div><div class="line">3.MyISAM-通常用于网站、数据仓库环境，是5.5.5以前版本的默认数据库引擎。</div><div class="line">4.Memory-存储数据的位置在RAM中，为了快速检索使用，又名为HEAP引擎。</div><div class="line">5.Merge-能够用于逻辑分组一堆相同的MyISAM引擎表，作为一个对象使用，非常适合数据仓库中的超大型数据环境(VLDB)使用。</div><div class="line">6.Archive-非常适合存储和检索大量很少引用的历史数据、归档数据、安全审计数据。</div><div class="line">7.Federated-能够将多个不同物理主机上的独立的Mysql Servers服务连接起来，形成一个逻辑数据库，非常适合分布式或者数据集市场景。</div><div class="line">8.CSV-该引擎使用文本文件存储数据，并用,作为分割符，可以用来很方便的处理从其他软件到处的cvs格式数据。</div><div class="line">9.Blackhole-该引擎不存储任何数据，检索的时候总是返回空集合，这个功能通常被用在分布式数据库设计中，用于那些数据自动复制，但却不需要本地存储的场景。</div><div class="line">10.Example-也叫stub引擎，也是不用来存储和检索数据的，主要用于Mysql源码演示如何写一个新的存储引擎的，没啥卵用。</div></pre></td></tr></table></figure>
+<table class="table" summary="Storage Engines Feature Summary" border="1"><colgroup><col class="feature"><col class="myisam"><col class="memory"><col class="innodb"><col class="archive"><col class="ndb"></colgroup><thead><tr><th scope="col">Feature</th><th scope="col">MyISAM</th><th scope="col">Memory</th><th scope="col">InnoDB</th><th scope="col">Archive</th><th scope="col">NDB</th></tr></thead><tbody><tr><td scope="row">Storage limits</td><td>256TB</td><td>RAM</td><td>64TB</td><td>None</td><td>384EB</td></tr><tr><td scope="row">Transactions</td><td>No</td><td>No</td><td>Yes</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Locking granularity</td><td>Table</td><td>Table</td><td>Row</td><td>Row</td><td>Row</td></tr><tr><td scope="row">MVCC</td><td>No</td><td>No</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td scope="row">Geospatial data type support</td><td>Yes</td><td>No</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Geospatial indexing support</td><td>Yes</td><td>No</td><td>Yes<a href="#ftn.idm139813344539376" class="footnote" name="idm139813344539376"><sup class="footnote">[a]</sup></a></td><td>No</td><td>No</td></tr><tr><td scope="row">B-tree indexes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td scope="row">T-tree indexes</td><td>No</td><td>No</td><td>No</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Hash indexes</td><td>No</td><td>Yes</td><td>No<a href="#ftn.idm139813344531504" class="footnote" name="idm139813344531504"><sup class="footnote">[b]</sup></a></td><td>No</td><td>Yes</td></tr><tr><td scope="row">Full-text search indexes</td><td>Yes</td><td>No</td><td>Yes<a href="#ftn.idm139813344528544" class="footnote" name="idm139813344528544"><sup class="footnote">[c]</sup></a></td><td>No</td><td>No</td></tr><tr><td scope="row">Clustered indexes</td><td>No</td><td>No</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td scope="row">Data caches</td><td>No</td><td>N/A</td><td>Yes</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Index caches</td><td>Yes</td><td>N/A</td><td>Yes</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Compressed data</td><td>Yes<a href="#ftn.idm139813344518976" class="footnote" name="idm139813344518976"><sup class="footnote">[d]</sup></a></td><td>No</td><td>Yes<a href="#ftn.idm139813344517664" class="footnote" name="idm139813344517664"><sup class="footnote">[e]</sup></a></td><td>Yes</td><td>No</td></tr><tr><td scope="row">Encrypted data<a href="#ftn.idm139813344515888" class="footnote" name="idm139813344515888"><sup class="footnote">[f]</sup></a></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Cluster database support</td><td>No</td><td>No</td><td>No</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Replication support<a href="#ftn.idm139813344510416" class="footnote" name="idm139813344510416"><sup class="footnote">[g]</sup></a></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Foreign key support</td><td>No</td><td>No</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td scope="row">Backup / point-in-time recovery<a href="#ftn.idm139813344505008" class="footnote" name="idm139813344505008"><sup class="footnote">[h]</sup></a></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Query cache support</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Update statistics for data dictionary</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr></tbody><tbody class="footnotes"><tr><td colspan="6"><br><div id="ftn.idm139813344539376" class="footnote"><br><p><a href="#idm139813344539376" class="para"><sup class="para">[a] </sup></a>InnoDB support for geospatial indexing is available in MySQL 5.7.5 and higher.</p><br></div><br><br><div id="ftn.idm139813344531504" class="footnote"><br><p><a href="#idm139813344531504" class="para"><sup class="para">[b] </sup></a>InnoDB utilizes hash indexes internally for its Adaptive Hash Index feature.</p><br></div><br><br><div id="ftn.idm139813344528544" class="footnote"><br><p><a href="#idm139813344528544" class="para"><sup class="para">[c] </sup></a>InnoDB support for FULLTEXT indexes is available in MySQL 5.6.4 and higher.</p><br></div><br><br><div id="ftn.idm139813344518976" class="footnote"><br><p><a href="#idm139813344518976" class="para"><sup class="para">[d] </sup></a>Compressed MyISAM tables are supported only when using the compressed row format. Tables using the compressed row format with MyISAM are read only.</p><br></div><br><br><div id="ftn.idm139813344517664" class="footnote"><br><p><a href="#idm139813344517664" class="para"><sup class="para">[e] </sup></a>Compressed InnoDB tables require the InnoDB Barracuda file format.</p><br></div><br><br><div id="ftn.idm139813344515888" class="footnote"><br><p><a href="#idm139813344515888" class="para"><sup class="para">[f] </sup></a>Implemented in the server (via encryption functions). Data-at-rest tablespace encryption is available in MySQL 5.7 and higher.</p><br></div><br><br><div id="ftn.idm139813344510416" class="footnote"><br><p><a href="#idm139813344510416" class="para"><sup class="para">[g] </sup></a>Implemented in the server, rather than in the storage engine.</p><br></div><br><br><div id="ftn.idm139813344505008" class="footnote"><br><p><a href="#idm139813344505008" class="para"><sup class="para">[h] </sup></a>Implemented in the server, rather than in the storage engine.</p><br></div><br></td></tr></tbody></table>
+
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><p>1.【Column Indexes】<a href="https://dev.mysql.com/doc/refman/5.5/en/column-indexes.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/column-indexes.html</a></p>
+<p>2.【Alternative Storage Engines】<a href="https://dev.mysql.com/doc/refman/5.5/en/storage-engines.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/storage-engines.html</a></p>
+<p>3.【The InnoDB Storage Engine】<a href="https://dev.mysql.com/doc/refman/5.5/en/innodb-storage-engine.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/innodb-storage-engine.html</a></p>
+<p>4.【Full-Text Search Functions】<a href="https://dev.mysql.com/doc/refman/5.5/en/fulltext-search.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/fulltext-search.html</a></p>
 
           
         
@@ -349,8 +346,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/10/26/Monty Hall(蒙蒂大厅难题)-概率趣闻/" itemprop="url">
-                  Unbenannt
+                <a class="post-title-link" href="/2016/10/25/Mysql之全文搜索函数/" itemprop="url">
+                  Mysql之全文搜索函数
                 </a>
               
             
@@ -362,9 +359,9 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-10-26T08:51:06+13:00" content="2016-10-26">
-              2016-10-26
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-10-25T00:00:00+13:00" content="2016-10-25">
+              2016-10-25
             </time>
           </span>
 
@@ -393,69 +390,26 @@
       
         
           
-            <p>Monty Hall(蒙蒂大厅难题)-概率趣闻</p>
-<p>蒙蒂大厅游戏的答案是如此有悖常理，以至于好多人都无法接受，好吧，我也是其中之一，~_~</p>
-<p>蒙蒂大厅游戏</p>
+            <p>#Mysql之全文搜索函数(TODO)<br>MATCH (col1,col2,…) AGAINST (expr [search_modifier])</p>
+<p>##简介<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">search_modifier:</div><div class="line">  &#123;</div><div class="line">       IN NATURAL LANGUAGE MODE</div><div class="line">     | IN NATURAL LANGUAGE MODE WITH QUERY EXPANSION</div><div class="line">     | IN BOOLEAN MODE</div><div class="line">     | WITH QUERY EXPANSION</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>Mysql支持全文索引和检索，有如下几个特征：</p>
 <ul>
-<li>蒙蒂向你示意三个关闭的门，然后告诉你每个门有一个奖品：一个奖品是一辆车，另外两个是像花生酱和假指甲这样不值钱的奖品，奖品随机配置。</li>
-<li>游戏的目的是要猜哪个门后面有车，如果猜对了就可以拿走汽车。</li>
-<li>你先挑选一扇门，我们姑且称之为门A，其他两个称为门B和门C。</li>
-<li>在打开你选中的门之前，为了增加悬念，蒙蒂会先打开B或C中一个没有车的门来增加悬念（如果汽车实际上就是在A门背后，那么蒙蒂打开门B或门C都是安全的，所以他们可以随意选择一个）。</li>
-<li>然后蒙蒂给你一个选择，坚持最初的选择还是换到剩下的未打开的门上。</li>
+<li>全文索引类型是FULLTEXT</li>
+<li>全文索引只能被用在MyISAM引擎的表中（如果Mysql版本&gt;=5.6，全文索引也可以被用在InnoDB引擎的表中）</li>
+<li>全文索引只能被创建在CHAR、VARCHAR、TEXT类型的字段上</li>
+<li>全文索引可以在建表的时候设定，也可以在建表后进行更改</li>
+<li>如果一个表数据量很大，那么增加了全文索引，将会导致其加载数据变慢。<br>##场景<br>全文检索使用MATCH(col_name)AGAINST(…)表达格式。MATCH括号中使用逗号分隔罗列需要被检索的字段列表。AGAINST()括号中是需要被检索的内容。</li>
 </ul>
-<p>问题是：是否该坚持还是换？是否有区别？</p>
-<p>从直觉上看，这似乎没有区别，还是剩下两个门的选择，应该是1/2的概率，也就是换不换都没有什么区别。</p>
-<p>但事实上却是错的，如果你坚持选A门的话，那么概率只有1/3，如果换成另外一个门，那么有2/3的概率，对，你没有听错，换了后，命中概率更高了。</p>
-<p>为什么会这样呢？（关于条件概率常识需要知道，方便后续理解）</p>
-<p>这其实是一个条件概率事件问题，求解的问题换个说法就是，当蒙蒂打开没有车的门B后，车在A门和车在C门的哪种可能性高？</p>
-<p>接下来，我们来详细说明下，先设定：<br>事件D：蒙蒂打开了门B，而车没有在B门后。<br>事件H：车在其中一个门后。<br>事件H只有三个假设情况，如下：</p>
+<p>有三种全文检索查询方式:</p>
 <ol>
-<li>假设1(H1)：车在门A后</li>
-<li>假设2(H2)：车在门B后</li>
-<li>假设3(H3)：车在门C后</li>
+<li>自然语言检索(A natural language search)：会将检索串进行自然语言分词，拆解成一个个词组，并且会使用停词列表来处理。通常情况，如果一个词出现在超过50%数据里，那么这个词将会被认为是通用词，不启动匹配。（IN NATURAL LANGUAGE MODE）</li>
+<li>真值检索(A boolean search )：真值检索使用特殊的检索<br>语言–AGAINST(string IN BOOLEAN MODE)，当然也能有其他很多种操作方式，比如包含或不包含，大于或者小于。（IN BOOLEAN MODE）</li>
+<li>查询表达式检索(A query expansion search)：这是一种修改版的自然语言检索方式，检索字符串时，第一次会使用自然语言检索的结果，然后将检索结果最相关行的单词添加到搜索字符中，再次检索，返回第二次检索结果。（The IN NATURAL LANGUAGE MODE WITH QUERY EXPANSION 或 WITH QUERY EXPANSION）</li>
 </ol>
-<p>目标：最大的ρ(H|D)：</p>
-<ul>
-<li>情况H1|D：蒙蒂打开门B，车不在B门后；车在A门后</li>
-<li>情况H2|D：蒙蒂打开门B，车不在B门后；车在C门后</li>
-</ul>
-<p>先验概率p(H)</p>
-<p>似然度p(D|H)</p>
-<p>p(H)*p(D|H)</p>
-<p>后验概率p(H|D)</p>
-<p>假设1</p>
-<p>1/3</p>
-<p>1/2</p>
-<p>1/6</p>
-<p>1/3</p>
-<p>假设2</p>
-<p>1/3</p>
-<p>0</p>
-<p>0</p>
-<p>0</p>
-<p>假设3</p>
-<p>1/3</p>
-<p>1</p>
-<p>1/3</p>
-<p>2/3</p>
-<ul>
-<li>先验概率可以采用最稳妥做法，均等；车在门A、门B、门C可能性均等，也就是每种情况可能性为1/3。</li>
-<li>在假设1的前提下，如果车在门A后，蒙蒂可以安全打开门B或门C，所以他选择门B的概率为1/2，也就是，因为车实际上在门A后，也就是车不在门B的概率为1。</li>
-<li><p>在假设2的前提下，如果车在门B后，蒙蒂不得不打开门C，这样打开门B的概率为0，也就是这种情况不可能发生，也就是。</p>
-</li>
-<li><p>在假设3的前提下，如果车在门C后，蒙蒂打开门B的概率为1，也就是。</p>
-</li>
-</ul>
-<p>接下来求D事件发生的概率(n=3)：</p>
-<p>贝叶斯概率公式：</p>
-<p>根据贝叶斯概率公式可以求得后验概率：</p>
-<ul>
-<li><p>假设1-后验概率：</p>
-</li>
-<li><p>假设2-后验概率：</p>
-</li>
-</ul>
-<p>是不是很有意思，哈哈！</p>
+<p>##附录<br>1.【Full-Text Search Functions】<a href="https://dev.mysql.com/doc/refman/5.5/en/fulltext-search.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/fulltext-search.html</a></p>
+<p>2.【Natural Language Full-Text Searches】<a href="https://dev.mysql.com/doc/refman/5.5/en/fulltext-natural-language.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/fulltext-natural-language.html</a></p>
+<p>3.【Boolean Full-Text Searches】<a href="https://dev.mysql.com/doc/refman/5.5/en/fulltext-boolean.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/fulltext-boolean.html</a></p>
+<p>4.【Full-Text Searches with Query Expansion】<a href="https://dev.mysql.com/doc/refman/5.5/en/fulltext-query-expansion.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/fulltext-query-expansion.html</a></p>
 
           
         
@@ -505,8 +459,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/10/26/Docker安装Centos/" itemprop="url">
-                  Unbenannt
+                <a class="post-title-link" href="/2016/10/25/centos安装caravel/" itemprop="url">
+                  Centos安装caravel
                 </a>
               
             
@@ -518,339 +472,9 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-10-26T08:51:06+13:00" content="2016-10-26">
-              2016-10-26
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>#Docker安装Centos</p>
-<p>##设置Docker国内镜像<br>镜像源地址可以通过阿里云申请一个：<a href="https://dev.aliyun.com/search.html" target="_blank" rel="external">https://dev.aliyun.com/search.html</a> ，也可以去网易镜像库寻找资源<a href="https://c.163.com/hub#/m/home/" target="_blank" rel="external">https://c.163.com/hub#/m/home/</a> 。</p>
-<p>##安装Centos<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker pull centos</div></pre></td></tr></table></figure></p>
-<p>##启动Centos<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -d -i -t centos /bin/bash</div></pre></td></tr></table></figure></p>
-<p>##进入Centos<br>查看运行后的容器ID</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker ps</div></pre></td></tr></table></figure>
-<pre>
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
-e38f507299b0        centos              "/bin/bash"         33 minutes ago      Up 1 seconds                            naughty_curie
-</pre>
-
-<p>找到容器ID，通过命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker attach e38f507299b0</div></pre></td></tr></table></figure>
-<p>进入容器中，这就是centos的一个系统在docker中运行</p>
-<pre>
-[root@e38f507299b0 /]# ifconfig
-bash: ifconfig: command not found
-</pre>
-
-<p>##安装Centos中ifconfig命令<br>竟然没有ifconfig命令，接着使用你会发现ssh也没有，还有我常用的命令which，来吧，我们开始安装这些组件；这已经是一个centos系统了，那么就让我们用yum开始安装吧。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install net-tools.x86_64</div></pre></td></tr></table></figure>
-<p>##安装Which命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install which</div></pre></td></tr></table></figure>
-<p>##安装SSH<br>服务端SSH服务</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">yum install openssh-server  ##安装SSH服务</div><div class="line">sshd -D &amp;  ##启动SSH服务</div></pre></td></tr></table></figure>
-<p>SSH客户端工具</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install openssh-clients</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/26/Hibernate乐观锁/" itemprop="url">
-                  Unbenannt
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-10-26T08:51:06+13:00" content="2016-10-26">
-              2016-10-26
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>#理解Hibernate乐观锁</p>
-<p>##介绍</p>
-<p>Hibernate通过在持久化对象中增加Version属性(或者对某个属性增加@Version，采用Version属性会被Hibernate自动当做版本管理属性)来提供一套乐观锁方案，Version属性完全由Hibernate管理，开发者无需关心，只需要在你的代码中持久化类里增加一个数值型(Long，int，short)或者日期型(timestamp,calendars)的Version字段即可<br>。</p>
-<p>##Version与事务<br>这里采用数值型的Version来说明Hibernate如果使用Version属性来实现乐观锁与事务。Version属性都是由Hibernate自动管理，当Hibernate需要创建一个事务来更新持久化对象时，会取出本次事务中最新一次查询出的持久化对象中的Version属性，来比对当前数据库中的Version属性，如果一致，则执行事务提交，一旦发现不一致的情况，将会回滚事务，这就是Hibernate通过Version属性实现的乐观锁。如果更新成功后，Hibernate会自动增加Version属性值。</p>
-<p>##Hibernate自我管理Version VS DB自我管理<br>当然有些DBA喜欢使用数据库而不是Hibernate完成乐观锁策略，<br>Hibernate允许DB接收Version的管理，只需要在Version属性上配置generated=”always”（当然要注意，并不是所有数据库都支持管理Version）</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">hibernate-mapping</span> <span class="attr">package</span>=<span class="string">”com.ffw.entity”</span>&gt;</span> </div><div class="line">  <span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">”User”</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">name</span>=<span class="string">”id”</span>&gt;</span> </div><div class="line">       <span class="tag">&lt;<span class="name">generator</span> <span class="attr">class</span>=<span class="string">”native”</span> /&gt;</span> </div><div class="line">    <span class="tag">&lt;/<span class="name">id</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">version</span> <span class="attr">name</span>=<span class="string">”version”</span> <span class="attr">type</span>=<span class="string">”long”</span> <span class="attr">generated</span>=<span class="string">”always”/</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">”name”</span> <span class="attr">not-null</span>=<span class="string">”true”</span> /&gt;</span> </div><div class="line">  <span class="tag">&lt;/<span class="name">class</span>&gt;</span> </div><div class="line"><span class="tag">&lt;/<span class="name">hibernate-mapping</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>这么做后，当更新或者插入一条新纪录后，Hibernate需要额外的SQL来获取Version属性值，当然使用这种策略也可能存在一定风险，会出现更新或者插入记录后，额外的SQL无法查询出最新的Version变更信息结果。</p>
-<p>##数值型Version VS 日期型Version<br>数值型的Version<br>（1）好处：不需要保证多台服务器的时间同步问题。<br>（2）缺点：无法记录版本变更的时间信息，这种信息有时在一些特殊场景非常有用。</p>
-<p>日期型Version<br>（1）好处：可以记录版本变更的时间，这种信息在一些场景有非常重要的价值。<br>（2）缺点：如果多台服务器上时间不同步，将会导致乐观锁失败；又或者是时间精度不足，而此时并发量过高，同一毫秒数中有多个事务，导致事务失败。</p>
-<p>##不使用Version启动Hibernate乐观锁机制<br>当然你也可以不使用Version属性来运作乐观锁策略，有另外两种方案同样可以实现乐观锁。<br>第一种：使用该表中的所有属性，通过设置optimistic-lock=”all” 来启动所有属性比对，确认当前记录版本。<br>第二种：使用上一次更新的属性来比对记录的版本，设置optimistic-lock=”dirty”。</p>
-<p>##参考资料<br>[Versioning &amp; Optimistic Locking in Hibernate] <a href="https://www.intertech.com/Blog/versioning-optimistic-locking-in-hibernate/" target="_blank" rel="external">https://www.intertech.com/Blog/versioning-optimistic-locking-in-hibernate/</a></p>
-<p>[Chapter 5. Locking] <a href="http://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch05.html" target="_blank" rel="external">http://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch05.html</a></p>
-<p>[Chapter 11. Transactions and Concurrency] <a href="http://docs.jboss.org/hibernate/core/3.3/reference/en/html/transactions.html" target="_blank" rel="external">http://docs.jboss.org/hibernate/core/3.3/reference/en/html/transactions.html</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/26/Spring事务隔离与传播/" itemprop="url">
-                  Unbenannt
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-10-26T08:51:06+13:00" content="2016-10-26">
-              2016-10-26
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>#Spring事务的传播性与隔离性</p>
-<p>##简介</p>
-<p>事务的传播性：事务在系统层面的控制范围。</p>
-<p>事务的隔离性：事务在数据库层面的读写控制范围。</p>
-<p>##传播性<br>事务传播性分为7种等级：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">1.	PROPAGATION_REQUIRED </div><div class="line">	如果当前没有事务，就新建一个事务，如果当前有事务，就加入当前事务，成为其中一部分，commit和rollback与调用者一起。这是最常见也是默认的选择，就比如你的方法用注解法加了@Transactional，不设置其他，就采用的是这种传播方式。</div><div class="line">2.	PROPAGATION_SUPPORTS</div><div class="line">	支持当前事务，如果当前没有事务，就以非事务方式执行。 </div><div class="line">3.	PROPAGATION_MANDATORY</div><div class="line">	支持当前事务，如果当前没有事务，就抛出异常。 </div><div class="line">4.	PROPAGATION_REQUIRES_NEW</div><div class="line">	新建一个事务，如果当前存在事务，把当前事务挂起；也就是说如果你是被调用方法，使用这种，就是一个独立的事务，调用你的外层事务commit和rollback与你无关，你的commit和rollback也与外层事务无关，即使你的方法抛出运行期异常(就是继承了RuntimeException的类)。 </div><div class="line">5.	PROPAGATION_NOT_SUPPORTED</div><div class="line">	以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。 </div><div class="line">6.	PROPAGATION_NEVER</div><div class="line">	以非事务方式执行，如果当前存在事务，则抛出异常。 </div><div class="line">7.	PROPAGATION_NESTED</div><div class="line">	该等级与PROPAGATION_REQUIRED不同之处在于，属于嵌套事务，而不是直接加入主事务，拥有自己独立的commit和rollback，会等待主事务的commit一起提交，如果主事务rollback了，该嵌套事务也会rollback；如果当前存在事务，则在嵌套事务内执行；如果当前没有事务，则进行与PROPAGATION_REQUIRED类似的操作。</div></pre></td></tr></table></figure>
-<p>是不是感觉也就是PROPAGATION_REQUIRED，PROPAGATION_REQUIRES_NEW，PROPAGATION_NESTED比较有用？不要犯傻了，其他的级别一样很重要，尤其在我们代码进行多层调用时，可以通过制定合理的级别，控制住哪些被调用方法参与事务，哪些不参与事务。</p>
-<p>##隔离性<br>由上之下，安全隔离性递减，性能递增：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1、Serializable ：最严格的级别，事务串行执行，资源消耗最大。</div><div class="line"></div><div class="line">2、REPEATABLE READ ：保证了一个事务不会修改已经由另一个事务读取但未提交（回滚）的数据。避免了“脏读取”和“不可重复读取”的情况，但是带来了更多的性能损失。</div><div class="line"></div><div class="line">3、READ COMMITTED :大多数主流数据库的默认事务等级，保证了一个事务不会读到另一个并行事务已修改但未提交的数据，避免了“脏读取”。该级别适用于大多数系统。</div><div class="line"></div><div class="line">4、Read Uncommitted ：保证了读取，但不保证读取到的数据是否是脏数据。</div></pre></td></tr></table></figure>
-<p>脏读 :所谓的脏读，其实就是读到了别的事务回滚前的脏数据。比如事务B执行过程中修改了数据X，在未提交前，事务A读取了X，而事务B却回滚了，这样事务A就形成了脏读。</p>
-<p>不可重复读 ：不可重复读字面含义已经很明了了，比如事务A首先读取了一条数据，然后执行逻辑的时候，事务B将这条数据改变了，然后事务A再次读取的时候，发现数据不匹配了，就是所谓的不可重复读了。</p>
-<p>幻读 ：小的时候数手指，第一次数十10个，第二次数是11个，怎么回事？产生幻觉了？<br>幻读也是这样子，事务A首先根据条件索引得到10条数据，然后事务B改变了数据库一条数据，导致也符合事务A当时的搜索条件，这样事务A再次搜索发现有11条数据了，就产生了幻读。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/26/centos安装caravel/" itemprop="url">
-                  Unbenannt
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-10-26T08:51:06+13:00" content="2016-10-26">
-              2016-10-26
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-10-25T00:00:00+13:00" content="2016-10-25">
+              2016-10-25
             </time>
           </span>
 
@@ -977,7 +601,7 @@ bash: ifconfig: command not found
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-10-24T14:49:27+13:00" content="2016-10-24">
               2016-10-24
             </time>
@@ -1077,7 +701,7 @@ bash: ifconfig: command not found
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-10-24T14:43:59+13:00" content="2016-10-24">
               2016-10-24
             </time>
@@ -1117,6 +741,603 @@ bash: ifconfig: command not found
 <p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/24/Centos安装Cloudera(Yum方式)/" itemprop="url">
+                  Centos安装Cloudera CDH（YUM方式）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-10-24T00:00:00+13:00" content="2016-10-24">
+              2016-10-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#Centos安装Cloudera CDH（YUM方式）</p>
+<p>##简介<br>Cloudera提供使用Yum方式或者下载RPM包进行安装，在接下来的环节，将采用Yum方式安装Cloudera。</p>
+<p>##编辑Yum的Repo<br>Cloudera的Yum安装地址：<a href="https://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/cloudera-cdh5.repo?_ga=1.50190628.383672037.1471754216" target="_blank" rel="external">https://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/cloudera-cdh5.repo?_ga=1.50190628.383672037.1471754216</a> 。</p>
+<p>在/etc/yum.repos.d目录下新建文件“cloudera-cdh5.repo”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@e38f507299b0 yum.repos.d]#vi /etc/yum.repos.d/cloudera-cdh5.repo</div><div class="line">[cloudera-cdh5]</div><div class="line"># Packages for Cloudera&apos;s Distribution for Hadoop, Version 5, on RedHat	or CentOS 6 x86_64</div><div class="line">name=Cloudera&apos;s Distribution for Hadoop, Version 5</div><div class="line">baseurl=https://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/5/</div><div class="line">gpgkey =https://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera    </div><div class="line">gpgcheck = 1</div></pre></td></tr></table></figure>
+<p>##安装步骤（安装CDH5的YARN版本）<br>1.安装Resource Manager host</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-yarn-resourcemanager</div></pre></td></tr></table></figure>
+<p>2.安装NameNode</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-hdfs-namenode</div></pre></td></tr></table></figure>
+<p>3.安装Secondary NameNode</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-hdfs-secondarynamenode</div></pre></td></tr></table></figure>
+<p>4.安装DataNode/Yarn/MapReduce（所有节点需要执行，除了安装了Resource Manager的节点）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-yarn-nodemanager hadoop-hdfs-datanode hadoop-mapreduce</div></pre></td></tr></table></figure>
+<p>5.安装Proxy Server/History Server（选取集群中的一个节点即可）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-mapreduce-historyserver hadoop-yarn-proxyserver</div></pre></td></tr></table></figure>
+<p>6.安装Hadoop客户端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-client</div></pre></td></tr></table></figure>
+<p>##参考来源<br>1.【Cloudera CDH下载】<a href="http://www.cloudera.com/downloads/cdh/5-8-2.html" target="_blank" rel="external">http://www.cloudera.com/downloads/cdh/5-8-2.html</a><br>2.【Cloudera企业版文档】<a href="http://www.cloudera.com/content/dam/www/static/documents/datasheets/cloudera-enterprise-datasheet.pdf" target="_blank" rel="external">http://www.cloudera.com/content/dam/www/static/documents/datasheets/cloudera-enterprise-datasheet.pdf</a><br>3.【Cloudera安装文档】<a href="http://www.cloudera.com/documentation/enterprise/latest/topics/cdh_ig_cdh5_install.html#topic_4_4_1__p_32" target="_blank" rel="external">http://www.cloudera.com/documentation/enterprise/latest/topics/cdh_ig_cdh5_install.html#topic_4_4_1__p_32</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/24/Docker安装Centos/" itemprop="url">
+                  Docker安装Centos
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-10-24T00:00:00+13:00" content="2016-10-24">
+              2016-10-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#Docker安装Centos</p>
+<p>##设置Docker国内镜像<br>镜像源地址可以通过阿里云申请一个：<a href="https://dev.aliyun.com/search.html" target="_blank" rel="external">https://dev.aliyun.com/search.html</a> ，也可以去网易镜像库寻找资源<a href="https://c.163.com/hub#/m/home/" target="_blank" rel="external">https://c.163.com/hub#/m/home/</a> 。</p>
+<p>##安装Centos<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker pull centos</div></pre></td></tr></table></figure></p>
+<p>##启动Centos<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -d -i -t centos /bin/bash</div></pre></td></tr></table></figure></p>
+<p>##进入Centos<br>查看运行后的容器ID</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker ps</div></pre></td></tr></table></figure>
+<pre>
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+e38f507299b0        centos              "/bin/bash"         33 minutes ago      Up 1 seconds                            naughty_curie
+</pre>
+
+<p>找到容器ID，通过命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker attach e38f507299b0</div></pre></td></tr></table></figure>
+<p>进入容器中，这就是centos的一个系统在docker中运行</p>
+<pre>
+[root@e38f507299b0 /]# ifconfig
+bash: ifconfig: command not found
+</pre>
+
+<p>##安装Centos中ifconfig命令<br>竟然没有ifconfig命令，接着使用你会发现ssh也没有，还有我常用的命令which，来吧，我们开始安装这些组件；这已经是一个centos系统了，那么就让我们用yum开始安装吧。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install net-tools.x86_64</div></pre></td></tr></table></figure>
+<p>##安装Which命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install which</div></pre></td></tr></table></figure>
+<p>##安装SSH<br>服务端SSH服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">yum install openssh-server  ##安装SSH服务</div><div class="line">sshd -D &amp;  ##启动SSH服务</div></pre></td></tr></table></figure>
+<p>SSH客户端工具</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install openssh-clients</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/24/Hibernate乐观锁/" itemprop="url">
+                  理解Hibernate乐观锁
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-10-24T00:00:00+13:00" content="2016-10-24">
+              2016-10-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#理解Hibernate乐观锁</p>
+<p>##介绍</p>
+<p>Hibernate通过在持久化对象中增加Version属性(或者对某个属性增加@Version，采用Version属性会被Hibernate自动当做版本管理属性)来提供一套乐观锁方案，Version属性完全由Hibernate管理，开发者无需关心，只需要在你的代码中持久化类里增加一个数值型(Long，int，short)或者日期型(timestamp,calendars)的Version字段即可<br>。</p>
+<p>##Version与事务<br>这里采用数值型的Version来说明Hibernate如果使用Version属性来实现乐观锁与事务。Version属性都是由Hibernate自动管理，当Hibernate需要创建一个事务来更新持久化对象时，会取出本次事务中最新一次查询出的持久化对象中的Version属性，来比对当前数据库中的Version属性，如果一致，则执行事务提交，一旦发现不一致的情况，将会回滚事务，这就是Hibernate通过Version属性实现的乐观锁。如果更新成功后，Hibernate会自动增加Version属性值。</p>
+<p>##Hibernate自我管理Version VS DB自我管理<br>当然有些DBA喜欢使用数据库而不是Hibernate完成乐观锁策略，<br>Hibernate允许DB接收Version的管理，只需要在Version属性上配置generated=”always”（当然要注意，并不是所有数据库都支持管理Version）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">hibernate-mapping</span> <span class="attr">package</span>=<span class="string">”com.ffw.entity”</span>&gt;</span> </div><div class="line">  <span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">”User”</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">name</span>=<span class="string">”id”</span>&gt;</span> </div><div class="line">       <span class="tag">&lt;<span class="name">generator</span> <span class="attr">class</span>=<span class="string">”native”</span> /&gt;</span> </div><div class="line">    <span class="tag">&lt;/<span class="name">id</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">version</span> <span class="attr">name</span>=<span class="string">”version”</span> <span class="attr">type</span>=<span class="string">”long”</span> <span class="attr">generated</span>=<span class="string">”always”/</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">”name”</span> <span class="attr">not-null</span>=<span class="string">”true”</span> /&gt;</span> </div><div class="line">  <span class="tag">&lt;/<span class="name">class</span>&gt;</span> </div><div class="line"><span class="tag">&lt;/<span class="name">hibernate-mapping</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这么做后，当更新或者插入一条新纪录后，Hibernate需要额外的SQL来获取Version属性值，当然使用这种策略也可能存在一定风险，会出现更新或者插入记录后，额外的SQL无法查询出最新的Version变更信息结果。</p>
+<p>##数值型Version VS 日期型Version<br>数值型的Version<br>（1）好处：不需要保证多台服务器的时间同步问题。<br>（2）缺点：无法记录版本变更的时间信息，这种信息有时在一些特殊场景非常有用。</p>
+<p>日期型Version<br>（1）好处：可以记录版本变更的时间，这种信息在一些场景有非常重要的价值。<br>（2）缺点：如果多台服务器上时间不同步，将会导致乐观锁失败；又或者是时间精度不足，而此时并发量过高，同一毫秒数中有多个事务，导致事务失败。</p>
+<p>##不使用Version启动Hibernate乐观锁机制<br>当然你也可以不使用Version属性来运作乐观锁策略，有另外两种方案同样可以实现乐观锁。<br>第一种：使用该表中的所有属性，通过设置optimistic-lock=”all” 来启动所有属性比对，确认当前记录版本。<br>第二种：使用上一次更新的属性来比对记录的版本，设置optimistic-lock=”dirty”。</p>
+<p>##参考资料<br>[Versioning &amp; Optimistic Locking in Hibernate] <a href="https://www.intertech.com/Blog/versioning-optimistic-locking-in-hibernate/" target="_blank" rel="external">https://www.intertech.com/Blog/versioning-optimistic-locking-in-hibernate/</a></p>
+<p>[Chapter 5. Locking] <a href="http://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch05.html" target="_blank" rel="external">http://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch05.html</a></p>
+<p>[Chapter 11. Transactions and Concurrency] <a href="http://docs.jboss.org/hibernate/core/3.3/reference/en/html/transactions.html" target="_blank" rel="external">http://docs.jboss.org/hibernate/core/3.3/reference/en/html/transactions.html</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/21/Spring事务隔离与传播/" itemprop="url">
+                  Spring事务的传播性与隔离性
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-10-21T00:00:00+13:00" content="2016-10-21">
+              2016-10-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#Spring事务的传播性与隔离性</p>
+<p>##简介</p>
+<p>事务的传播性：事务在系统层面的控制范围。</p>
+<p>事务的隔离性：事务在数据库层面的读写控制范围。</p>
+<p>##传播性<br>事务传播性分为7种等级：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">1.	PROPAGATION_REQUIRED </div><div class="line">	如果当前没有事务，就新建一个事务，如果当前有事务，就加入当前事务，成为其中一部分，commit和rollback与调用者一起。这是最常见也是默认的选择，就比如你的方法用注解法加了@Transactional，不设置其他，就采用的是这种传播方式。</div><div class="line">2.	PROPAGATION_SUPPORTS</div><div class="line">	支持当前事务，如果当前没有事务，就以非事务方式执行。 </div><div class="line">3.	PROPAGATION_MANDATORY</div><div class="line">	支持当前事务，如果当前没有事务，就抛出异常。 </div><div class="line">4.	PROPAGATION_REQUIRES_NEW</div><div class="line">	新建一个事务，如果当前存在事务，把当前事务挂起；也就是说如果你是被调用方法，使用这种，就是一个独立的事务，调用你的外层事务commit和rollback与你无关，你的commit和rollback也与外层事务无关，即使你的方法抛出运行期异常(就是继承了RuntimeException的类)。 </div><div class="line">5.	PROPAGATION_NOT_SUPPORTED</div><div class="line">	以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。 </div><div class="line">6.	PROPAGATION_NEVER</div><div class="line">	以非事务方式执行，如果当前存在事务，则抛出异常。 </div><div class="line">7.	PROPAGATION_NESTED</div><div class="line">	该等级与PROPAGATION_REQUIRED不同之处在于，属于嵌套事务，而不是直接加入主事务，拥有自己独立的commit和rollback，会等待主事务的commit一起提交，如果主事务rollback了，该嵌套事务也会rollback；如果当前存在事务，则在嵌套事务内执行；如果当前没有事务，则进行与PROPAGATION_REQUIRED类似的操作。</div></pre></td></tr></table></figure>
+<p>是不是感觉也就是PROPAGATION_REQUIRED，PROPAGATION_REQUIRES_NEW，PROPAGATION_NESTED比较有用？不要犯傻了，其他的级别一样很重要，尤其在我们代码进行多层调用时，可以通过制定合理的级别，控制住哪些被调用方法参与事务，哪些不参与事务。</p>
+<p>##隔离性<br>由上之下，安全隔离性递减，性能递增：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1、Serializable ：最严格的级别，事务串行执行，资源消耗最大。</div><div class="line"></div><div class="line">2、REPEATABLE READ ：保证了一个事务不会修改已经由另一个事务读取但未提交（回滚）的数据。避免了“脏读取”和“不可重复读取”的情况，但是带来了更多的性能损失。</div><div class="line"></div><div class="line">3、READ COMMITTED :大多数主流数据库的默认事务等级，保证了一个事务不会读到另一个并行事务已修改但未提交的数据，避免了“脏读取”。该级别适用于大多数系统。</div><div class="line"></div><div class="line">4、Read Uncommitted ：保证了读取，但不保证读取到的数据是否是脏数据。</div></pre></td></tr></table></figure>
+<p>脏读 :所谓的脏读，其实就是读到了别的事务回滚前的脏数据。比如事务B执行过程中修改了数据X，在未提交前，事务A读取了X，而事务B却回滚了，这样事务A就形成了脏读。</p>
+<p>不可重复读 ：不可重复读字面含义已经很明了了，比如事务A首先读取了一条数据，然后执行逻辑的时候，事务B将这条数据改变了，然后事务A再次读取的时候，发现数据不匹配了，就是所谓的不可重复读了。</p>
+<p>幻读 ：小的时候数手指，第一次数十10个，第二次数是11个，怎么回事？产生幻觉了？<br>幻读也是这样子，事务A首先根据条件索引得到10条数据，然后事务B改变了数据库一条数据，导致也符合事务A当时的搜索条件，这样事务A再次搜索发现有11条数据了，就产生了幻读。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/12/Monty Hall(蒙蒂大厅难题)-概率趣闻/" itemprop="url">
+                  Monty Hall(蒙蒂大厅难题)-概率趣闻
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-08-12T00:00:00+12:00" content="2016-08-12">
+              2016-08-12
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#Monty Hall(蒙蒂大厅难题)-概率趣闻</p>
+<p>蒙蒂大厅游戏的答案是如此有悖常理，以至于好多人都无法接受，好吧，我也是其中之一，~_~</p>
+<p>蒙蒂大厅游戏</p>
+<ul>
+<li>蒙蒂向你示意三个关闭的门，然后告诉你每个门有一个奖品：一个奖品是一辆车，另外两个是像花生酱和假指甲这样不值钱的奖品，奖品随机配置。</li>
+<li>游戏的目的是要猜哪个门后面有车，如果猜对了就可以拿走汽车。</li>
+<li>你先挑选一扇门，我们姑且称之为门A，其他两个称为门B和门C。</li>
+<li>在打开你选中的门之前，为了增加悬念，蒙蒂会先打开B或C中一个没有车的门来增加悬念（如果汽车实际上就是在A门背后，那么蒙蒂打开门B或门C都是安全的，所以他们可以随意选择一个）。</li>
+<li>然后蒙蒂给你一个选择，坚持最初的选择还是换到剩下的未打开的门上。</li>
+</ul>
+<p>问题是：是否该坚持还是换？是否有区别？</p>
+<p>从直觉上看，这似乎没有区别，还是剩下两个门的选择，应该是1/2的概率，也就是换不换都没有什么区别。</p>
+<p>但事实上却是错的，如果你坚持选A门的话，那么概率只有1/3，如果换成另外一个门，那么有2/3的概率，对，你没有听错，换了后，命中概率更高了。</p>
+<p>为什么会这样呢？（关于条件概率常识需要知道，方便后续理解）</p>
+<p>这其实是一个条件概率事件问题，求解的问题换个说法就是，当蒙蒂打开没有车的门B后，车在A门和车在C门的哪种可能性高？</p>
+<p>接下来，我们来详细说明下，先设定：<br>事件D：蒙蒂打开了门B，而车没有在B门后。<br>事件H：车在其中一个门后。<br>事件H只有三个假设情况，如下：</p>
+<ol>
+<li>假设1(H1)：车在门A后</li>
+<li>假设2(H2)：车在门B后</li>
+<li>假设3(H3)：车在门C后</li>
+</ol>
+<p>目标：最大的ρ(H|D)：</p>
+<ul>
+<li>情况H1|D：蒙蒂打开门B，车不在B门后；车在A门后</li>
+<li>情况H2|D：蒙蒂打开门B，车不在B门后；车在C门后</li>
+</ul>
+<p>先验概率p(H)</p>
+<p>似然度p(D|H)</p>
+<p>p(H)*p(D|H)</p>
+<p>后验概率p(H|D)</p>
+<p>假设1</p>
+<p>1/3</p>
+<p>1/2</p>
+<p>1/6</p>
+<p>1/3</p>
+<p>假设2</p>
+<p>1/3</p>
+<p>0</p>
+<p>0</p>
+<p>0</p>
+<p>假设3</p>
+<p>1/3</p>
+<p>1</p>
+<p>1/3</p>
+<p>2/3</p>
+<ul>
+<li>先验概率可以采用最稳妥做法，均等；车在门A、门B、门C可能性均等，也就是每种情况可能性为1/3。</li>
+<li>在假设1的前提下，如果车在门A后，蒙蒂可以安全打开门B或门C，所以他选择门B的概率为1/2，也就是，因为车实际上在门A后，也就是车不在门B的概率为1。</li>
+<li><p>在假设2的前提下，如果车在门B后，蒙蒂不得不打开门C，这样打开门B的概率为0，也就是这种情况不可能发生，也就是。</p>
+</li>
+<li><p>在假设3的前提下，如果车在门C后，蒙蒂打开门B的概率为1，也就是。</p>
+</li>
+</ul>
+<p>接下来求D事件发生的概率(n=3)：</p>
+<p>贝叶斯概率公式：</p>
+<p>根据贝叶斯概率公式可以求得后验概率：</p>
+<ul>
+<li><p>假设1-后验概率：</p>
+</li>
+<li><p>假设2-后验概率：</p>
+</li>
+</ul>
+<p>是不是很有意思，哈哈！</p>
 
           
         
@@ -1186,13 +1407,20 @@ bash: ifconfig: command not found
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
           
 
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
           
 
         </nav>
@@ -1234,7 +1462,7 @@ bash: ifconfig: command not found
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

@@ -84,19 +84,22 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="description" content="#理解Hibernate乐观锁
+##介绍
+Hibernate通过在持久化对象中增加Version属性(或者对某个属性增加@Version，采用Version属性会被Hibernate自动当做版本管理属性)来提供一套乐观锁方案，Version属性完全由Hibernate管理，开发者无需关心，只需要在你的代码中持久化类里增加一个数值型(Long，int，short)或者日期型(timestamp,ca">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://datalystio.github.io/2016/10/24/hello-world/index.html">
+<meta property="og:title" content="理解Hibernate乐观锁">
+<meta property="og:url" content="http://datalystio.github.io/2016/10/24/Hibernate乐观锁/index.html">
 <meta property="og:site_name" content="DatalystIO">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-10-24T01:43:59.000Z">
+<meta property="og:description" content="#理解Hibernate乐观锁
+##介绍
+Hibernate通过在持久化对象中增加Version属性(或者对某个属性增加@Version，采用Version属性会被Hibernate自动当做版本管理属性)来提供一套乐观锁方案，Version属性完全由Hibernate管理，开发者无需关心，只需要在你的代码中持久化类里增加一个数值型(Long，int，short)或者日期型(timestamp,ca">
+<meta property="og:updated_time" content="2016-11-01T21:42:56.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="理解Hibernate乐观锁">
+<meta name="twitter:description" content="#理解Hibernate乐观锁
+##介绍
+Hibernate通过在持久化对象中增加Version属性(或者对某个属性增加@Version，采用Version属性会被Hibernate自动当做版本管理属性)来提供一套乐观锁方案，Version属性完全由Hibernate管理，开发者无需关心，只需要在你的代码中持久化类里增加一个数值型(Long，int，short)或者日期型(timestamp,ca">
 
 
 
@@ -117,10 +120,10 @@ Quick">
 
 
 
-  <link rel="canonical" href="http://datalystio.github.io/2016/10/24/hello-world/"/>
+  <link rel="canonical" href="http://datalystio.github.io/2016/10/24/Hibernate乐观锁/"/>
 
 
-  <title> Hello World | DatalystIO </title>
+  <title> 理解Hibernate乐观锁 | DatalystIO </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="">
@@ -242,7 +245,7 @@ Quick">
             
             
               
-                Hello World
+                理解Hibernate乐观锁
               
             
           </h1>
@@ -254,7 +257,7 @@ Quick">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-10-24T14:43:59+13:00" content="2016-10-24">
+            <time itemprop="dateCreated" datetime="2016-10-24T00:00:00+13:00" content="2016-10-24">
               2016-10-24
             </time>
           </span>
@@ -282,15 +285,19 @@ Quick">
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>#理解Hibernate乐观锁</p>
+<p>##介绍</p>
+<p>Hibernate通过在持久化对象中增加Version属性(或者对某个属性增加@Version，采用Version属性会被Hibernate自动当做版本管理属性)来提供一套乐观锁方案，Version属性完全由Hibernate管理，开发者无需关心，只需要在你的代码中持久化类里增加一个数值型(Long，int，short)或者日期型(timestamp,calendars)的Version字段即可<br>。</p>
+<p>##Version与事务<br>这里采用数值型的Version来说明Hibernate如果使用Version属性来实现乐观锁与事务。Version属性都是由Hibernate自动管理，当Hibernate需要创建一个事务来更新持久化对象时，会取出本次事务中最新一次查询出的持久化对象中的Version属性，来比对当前数据库中的Version属性，如果一致，则执行事务提交，一旦发现不一致的情况，将会回滚事务，这就是Hibernate通过Version属性实现的乐观锁。如果更新成功后，Hibernate会自动增加Version属性值。</p>
+<p>##Hibernate自我管理Version VS DB自我管理<br>当然有些DBA喜欢使用数据库而不是Hibernate完成乐观锁策略，<br>Hibernate允许DB接收Version的管理，只需要在Version属性上配置generated=”always”（当然要注意，并不是所有数据库都支持管理Version）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">hibernate-mapping</span> <span class="attr">package</span>=<span class="string">”com.ffw.entity”</span>&gt;</span> </div><div class="line">  <span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">”User”</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">name</span>=<span class="string">”id”</span>&gt;</span> </div><div class="line">       <span class="tag">&lt;<span class="name">generator</span> <span class="attr">class</span>=<span class="string">”native”</span> /&gt;</span> </div><div class="line">    <span class="tag">&lt;/<span class="name">id</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">version</span> <span class="attr">name</span>=<span class="string">”version”</span> <span class="attr">type</span>=<span class="string">”long”</span> <span class="attr">generated</span>=<span class="string">”always”/</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">”name”</span> <span class="attr">not-null</span>=<span class="string">”true”</span> /&gt;</span> </div><div class="line">  <span class="tag">&lt;/<span class="name">class</span>&gt;</span> </div><div class="line"><span class="tag">&lt;/<span class="name">hibernate-mapping</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这么做后，当更新或者插入一条新纪录后，Hibernate需要额外的SQL来获取Version属性值，当然使用这种策略也可能存在一定风险，会出现更新或者插入记录后，额外的SQL无法查询出最新的Version变更信息结果。</p>
+<p>##数值型Version VS 日期型Version<br>数值型的Version<br>（1）好处：不需要保证多台服务器的时间同步问题。<br>（2）缺点：无法记录版本变更的时间信息，这种信息有时在一些特殊场景非常有用。</p>
+<p>日期型Version<br>（1）好处：可以记录版本变更的时间，这种信息在一些场景有非常重要的价值。<br>（2）缺点：如果多台服务器上时间不同步，将会导致乐观锁失败；又或者是时间精度不足，而此时并发量过高，同一毫秒数中有多个事务，导致事务失败。</p>
+<p>##不使用Version启动Hibernate乐观锁机制<br>当然你也可以不使用Version属性来运作乐观锁策略，有另外两种方案同样可以实现乐观锁。<br>第一种：使用该表中的所有属性，通过设置optimistic-lock=”all” 来启动所有属性比对，确认当前记录版本。<br>第二种：使用上一次更新的属性来比对记录的版本，设置optimistic-lock=”dirty”。</p>
+<p>##参考资料<br>[Versioning &amp; Optimistic Locking in Hibernate] <a href="https://www.intertech.com/Blog/versioning-optimistic-locking-in-hibernate/" target="_blank" rel="external">https://www.intertech.com/Blog/versioning-optimistic-locking-in-hibernate/</a></p>
+<p>[Chapter 5. Locking] <a href="http://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch05.html" target="_blank" rel="external">http://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch05.html</a></p>
+<p>[Chapter 11. Transactions and Concurrency] <a href="http://docs.jboss.org/hibernate/core/3.3/reference/en/html/transactions.html" target="_blank" rel="external">http://docs.jboss.org/hibernate/core/3.3/reference/en/html/transactions.html</a></p>
 
       
     </div>
@@ -316,16 +323,16 @@ Quick">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/10/24/Centos安装Cloudera(Yum方式)/" rel="next" title="Centos安装Cloudera CDH（YUM方式）">
-                <i class="fa fa-chevron-left"></i> Centos安装Cloudera CDH（YUM方式）
+              <a href="/2016/10/21/Spring事务隔离与传播/" rel="next" title="Spring事务的传播性与隔离性">
+                <i class="fa fa-chevron-left"></i> Spring事务的传播性与隔离性
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/10/24/how-to-use-hexo/" rel="prev" title="How To Use Hexo">
-                How To Use Hexo <i class="fa fa-chevron-right"></i>
+              <a href="/2016/10/24/Docker安装Centos/" rel="prev" title="Docker安装Centos">
+                Docker安装Centos <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -433,7 +440,7 @@ Quick">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">This post does not have a Table of Contents</p>
             
           </div>
         </section>
