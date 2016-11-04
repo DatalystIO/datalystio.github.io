@@ -47,7 +47,7 @@
       </h1>
       
         <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Your Data Catelyst</a>
+          <a href="/" id="subtitle">Data Catalyst</a>
         </h2>
       
     </div>
@@ -62,9 +62,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://datalystio.github.io"></form>
@@ -99,25 +99,25 @@
 <p>##简介<br>Cloudera提供使用Yum方式或者下载RPM包进行安装，在接下来的环节，将采用Yum方式安装Cloudera。</p>
 <p>##编辑Yum的Repo<br>Cloudera的Yum安装地址：<a href="https://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/cloudera-cdh5.repo?_ga=1.50190628.383672037.1471754216" target="_blank" rel="external">https://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/cloudera-cdh5.repo?_ga=1.50190628.383672037.1471754216</a> 。</p>
 <p>在/etc/yum.repos.d目录下新建文件“cloudera-cdh5.repo”</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@e38f507299b0 yum.repos.d]#vi /etc/yum.repos.d/cloudera-cdh5.repo</div><div class="line">[cloudera-cdh5]</div><div class="line"># Packages for Cloudera&apos;s Distribution for Hadoop, Version 5, on RedHat	or CentOS 6 x86_64</div><div class="line">name=Cloudera&apos;s Distribution for Hadoop, Version 5</div><div class="line">baseurl=https://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/5/</div><div class="line">gpgkey =https://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera    </div><div class="line">gpgcheck = 1</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root<span class="meta">@e</span>38f507299b0 yum.repos.d]#vi /etc/yum.repos.d/cloudera-cdh5.repo</div><div class="line">[cloudera-cdh5]</div><div class="line"># <span class="type">Packages</span> <span class="keyword">for</span> <span class="type">Cloudera</span><span class="symbol">'s</span> <span class="type">Distribution</span> <span class="keyword">for</span> <span class="type">Hadoop</span>, <span class="type">Version</span> <span class="number">5</span>, on <span class="type">RedHat</span>	or <span class="type">CentOS</span> <span class="number">6</span> x86_64</div><div class="line">name=<span class="type">Cloudera</span><span class="symbol">'s</span> <span class="type">Distribution</span> <span class="keyword">for</span> <span class="type">Hadoop</span>, <span class="type">Version</span> <span class="number">5</span></div><div class="line">baseurl=https:<span class="comment">//archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/5/</span></div><div class="line">gpgkey =https:<span class="comment">//archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera    </span></div><div class="line">gpgcheck = <span class="number">1</span></div></pre></td></tr></table></figure>
 <p>##安装步骤（安装CDH5的YARN版本）<br>1.安装Resource Manager host</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-yarn-resourcemanager</div></pre></td></tr></table></figure>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean <span class="keyword">all</span></div><div class="line">sudo yum install hadoop-yarn-resourcemanager</div></pre></td></tr></table></figure>
 <p>2.安装NameNode</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-hdfs-namenode</div></pre></td></tr></table></figure>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean <span class="keyword">all</span></div><div class="line">sudo yum install hadoop-hdfs-namenode</div></pre></td></tr></table></figure>
 <p>3.安装Secondary NameNode</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-hdfs-secondarynamenode</div></pre></td></tr></table></figure>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean <span class="keyword">all</span></div><div class="line">sudo yum install hadoop-hdfs-secondarynamenode</div></pre></td></tr></table></figure>
 <p>4.安装DataNode/Yarn/MapReduce（所有节点需要执行，除了安装了Resource Manager的节点）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-yarn-nodemanager hadoop-hdfs-datanode hadoop-mapreduce</div></pre></td></tr></table></figure>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean <span class="keyword">all</span></div><div class="line">sudo yum install hadoop-yarn-nodemanager hadoop-hdfs-datanode hadoop-mapreduce</div></pre></td></tr></table></figure>
 <p>5.安装Proxy Server/History Server（选取集群中的一个节点即可）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-mapreduce-historyserver hadoop-yarn-proxyserver</div></pre></td></tr></table></figure>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean <span class="keyword">all</span></div><div class="line">sudo yum install hadoop-mapreduce-historyserver hadoop-yarn-proxyserver</div></pre></td></tr></table></figure>
 <p>6.安装Hadoop客户端</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum install hadoop-client</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum <span class="keyword">install</span> hadoop-<span class="keyword">client</span></div></pre></td></tr></table></figure>
 <p>##参考来源<br>1.【Cloudera CDH下载】<a href="http://www.cloudera.com/downloads/cdh/5-8-2.html" target="_blank" rel="external">http://www.cloudera.com/downloads/cdh/5-8-2.html</a><br>2.【Cloudera企业版文档】<a href="http://www.cloudera.com/content/dam/www/static/documents/datasheets/cloudera-enterprise-datasheet.pdf" target="_blank" rel="external">http://www.cloudera.com/content/dam/www/static/documents/datasheets/cloudera-enterprise-datasheet.pdf</a><br>3.【Cloudera安装文档】<a href="http://www.cloudera.com/documentation/enterprise/latest/topics/cdh_ig_cdh5_install.html#topic_4_4_1__p_32" target="_blank" rel="external">http://www.cloudera.com/documentation/enterprise/latest/topics/cdh_ig_cdh5_install.html#topic_4_4_1__p_32</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://datalystio.github.io/2016/10/24/Centos安装Cloudera(Yum方式)/" data-id="civ33rbtj0001d2j1wcukoous" class="article-share-link">Partager</a>
+      <a data-url="http://datalystio.github.io/2016/10/24/Centos安装Cloudera(Yum方式)/" data-id="civ340t000000ntj175azy7va" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/centos-cloudera/">centos cloudera</a></li></ul>
@@ -128,19 +128,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/10/24/Hibernate乐观锁/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Récent</strong>
+    <a href="/2016/10/24/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          理解Hibernate乐观锁
+          Hello World
         
       </div>
     </a>
   
   
-    <a href="/2016/10/24/Docker安装Centos/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Ancien</strong>
-      <div class="article-nav-title">Docker安装Centos</div>
+    <a href="/2016/10/24/Hibernate乐观锁/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">理解Hibernate乐观锁</div>
     </a>
   
 </nav>
@@ -157,7 +157,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Mot-clés</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos-cloudera/">centos cloudera</a></li></ul>
     </div>
@@ -167,7 +167,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <a href="/tags/centos-cloudera/" style="font-size: 10px;">centos cloudera</a>
     </div>
@@ -186,16 +186,16 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2016/10/25/Mysql之全文搜索函数/">Mysql之全文搜索函数</a>
+            <a href="/2016/10/25/MySQL之索引-索引与存储引擎/">MySQL-索引与存储引擎</a>
           </li>
         
           <li>
-            <a href="/2016/10/25/MySQL之索引-索引与存储引擎/">MySQL-索引与存储引擎</a>
+            <a href="/2016/10/25/Mysql之全文搜索函数/">Mysql之全文搜索函数</a>
           </li>
         
           <li>
@@ -223,7 +223,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 DatalystIO<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

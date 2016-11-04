@@ -10,7 +10,7 @@
 事务的传播性：事务在系统层面的控制范围。
 事务的隔离性：事务在数据库层面的读写控制范围。
 ##传播性事务传播性分为7种等级：
-12345678910111213141.	PROPAGATION_REQUIRED 	如果当前没有事务，就新建一个事务，如果当前有事务，就加入当前事务，成为其中一部分，commit和rollback与调用者一起。这是最常见也是">
+12345678910111213141.	PROPAGATION_REQUIRED true如果当前没有事务，就新建一个事务，如果当前有事务，就加入当前事务，成为其中一部分，commit和rollback与调用者一起。这是最常">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring事务的传播性与隔离性">
 <meta property="og:url" content="http://datalystio.github.io/2016/10/21/Spring事务隔离与传播/index.html">
@@ -20,7 +20,7 @@
 事务的传播性：事务在系统层面的控制范围。
 事务的隔离性：事务在数据库层面的读写控制范围。
 ##传播性事务传播性分为7种等级：
-12345678910111213141.	PROPAGATION_REQUIRED 	如果当前没有事务，就新建一个事务，如果当前有事务，就加入当前事务，成为其中一部分，commit和rollback与调用者一起。这是最常见也是">
+12345678910111213141.	PROPAGATION_REQUIRED true如果当前没有事务，就新建一个事务，如果当前有事务，就加入当前事务，成为其中一部分，commit和rollback与调用者一起。这是最常">
 <meta property="og:updated_time" content="2016-11-01T21:42:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring事务的传播性与隔离性">
@@ -29,7 +29,7 @@
 事务的传播性：事务在系统层面的控制范围。
 事务的隔离性：事务在数据库层面的读写控制范围。
 ##传播性事务传播性分为7种等级：
-12345678910111213141.	PROPAGATION_REQUIRED 	如果当前没有事务，就新建一个事务，如果当前有事务，就加入当前事务，成为其中一部分，commit和rollback与调用者一起。这是最常见也是">
+12345678910111213141.	PROPAGATION_REQUIRED true如果当前没有事务，就新建一个事务，如果当前有事务，就加入当前事务，成为其中一部分，commit和rollback与调用者一起。这是最常">
   
     <link rel="alternate" href="/atom.xml" title="DatalystIO" type="application/atom+xml">
   
@@ -56,7 +56,7 @@
       </h1>
       
         <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Your Data Catelyst</a>
+          <a href="/" id="subtitle">Data Catalyst</a>
         </h2>
       
     </div>
@@ -71,9 +71,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://datalystio.github.io"></form>
@@ -109,10 +109,10 @@
 <p>事务的传播性：事务在系统层面的控制范围。</p>
 <p>事务的隔离性：事务在数据库层面的读写控制范围。</p>
 <p>##传播性<br>事务传播性分为7种等级：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">1.	PROPAGATION_REQUIRED </div><div class="line">	如果当前没有事务，就新建一个事务，如果当前有事务，就加入当前事务，成为其中一部分，commit和rollback与调用者一起。这是最常见也是默认的选择，就比如你的方法用注解法加了@Transactional，不设置其他，就采用的是这种传播方式。</div><div class="line">2.	PROPAGATION_SUPPORTS</div><div class="line">	支持当前事务，如果当前没有事务，就以非事务方式执行。 </div><div class="line">3.	PROPAGATION_MANDATORY</div><div class="line">	支持当前事务，如果当前没有事务，就抛出异常。 </div><div class="line">4.	PROPAGATION_REQUIRES_NEW</div><div class="line">	新建一个事务，如果当前存在事务，把当前事务挂起；也就是说如果你是被调用方法，使用这种，就是一个独立的事务，调用你的外层事务commit和rollback与你无关，你的commit和rollback也与外层事务无关，即使你的方法抛出运行期异常(就是继承了RuntimeException的类)。 </div><div class="line">5.	PROPAGATION_NOT_SUPPORTED</div><div class="line">	以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。 </div><div class="line">6.	PROPAGATION_NEVER</div><div class="line">	以非事务方式执行，如果当前存在事务，则抛出异常。 </div><div class="line">7.	PROPAGATION_NESTED</div><div class="line">	该等级与PROPAGATION_REQUIRED不同之处在于，属于嵌套事务，而不是直接加入主事务，拥有自己独立的commit和rollback，会等待主事务的commit一起提交，如果主事务rollback了，该嵌套事务也会rollback；如果当前存在事务，则在嵌套事务内执行；如果当前没有事务，则进行与PROPAGATION_REQUIRED类似的操作。</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">1.	PROPAGATION_REQUIRED </div><div class="line">true如果当前没有事务，就新建一个事务，如果当前有事务，就加入当前事务，成为其中一部分，<span class="keyword">commit</span>和<span class="keyword">rollback</span>与调用者一起。这是最常见也是默认的选择，就比如你的方法用注解法加了@<span class="keyword">Transactional</span>，不设置其他，就采用的是这种传播方式。</div><div class="line"><span class="number">2.</span>	PROPAGATION_SUPPORTS</div><div class="line">true支持当前事务，如果当前没有事务，就以非事务方式执行。 </div><div class="line"><span class="number">3.</span>	PROPAGATION_MANDATORY</div><div class="line">true支持当前事务，如果当前没有事务，就抛出异常。 </div><div class="line"><span class="number">4.</span>	PROPAGATION_REQUIRES_NEW</div><div class="line">true新建一个事务，如果当前存在事务，把当前事务挂起；也就是说如果你是被调用方法，使用这种，就是一个独立的事务，调用你的外层事务<span class="keyword">commit</span>和<span class="keyword">rollback</span>与你无关，你的<span class="keyword">commit</span>和<span class="keyword">rollback</span>也与外层事务无关，即使你的方法抛出运行期异常(就是继承了RuntimeException的类)。 </div><div class="line"><span class="number">5.</span>	PROPAGATION_NOT_SUPPORTED</div><div class="line">true以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。 </div><div class="line"><span class="number">6.</span>	PROPAGATION_NEVER</div><div class="line">true以非事务方式执行，如果当前存在事务，则抛出异常。 </div><div class="line"><span class="number">7.</span>	PROPAGATION_NESTED</div><div class="line">true该等级与PROPAGATION_REQUIRED不同之处在于，属于嵌套事务，而不是直接加入主事务，拥有自己独立的<span class="keyword">commit</span>和<span class="keyword">rollback</span>，会等待主事务的<span class="keyword">commit</span>一起提交，如果主事务<span class="keyword">rollback</span>了，该嵌套事务也会<span class="keyword">rollback</span>；如果当前存在事务，则在嵌套事务内执行；如果当前没有事务，则进行与PROPAGATION_REQUIRED类似的操作。</div></pre></td></tr></table></figure>
 <p>是不是感觉也就是PROPAGATION_REQUIRED，PROPAGATION_REQUIRES_NEW，PROPAGATION_NESTED比较有用？不要犯傻了，其他的级别一样很重要，尤其在我们代码进行多层调用时，可以通过制定合理的级别，控制住哪些被调用方法参与事务，哪些不参与事务。</p>
 <p>##隔离性<br>由上之下，安全隔离性递减，性能递增：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1、Serializable ：最严格的级别，事务串行执行，资源消耗最大。</div><div class="line"></div><div class="line">2、REPEATABLE READ ：保证了一个事务不会修改已经由另一个事务读取但未提交（回滚）的数据。避免了“脏读取”和“不可重复读取”的情况，但是带来了更多的性能损失。</div><div class="line"></div><div class="line">3、READ COMMITTED :大多数主流数据库的默认事务等级，保证了一个事务不会读到另一个并行事务已修改但未提交的数据，避免了“脏读取”。该级别适用于大多数系统。</div><div class="line"></div><div class="line">4、Read Uncommitted ：保证了读取，但不保证读取到的数据是否是脏数据。</div></pre></td></tr></table></figure>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span>、Serializable ：最严格的级别，事务串行执行，资源消耗最大。</div><div class="line"></div><div class="line"><span class="number">2</span>、REPEATABLE <span class="keyword">READ</span> ：保证了一个事务不会修改已经由另一个事务读取但未提交（回滚）的数据。避免了“脏读取”和“不可重复读取”的情况，但是带来了更多的性能损失。</div><div class="line"></div><div class="line"><span class="number">3</span>、<span class="keyword">READ</span> COMMITTED :大多数主流数据库的默认事务等级，保证了一个事务不会读到另一个并行事务已修改但未提交的数据，避免了“脏读取”。该级别适用于大多数系统。</div><div class="line"></div><div class="line"><span class="number">4</span>、<span class="keyword">Read</span> Uncommitted ：保证了读取，但不保证读取到的数据是否是脏数据。</div></pre></td></tr></table></figure>
 <p>脏读 :所谓的脏读，其实就是读到了别的事务回滚前的脏数据。比如事务B执行过程中修改了数据X，在未提交前，事务A读取了X，而事务B却回滚了，这样事务A就形成了脏读。</p>
 <p>不可重复读 ：不可重复读字面含义已经很明了了，比如事务A首先读取了一条数据，然后执行逻辑的时候，事务B将这条数据改变了，然后事务A再次读取的时候，发现数据不匹配了，就是所谓的不可重复读了。</p>
 <p>幻读 ：小的时候数手指，第一次数十10个，第二次数是11个，怎么回事？产生幻觉了？<br>幻读也是这样子，事务A首先根据条件索引得到10条数据，然后事务B改变了数据库一条数据，导致也符合事务A当时的搜索条件，这样事务A再次搜索发现有11条数据了，就产生了幻读。</p>
@@ -120,7 +120,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://datalystio.github.io/2016/10/21/Spring事务隔离与传播/" data-id="civ33rbtu0008d2j1ejgi3o6f" class="article-share-link">Partager</a>
+      <a data-url="http://datalystio.github.io/2016/10/21/Spring事务隔离与传播/" data-id="civ340t0g0008ntj1vpzovvqf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -130,7 +130,7 @@
 <nav id="article-nav">
   
     <a href="/2016/10/24/Docker安装Centos/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Récent</strong>
+      <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
           Docker安装Centos
@@ -140,7 +140,7 @@
   
   
     <a href="/2016/08/12/Monty Hall(蒙蒂大厅难题)-概率趣闻/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Ancien</strong>
+      <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">Monty Hall(蒙蒂大厅难题)-概率趣闻</div>
     </a>
   
@@ -158,7 +158,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Mot-clés</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos-cloudera/">centos cloudera</a></li></ul>
     </div>
@@ -168,7 +168,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <a href="/tags/centos-cloudera/" style="font-size: 10px;">centos cloudera</a>
     </div>
@@ -187,16 +187,16 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2016/10/25/Mysql之全文搜索函数/">Mysql之全文搜索函数</a>
+            <a href="/2016/10/25/MySQL之索引-索引与存储引擎/">MySQL-索引与存储引擎</a>
           </li>
         
           <li>
-            <a href="/2016/10/25/MySQL之索引-索引与存储引擎/">MySQL-索引与存储引擎</a>
+            <a href="/2016/10/25/Mysql之全文搜索函数/">Mysql之全文搜索函数</a>
           </li>
         
           <li>
@@ -224,7 +224,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 DatalystIO<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

@@ -50,7 +50,7 @@
       </h1>
       
         <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Your Data Catelyst</a>
+          <a href="/" id="subtitle">Data Catalyst</a>
         </h2>
       
     </div>
@@ -65,9 +65,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://datalystio.github.io"></form>
@@ -100,17 +100,17 @@
       
         <p>#Docker安装Centos</p>
 <p>##设置Docker国内镜像<br>镜像源地址可以通过阿里云申请一个：<a href="https://dev.aliyun.com/search.html" target="_blank" rel="external">https://dev.aliyun.com/search.html</a> ，也可以去网易镜像库寻找资源<a href="https://c.163.com/hub#/m/home/" target="_blank" rel="external">https://c.163.com/hub#/m/home/</a> 。</p>
-<p>##安装Centos<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker pull centos</div></pre></td></tr></table></figure></p>
-<p>##启动Centos<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -d -i -t centos /bin/bash</div></pre></td></tr></table></figure></p>
+<p>##安装Centos<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">docker pull centos</span></div></pre></td></tr></table></figure></p>
+<p>##启动Centos<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker <span class="keyword">run</span><span class="bash"> <span class="_">-d</span> -i -t centos /bin/bash</span></div></pre></td></tr></table></figure></p>
 <p>##进入Centos<br>查看运行后的容器ID</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker ps</div></pre></td></tr></table></figure>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">docker ps</span></div></pre></td></tr></table></figure>
 <pre>
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 e38f507299b0        centos              "/bin/bash"         33 minutes ago      Up 1 seconds                            naughty_curie
 </pre>
 
 <p>找到容器ID，通过命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker attach e38f507299b0</div></pre></td></tr></table></figure>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker <span class="built_in">attach</span> e38f507299b0</div></pre></td></tr></table></figure>
 <p>进入容器中，这就是centos的一个系统在docker中运行</p>
 <pre>
 [root@e38f507299b0 /]# ifconfig
@@ -118,18 +118,18 @@ bash: ifconfig: command not found
 </pre>
 
 <p>##安装Centos中ifconfig命令<br>竟然没有ifconfig命令，接着使用你会发现ssh也没有，还有我常用的命令which，来吧，我们开始安装这些组件；这已经是一个centos系统了，那么就让我们用yum开始安装吧。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install net-tools.x86_64</div></pre></td></tr></table></figure>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum <span class="keyword">install</span> net-tools.x86_64</div></pre></td></tr></table></figure>
 <p>##安装Which命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install which</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install <span class="built_in">which</span></div></pre></td></tr></table></figure>
 <p>##安装SSH<br>服务端SSH服务</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">yum install openssh-server  ##安装SSH服务</div><div class="line">sshd -D &amp;  ##启动SSH服务</div></pre></td></tr></table></figure>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">yum install openssh-<span class="keyword">server</span>  <span class="meta">##安装SSH服务</span></div><div class="line">sshd -D &amp;  <span class="meta">##启动SSH服务</span></div></pre></td></tr></table></figure>
 <p>SSH客户端工具</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install openssh-clients</div></pre></td></tr></table></figure>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum <span class="keyword">install</span> openssh-clients</div></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://datalystio.github.io/2016/10/24/Docker安装Centos/" data-id="civ33rbtl0002d2j1lt74bppx" class="article-share-link">Partager</a>
+      <a data-url="http://datalystio.github.io/2016/10/24/Docker安装Centos/" data-id="civ340t0a0003ntj1zhtvjkl2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -138,18 +138,18 @@ bash: ifconfig: command not found
     
 <nav id="article-nav">
   
-    <a href="/2016/10/24/Centos安装Cloudera(Yum方式)/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Récent</strong>
+    <a href="/2016/10/24/Hibernate乐观锁/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Centos安装Cloudera CDH（YUM方式）
+          理解Hibernate乐观锁
         
       </div>
     </a>
   
   
     <a href="/2016/10/21/Spring事务隔离与传播/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Ancien</strong>
+      <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">Spring事务的传播性与隔离性</div>
     </a>
   
@@ -167,7 +167,7 @@ bash: ifconfig: command not found
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Mot-clés</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos-cloudera/">centos cloudera</a></li></ul>
     </div>
@@ -177,7 +177,7 @@ bash: ifconfig: command not found
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <a href="/tags/centos-cloudera/" style="font-size: 10px;">centos cloudera</a>
     </div>
@@ -196,16 +196,16 @@ bash: ifconfig: command not found
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2016/10/25/Mysql之全文搜索函数/">Mysql之全文搜索函数</a>
+            <a href="/2016/10/25/MySQL之索引-索引与存储引擎/">MySQL-索引与存储引擎</a>
           </li>
         
           <li>
-            <a href="/2016/10/25/MySQL之索引-索引与存储引擎/">MySQL-索引与存储引擎</a>
+            <a href="/2016/10/25/Mysql之全文搜索函数/">Mysql之全文搜索函数</a>
           </li>
         
           <li>
@@ -233,7 +233,7 @@ bash: ifconfig: command not found
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 DatalystIO<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
