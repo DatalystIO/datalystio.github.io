@@ -12,14 +12,11 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DatalystIO">
   
-    <link rel="alternate" href="/atom.xml" title="DatalystIO" type="application/atom+xml">
-  
   
     <link rel="icon" href="/favicon.png">
   
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="/css/style.css">
   
 
@@ -27,102 +24,36 @@
 
 <body>
   <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
+    <header id="header">
   <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">DatalystIO</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Data Catalyst</a>
-        </h2>
-      
-    </div>
     <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
       <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
         
           <a class="main-nav-link" href="/">Home</a>
         
           <a class="main-nav-link" href="/archives">Archives</a>
         
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
       </nav>
       <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://datalystio.github.io"></form>
+        </div>
       </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://datalystio.github.io"></form>
-      </div>
     </div>
   </div>
 </header>
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-MySQL之索引-索引与存储引擎" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/10/25/MySQL之索引-索引与存储引擎/" class="article-date">
-  <time datetime="2016-10-24T11:00:00.000Z" itemprop="datePublished">2016-10-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/25/MySQL之索引-索引与存储引擎/">MySQL-索引与存储引擎</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="MySQL-索引与存储引擎"><a href="#MySQL-索引与存储引擎" class="headerlink" title="MySQL-索引与存储引擎"></a>MySQL-索引与存储引擎</h1><h2 id="索引简介"><a href="#索引简介" class="headerlink" title="索引简介"></a>索引简介</h2><p>每张表对索引的大小和数量上都是有一定的限制，不同的存储引擎(Myisam，Innodb）都是不一样的，但有一个共性是支持至少16个索引，总的索引长度256字节。</p>
-<h3 id="前缀索引-Prefix-Indexes"><a href="#前缀索引-Prefix-Indexes" class="headerlink" title="前缀索引(Prefix Indexes)"></a>前缀索引(Prefix Indexes)</h3><p>当你设置了一个字段为TEXT或者BLOB的类型时，怎么对这个对这个字段做索引呢？要知道这两种类型存储的数据是极大的，要是允许创建所以，你的索引文件就要爆炸了；当然当你尝试去在这上面建立索引时，Mysql是会给你报错了，提示你不允许在它们上面建立索引。这时候你可以使用前缀索引，如字面意思，就是提取某个字段的前缀的一部分串来建立索引，格式：col_name(N)-N指代前缀的长度。<br>以下是范例：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">test</span> (blob_col <span class="built_in">BLOB</span>, <span class="keyword">INDEX</span>(blob_col(<span class="number">10</span>)));</div></pre></td></tr></table></figure>
-<p>注意：前缀索引是可以达到1000字节长度，当然如果是Innodb，那么它只支持767字节，除非你使用innodb_large_prefix来设置。</p>
-<p>还需要额外注意的是，当前缀索引建立在非二进制类型上(CHAR, VARCHAR, TEXT)，那么该索引的长度限制是以字符(character)来衡量的；建立在二进制类型上(BINARY, VARBINARY, BLOB)，那么该索引的长度限制是以字节(byte)来衡量的。</p>
-<h3 id="全文索引-FULLTEXT-Indexes"><a href="#全文索引-FULLTEXT-Indexes" class="headerlink" title="全文索引(FULLTEXT Indexes)"></a>全文索引(FULLTEXT Indexes)</h3><p>全文索引是一种非常适合全文检索的索引方式，只在MyISAM引擎支持，并且只能是CHAR、VARCHAR、TEXT这三类的字段上，不支持前缀方式，必须是整个字段。（具体全文索引可以参考附录4来详细了解）</p>
-<h3 id="空间索引-Spatial-Indexes"><a href="#空间索引-Spatial-Indexes" class="headerlink" title="空间索引(Spatial Indexes)"></a>空间索引(Spatial Indexes)</h3><p>空间索引是只能创建在空间类型的字段上(spatial data types)的，MyISAM引擎是采用R-Tree结构来实现的，其他引擎采用的是B-Tree，当然要排除ARCHIVE引擎，它不支持该索引。</p>
-<h2 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Mysql支持的数据库存储引擎有哪些?（通过输入<strong>SHOW ENGINES</strong>可以查看当前Mysql Server支持的版本，Yes代表支持，No代表不支持，Default代表是当前支持并默认的）</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">1<span class="selector-class">.InnoDB-5</span><span class="selector-class">.5</span><span class="selector-class">.5</span>及其以后版本的默认引擎,是事务安全型的存储引擎，支持提交(<span class="selector-tag">commit</span>)、回滚(<span class="selector-tag">rollback</span>)、崩溃回复(<span class="selector-tag">crash-recovery</span>)，采用行级别的锁，并采用<span class="selector-tag">Oracle</span>风格的非锁方式的一致性读方案，来应对多用户的并发访问。同时将用户数据存储在聚集索引(<span class="selector-tag">clustered</span> <span class="selector-tag">index</span>)中，来减少基于主键的查询请求，降低<span class="selector-tag">IO</span>压力。为了维持数据的完整性，该引擎也支持外键关联的参照完整性约束（参照完整性约束<span class="selector-tag">-</span>关系中不允许引用不存在的实体）。</div><div class="line">2<span class="selector-class">.NDB-Mysql</span> <span class="selector-tag">Cluster</span>支持的分布式引擎，也叫<span class="selector-tag">NDBCLUSTER</span>，通常用于高可用，高稳定性场景，在标准的<span class="selector-tag">Mysq5</span><span class="selector-class">.5</span><span class="selector-class">.5</span>版本并不支持，需要包含<span class="selector-tag">Mysql</span> <span class="selector-tag">Cluster</span> <span class="selector-tag">NDB</span>版本7<span class="selector-class">.0</span>或者7<span class="selector-class">.1</span>的<span class="selector-tag">Mysql5</span><span class="selector-class">.1</span>版本，以及包含<span class="selector-tag">Mysql</span> <span class="selector-tag">Cluster</span> <span class="selector-tag">NDB7</span><span class="selector-class">.2</span>版本的<span class="selector-tag">Mysql5</span><span class="selector-class">.5</span>。</div><div class="line">3<span class="selector-class">.MyISAM-</span>通常用于网站、数据仓库环境，是5<span class="selector-class">.5</span><span class="selector-class">.5</span>以前版本的默认数据库引擎。</div><div class="line">4<span class="selector-class">.Memory-</span>存储数据的位置在<span class="selector-tag">RAM</span>中，为了快速检索使用，又名为<span class="selector-tag">HEAP</span>引擎。</div><div class="line">5<span class="selector-class">.Merge-</span>能够用于逻辑分组一堆相同的<span class="selector-tag">MyISAM</span>引擎表，作为一个对象使用，非常适合数据仓库中的超大型数据环境(<span class="selector-tag">VLDB</span>)使用。</div><div class="line">6<span class="selector-class">.Archive-</span>非常适合存储和检索大量很少引用的历史数据、归档数据、安全审计数据。</div><div class="line">7<span class="selector-class">.Federated-</span>能够将多个不同物理主机上的独立的<span class="selector-tag">Mysql</span> <span class="selector-tag">Servers</span>服务连接起来，形成一个逻辑数据库，非常适合分布式或者数据集市场景。</div><div class="line">8<span class="selector-class">.CSV-</span>该引擎使用文本文件存储数据，并用,作为分割符，可以用来很方便的处理从其他软件到处的<span class="selector-tag">cvs</span>格式数据。</div><div class="line">9<span class="selector-class">.Blackhole-</span>该引擎不存储任何数据，检索的时候总是返回空集合，这个功能通常被用在分布式数据库设计中，用于那些数据自动复制，但却不需要本地存储的场景。</div><div class="line">10<span class="selector-class">.Example-</span>也叫<span class="selector-tag">stub</span>引擎，也是不用来存储和检索数据的，主要用于<span class="selector-tag">Mysql</span>源码演示如何写一个新的存储引擎的，没啥卵用。</div></pre></td></tr></table></figure>
-<table class="table" summary="Storage Engines Feature Summary" border="1"><colgroup><col class="feature"><col class="myisam"><col class="memory"><col class="innodb"><col class="archive"><col class="ndb"></colgroup><thead><tr><th scope="col">Feature</th><th scope="col">MyISAM</th><th scope="col">Memory</th><th scope="col">InnoDB</th><th scope="col">Archive</th><th scope="col">NDB</th></tr></thead><tbody><tr><td scope="row">Storage limits</td><td>256TB</td><td>RAM</td><td>64TB</td><td>None</td><td>384EB</td></tr><tr><td scope="row">Transactions</td><td>No</td><td>No</td><td>Yes</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Locking granularity</td><td>Table</td><td>Table</td><td>Row</td><td>Row</td><td>Row</td></tr><tr><td scope="row">MVCC</td><td>No</td><td>No</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td scope="row">Geospatial data type support</td><td>Yes</td><td>No</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Geospatial indexing support</td><td>Yes</td><td>No</td><td>Yes<a href="#ftn.idm139813344539376" class="footnote" name="idm139813344539376"><sup class="footnote">[a]</sup></a></td><td>No</td><td>No</td></tr><tr><td scope="row">B-tree indexes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td scope="row">T-tree indexes</td><td>No</td><td>No</td><td>No</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Hash indexes</td><td>No</td><td>Yes</td><td>No<a href="#ftn.idm139813344531504" class="footnote" name="idm139813344531504"><sup class="footnote">[b]</sup></a></td><td>No</td><td>Yes</td></tr><tr><td scope="row">Full-text search indexes</td><td>Yes</td><td>No</td><td>Yes<a href="#ftn.idm139813344528544" class="footnote" name="idm139813344528544"><sup class="footnote">[c]</sup></a></td><td>No</td><td>No</td></tr><tr><td scope="row">Clustered indexes</td><td>No</td><td>No</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td scope="row">Data caches</td><td>No</td><td>N/A</td><td>Yes</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Index caches</td><td>Yes</td><td>N/A</td><td>Yes</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Compressed data</td><td>Yes<a href="#ftn.idm139813344518976" class="footnote" name="idm139813344518976"><sup class="footnote">[d]</sup></a></td><td>No</td><td>Yes<a href="#ftn.idm139813344517664" class="footnote" name="idm139813344517664"><sup class="footnote">[e]</sup></a></td><td>Yes</td><td>No</td></tr><tr><td scope="row">Encrypted data<a href="#ftn.idm139813344515888" class="footnote" name="idm139813344515888"><sup class="footnote">[f]</sup></a></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Cluster database support</td><td>No</td><td>No</td><td>No</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Replication support<a href="#ftn.idm139813344510416" class="footnote" name="idm139813344510416"><sup class="footnote">[g]</sup></a></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Foreign key support</td><td>No</td><td>No</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td scope="row">Backup / point-in-time recovery<a href="#ftn.idm139813344505008" class="footnote" name="idm139813344505008"><sup class="footnote">[h]</sup></a></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Query cache support</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Update statistics for data dictionary</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr></tbody><tbody class="footnotes"><tr><td colspan="6"><br><div id="ftn.idm139813344539376" class="footnote"><br><p><a href="#idm139813344539376" class="para"><sup class="para">[a] </sup></a>InnoDB support for geospatial indexing is available in MySQL 5.7.5 and higher.</p><br></div><br><br><div id="ftn.idm139813344531504" class="footnote"><br><p><a href="#idm139813344531504" class="para"><sup class="para">[b] </sup></a>InnoDB utilizes hash indexes internally for its Adaptive Hash Index feature.</p><br></div><br><br><div id="ftn.idm139813344528544" class="footnote"><br><p><a href="#idm139813344528544" class="para"><sup class="para">[c] </sup></a>InnoDB support for FULLTEXT indexes is available in MySQL 5.6.4 and higher.</p><br></div><br><br><div id="ftn.idm139813344518976" class="footnote"><br><p><a href="#idm139813344518976" class="para"><sup class="para">[d] </sup></a>Compressed MyISAM tables are supported only when using the compressed row format. Tables using the compressed row format with MyISAM are read only.</p><br></div><br><br><div id="ftn.idm139813344517664" class="footnote"><br><p><a href="#idm139813344517664" class="para"><sup class="para">[e] </sup></a>Compressed InnoDB tables require the InnoDB Barracuda file format.</p><br></div><br><br><div id="ftn.idm139813344515888" class="footnote"><br><p><a href="#idm139813344515888" class="para"><sup class="para">[f] </sup></a>Implemented in the server (via encryption functions). Data-at-rest tablespace encryption is available in MySQL 5.7 and higher.</p><br></div><br><br><div id="ftn.idm139813344510416" class="footnote"><br><p><a href="#idm139813344510416" class="para"><sup class="para">[g] </sup></a>Implemented in the server, rather than in the storage engine.</p><br></div><br><br><div id="ftn.idm139813344505008" class="footnote"><br><p><a href="#idm139813344505008" class="para"><sup class="para">[h] </sup></a>Implemented in the server, rather than in the storage engine.</p><br></div><br></td></tr></tbody></table>
-
-<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><p>1.【Column Indexes】<a href="https://dev.mysql.com/doc/refman/5.5/en/column-indexes.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/column-indexes.html</a></p>
-<p>2.【Alternative Storage Engines】<a href="https://dev.mysql.com/doc/refman/5.5/en/storage-engines.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/storage-engines.html</a></p>
-<p>3.【The InnoDB Storage Engine】<a href="https://dev.mysql.com/doc/refman/5.5/en/innodb-storage-engine.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/innodb-storage-engine.html</a></p>
-<p>4.【Full-Text Search Functions】<a href="https://dev.mysql.com/doc/refman/5.5/en/fulltext-search.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/fulltext-search.html</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://datalystio.github.io/2016/10/25/MySQL之索引-索引与存储引擎/" data-id="civ340t0e0005ntj15oyvg6ic" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Mysql之全文搜索函数" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/10/25/Mysql之全文搜索函数/" class="article-date">
-  <time datetime="2016-10-24T11:00:00.000Z" itemprop="datePublished">2016-10-25</time>
-</a>
-    
-  </div>
+    <section id="main" class="outer">
+      <article id="post-Mysql之全文搜索函数" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -136,6 +67,13 @@
 
       </header>
     
+    <div class="article-meta">
+      <a href="/2016/10/25/Mysql之全文搜索函数/" class="article-date">
+  <time datetime="2016-10-24T11:00:00.000Z" itemprop="datePublished">2016-10-25</time>
+</a>
+      
+      
+    </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p>#Mysql之全文搜索函数(TODO)<br>MATCH (col1,col2,…) AGAINST (expr [search_modifier])</p>
@@ -161,24 +99,76 @@
 
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://datalystio.github.io/2016/10/25/Mysql之全文搜索函数/" data-id="civ340t0f0007ntj1qmd9eilc" class="article-share-link">Share</a>
-      
-      
-    </footer>
+    
+    
   </div>
   
 </article>
 
 
+
+
+
+
+
+
+    
+      <article id="post-MySQL之索引-索引与存储引擎" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <article id="post-centos安装caravel" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/10/25/centos安装caravel/" class="article-date">
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/25/MySQL之索引-索引与存储引擎/">MySQL-索引与存储引擎</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/10/25/MySQL之索引-索引与存储引擎/" class="article-date">
   <time datetime="2016-10-24T11:00:00.000Z" itemprop="datePublished">2016-10-25</time>
 </a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MySQL-索引与存储引擎"><a href="#MySQL-索引与存储引擎" class="headerlink" title="MySQL-索引与存储引擎"></a>MySQL-索引与存储引擎</h1><h2 id="索引简介"><a href="#索引简介" class="headerlink" title="索引简介"></a>索引简介</h2><p>每张表对索引的大小和数量上都是有一定的限制，不同的存储引擎(Myisam，Innodb）都是不一样的，但有一个共性是支持至少16个索引，总的索引长度256字节。</p>
+<h3 id="前缀索引-Prefix-Indexes"><a href="#前缀索引-Prefix-Indexes" class="headerlink" title="前缀索引(Prefix Indexes)"></a>前缀索引(Prefix Indexes)</h3><p>当你设置了一个字段为TEXT或者BLOB的类型时，怎么对这个对这个字段做索引呢？要知道这两种类型存储的数据是极大的，要是允许创建所以，你的索引文件就要爆炸了；当然当你尝试去在这上面建立索引时，Mysql是会给你报错了，提示你不允许在它们上面建立索引。这时候你可以使用前缀索引，如字面意思，就是提取某个字段的前缀的一部分串来建立索引，格式：col_name(N)-N指代前缀的长度。<br>以下是范例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">test</span> (blob_col <span class="built_in">BLOB</span>, <span class="keyword">INDEX</span>(blob_col(<span class="number">10</span>)));</div></pre></td></tr></table></figure>
+<p>注意：前缀索引是可以达到1000字节长度，当然如果是Innodb，那么它只支持767字节，除非你使用innodb_large_prefix来设置。</p>
+<p>还需要额外注意的是，当前缀索引建立在非二进制类型上(CHAR, VARCHAR, TEXT)，那么该索引的长度限制是以字符(character)来衡量的；建立在二进制类型上(BINARY, VARBINARY, BLOB)，那么该索引的长度限制是以字节(byte)来衡量的。</p>
+<h3 id="全文索引-FULLTEXT-Indexes"><a href="#全文索引-FULLTEXT-Indexes" class="headerlink" title="全文索引(FULLTEXT Indexes)"></a>全文索引(FULLTEXT Indexes)</h3><p>全文索引是一种非常适合全文检索的索引方式，只在MyISAM引擎支持，并且只能是CHAR、VARCHAR、TEXT这三类的字段上，不支持前缀方式，必须是整个字段。（具体全文索引可以参考附录4来详细了解）</p>
+<h3 id="空间索引-Spatial-Indexes"><a href="#空间索引-Spatial-Indexes" class="headerlink" title="空间索引(Spatial Indexes)"></a>空间索引(Spatial Indexes)</h3><p>空间索引是只能创建在空间类型的字段上(spatial data types)的，MyISAM引擎是采用R-Tree结构来实现的，其他引擎采用的是B-Tree，当然要排除ARCHIVE引擎，它不支持该索引。</p>
+<h2 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Mysql支持的数据库存储引擎有哪些?（通过输入<strong>SHOW ENGINES</strong>可以查看当前Mysql Server支持的版本，Yes代表支持，No代表不支持，Default代表是当前支持并默认的）</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">1<span class="selector-class">.InnoDB-5</span><span class="selector-class">.5</span><span class="selector-class">.5</span>及其以后版本的默认引擎,是事务安全型的存储引擎，支持提交(<span class="selector-tag">commit</span>)、回滚(<span class="selector-tag">rollback</span>)、崩溃回复(<span class="selector-tag">crash-recovery</span>)，采用行级别的锁，并采用<span class="selector-tag">Oracle</span>风格的非锁方式的一致性读方案，来应对多用户的并发访问。同时将用户数据存储在聚集索引(<span class="selector-tag">clustered</span> <span class="selector-tag">index</span>)中，来减少基于主键的查询请求，降低<span class="selector-tag">IO</span>压力。为了维持数据的完整性，该引擎也支持外键关联的参照完整性约束（参照完整性约束<span class="selector-tag">-</span>关系中不允许引用不存在的实体）。</div><div class="line">2<span class="selector-class">.NDB-Mysql</span> <span class="selector-tag">Cluster</span>支持的分布式引擎，也叫<span class="selector-tag">NDBCLUSTER</span>，通常用于高可用，高稳定性场景，在标准的<span class="selector-tag">Mysq5</span><span class="selector-class">.5</span><span class="selector-class">.5</span>版本并不支持，需要包含<span class="selector-tag">Mysql</span> <span class="selector-tag">Cluster</span> <span class="selector-tag">NDB</span>版本7<span class="selector-class">.0</span>或者7<span class="selector-class">.1</span>的<span class="selector-tag">Mysql5</span><span class="selector-class">.1</span>版本，以及包含<span class="selector-tag">Mysql</span> <span class="selector-tag">Cluster</span> <span class="selector-tag">NDB7</span><span class="selector-class">.2</span>版本的<span class="selector-tag">Mysql5</span><span class="selector-class">.5</span>。</div><div class="line">3<span class="selector-class">.MyISAM-</span>通常用于网站、数据仓库环境，是5<span class="selector-class">.5</span><span class="selector-class">.5</span>以前版本的默认数据库引擎。</div><div class="line">4<span class="selector-class">.Memory-</span>存储数据的位置在<span class="selector-tag">RAM</span>中，为了快速检索使用，又名为<span class="selector-tag">HEAP</span>引擎。</div><div class="line">5<span class="selector-class">.Merge-</span>能够用于逻辑分组一堆相同的<span class="selector-tag">MyISAM</span>引擎表，作为一个对象使用，非常适合数据仓库中的超大型数据环境(<span class="selector-tag">VLDB</span>)使用。</div><div class="line">6<span class="selector-class">.Archive-</span>非常适合存储和检索大量很少引用的历史数据、归档数据、安全审计数据。</div><div class="line">7<span class="selector-class">.Federated-</span>能够将多个不同物理主机上的独立的<span class="selector-tag">Mysql</span> <span class="selector-tag">Servers</span>服务连接起来，形成一个逻辑数据库，非常适合分布式或者数据集市场景。</div><div class="line">8<span class="selector-class">.CSV-</span>该引擎使用文本文件存储数据，并用,作为分割符，可以用来很方便的处理从其他软件到处的<span class="selector-tag">cvs</span>格式数据。</div><div class="line">9<span class="selector-class">.Blackhole-</span>该引擎不存储任何数据，检索的时候总是返回空集合，这个功能通常被用在分布式数据库设计中，用于那些数据自动复制，但却不需要本地存储的场景。</div><div class="line">10<span class="selector-class">.Example-</span>也叫<span class="selector-tag">stub</span>引擎，也是不用来存储和检索数据的，主要用于<span class="selector-tag">Mysql</span>源码演示如何写一个新的存储引擎的，没啥卵用。</div></pre></td></tr></table></figure>
+<table class="table" summary="Storage Engines Feature Summary" border="1"><colgroup><col class="feature"><col class="myisam"><col class="memory"><col class="innodb"><col class="archive"><col class="ndb"></colgroup><thead><tr><th scope="col">Feature</th><th scope="col">MyISAM</th><th scope="col">Memory</th><th scope="col">InnoDB</th><th scope="col">Archive</th><th scope="col">NDB</th></tr></thead><tbody><tr><td scope="row">Storage limits</td><td>256TB</td><td>RAM</td><td>64TB</td><td>None</td><td>384EB</td></tr><tr><td scope="row">Transactions</td><td>No</td><td>No</td><td>Yes</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Locking granularity</td><td>Table</td><td>Table</td><td>Row</td><td>Row</td><td>Row</td></tr><tr><td scope="row">MVCC</td><td>No</td><td>No</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td scope="row">Geospatial data type support</td><td>Yes</td><td>No</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Geospatial indexing support</td><td>Yes</td><td>No</td><td>Yes<a href="#ftn.idm139813344539376" class="footnote" name="idm139813344539376"><sup class="footnote">[a]</sup></a></td><td>No</td><td>No</td></tr><tr><td scope="row">B-tree indexes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td scope="row">T-tree indexes</td><td>No</td><td>No</td><td>No</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Hash indexes</td><td>No</td><td>Yes</td><td>No<a href="#ftn.idm139813344531504" class="footnote" name="idm139813344531504"><sup class="footnote">[b]</sup></a></td><td>No</td><td>Yes</td></tr><tr><td scope="row">Full-text search indexes</td><td>Yes</td><td>No</td><td>Yes<a href="#ftn.idm139813344528544" class="footnote" name="idm139813344528544"><sup class="footnote">[c]</sup></a></td><td>No</td><td>No</td></tr><tr><td scope="row">Clustered indexes</td><td>No</td><td>No</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td scope="row">Data caches</td><td>No</td><td>N/A</td><td>Yes</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Index caches</td><td>Yes</td><td>N/A</td><td>Yes</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Compressed data</td><td>Yes<a href="#ftn.idm139813344518976" class="footnote" name="idm139813344518976"><sup class="footnote">[d]</sup></a></td><td>No</td><td>Yes<a href="#ftn.idm139813344517664" class="footnote" name="idm139813344517664"><sup class="footnote">[e]</sup></a></td><td>Yes</td><td>No</td></tr><tr><td scope="row">Encrypted data<a href="#ftn.idm139813344515888" class="footnote" name="idm139813344515888"><sup class="footnote">[f]</sup></a></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Cluster database support</td><td>No</td><td>No</td><td>No</td><td>No</td><td>Yes</td></tr><tr><td scope="row">Replication support<a href="#ftn.idm139813344510416" class="footnote" name="idm139813344510416"><sup class="footnote">[g]</sup></a></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Foreign key support</td><td>No</td><td>No</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td scope="row">Backup / point-in-time recovery<a href="#ftn.idm139813344505008" class="footnote" name="idm139813344505008"><sup class="footnote">[h]</sup></a></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Query cache support</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td scope="row">Update statistics for data dictionary</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr></tbody><tbody class="footnotes"><tr><td colspan="6"><br><div id="ftn.idm139813344539376" class="footnote"><br><p><a href="#idm139813344539376" class="para"><sup class="para">[a] </sup></a>InnoDB support for geospatial indexing is available in MySQL 5.7.5 and higher.</p><br></div><br><br><div id="ftn.idm139813344531504" class="footnote"><br><p><a href="#idm139813344531504" class="para"><sup class="para">[b] </sup></a>InnoDB utilizes hash indexes internally for its Adaptive Hash Index feature.</p><br></div><br><br><div id="ftn.idm139813344528544" class="footnote"><br><p><a href="#idm139813344528544" class="para"><sup class="para">[c] </sup></a>InnoDB support for FULLTEXT indexes is available in MySQL 5.6.4 and higher.</p><br></div><br><br><div id="ftn.idm139813344518976" class="footnote"><br><p><a href="#idm139813344518976" class="para"><sup class="para">[d] </sup></a>Compressed MyISAM tables are supported only when using the compressed row format. Tables using the compressed row format with MyISAM are read only.</p><br></div><br><br><div id="ftn.idm139813344517664" class="footnote"><br><p><a href="#idm139813344517664" class="para"><sup class="para">[e] </sup></a>Compressed InnoDB tables require the InnoDB Barracuda file format.</p><br></div><br><br><div id="ftn.idm139813344515888" class="footnote"><br><p><a href="#idm139813344515888" class="para"><sup class="para">[f] </sup></a>Implemented in the server (via encryption functions). Data-at-rest tablespace encryption is available in MySQL 5.7 and higher.</p><br></div><br><br><div id="ftn.idm139813344510416" class="footnote"><br><p><a href="#idm139813344510416" class="para"><sup class="para">[g] </sup></a>Implemented in the server, rather than in the storage engine.</p><br></div><br><br><div id="ftn.idm139813344505008" class="footnote"><br><p><a href="#idm139813344505008" class="para"><sup class="para">[h] </sup></a>Implemented in the server, rather than in the storage engine.</p><br></div><br></td></tr></tbody></table>
+
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><p>1.【Column Indexes】<a href="https://dev.mysql.com/doc/refman/5.5/en/column-indexes.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/column-indexes.html</a></p>
+<p>2.【Alternative Storage Engines】<a href="https://dev.mysql.com/doc/refman/5.5/en/storage-engines.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/storage-engines.html</a></p>
+<p>3.【The InnoDB Storage Engine】<a href="https://dev.mysql.com/doc/refman/5.5/en/innodb-storage-engine.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/innodb-storage-engine.html</a></p>
+<p>4.【Full-Text Search Functions】<a href="https://dev.mysql.com/doc/refman/5.5/en/fulltext-search.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/fulltext-search.html</a></p>
+
+      
+    </div>
+    
     
   </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-centos安装caravel" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -192,6 +182,13 @@
 
       </header>
     
+    <div class="article-meta">
+      <a href="/2016/10/25/centos安装caravel/" class="article-date">
+  <time datetime="2016-10-24T11:00:00.000Z" itemprop="datePublished">2016-10-25</time>
+</a>
+      
+      
+    </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p>#Centos安装caravel</p>
@@ -233,24 +230,21 @@
 
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://datalystio.github.io/2016/10/25/centos安装caravel/" data-id="civ340t0i0009ntj14r8f64z9" class="article-share-link">Share</a>
-      
-      
-    </footer>
+    
+    
   </div>
   
 </article>
 
 
-  
-    <article id="post-how-to-use-hexo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/10/24/how-to-use-hexo/" class="article-date">
-  <time datetime="2016-10-24T01:49:27.000Z" itemprop="datePublished">2016-10-24</time>
-</a>
+
+
+
+
+
+
     
-  </div>
+      <article id="post-how-to-use-hexo" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -264,6 +258,13 @@
 
       </header>
     
+    <div class="article-meta">
+      <a href="/2016/10/24/how-to-use-hexo/" class="article-date">
+  <time datetime="2016-10-24T01:49:27.000Z" itemprop="datePublished">2016-10-24</time>
+</a>
+      
+      
+    </div>
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="Environment-Setup"><a href="#Environment-Setup" class="headerlink" title="Environment Setup"></a>Environment Setup</h2><h3 id="Step-1-Install-Nodejs-via-nvm"><a href="#Step-1-Install-Nodejs-via-nvm" class="headerlink" title="Step 1: Install Nodejs via nvm"></a>Step 1: Install Nodejs via <code>nvm</code></h3><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"># wget -qO- http<span class="variable">s:</span>//raw.github.<span class="keyword">com</span>/creationix/nvm/master/install.<span class="keyword">sh</span> | <span class="keyword">sh</span></div></pre></td></tr></table></figure>
@@ -276,24 +277,21 @@
 
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://datalystio.github.io/2016/10/24/how-to-use-hexo/" data-id="civ340t0m000bntj18z5xclyu" class="article-share-link">Share</a>
-      
-      
-    </footer>
+    
+    
   </div>
   
 </article>
 
 
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/10/24/hello-world/" class="article-date">
-  <time datetime="2016-10-24T01:43:59.000Z" itemprop="datePublished">2016-10-24</time>
-</a>
+
+
+
+
+
+
     
-  </div>
+      <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -307,6 +305,13 @@
 
       </header>
     
+    <div class="article-meta">
+      <a href="/2016/10/24/hello-world/" class="article-date">
+  <time datetime="2016-10-24T01:43:59.000Z" itemprop="datePublished">2016-10-24</time>
+</a>
+      
+      
+    </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
@@ -321,24 +326,21 @@
 
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://datalystio.github.io/2016/10/24/hello-world/" data-id="civ340t0k000antj1pv4dza2z" class="article-share-link">Share</a>
-      
-      
-    </footer>
+    
+    
   </div>
   
 </article>
 
 
-  
-    <article id="post-Centos安装Cloudera(Yum方式)" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/10/24/Centos安装Cloudera(Yum方式)/" class="article-date">
-  <time datetime="2016-10-23T11:00:00.000Z" itemprop="datePublished">2016-10-24</time>
-</a>
+
+
+
+
+
+
     
-  </div>
+      <article id="post-Centos安装Cloudera(Yum方式)" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -352,6 +354,13 @@
 
       </header>
     
+    <div class="article-meta">
+      <a href="/2016/10/24/Centos安装Cloudera(Yum方式)/" class="article-date">
+  <time datetime="2016-10-23T11:00:00.000Z" itemprop="datePublished">2016-10-24</time>
+</a>
+      
+      
+    </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p>#Centos安装Cloudera CDH（YUM方式）</p>
@@ -375,75 +384,27 @@
 
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://datalystio.github.io/2016/10/24/Centos安装Cloudera(Yum方式)/" data-id="civ340t000000ntj175azy7va" class="article-share-link">Share</a>
-      
-      
+    
+    
+      <footer class="article-footer">
+        
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/centos-cloudera/">centos cloudera</a></li></ul>
 
-    </footer>
+      </footer>
+    
   </div>
   
 </article>
 
 
-  
-    <article id="post-Hibernate乐观锁" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/10/24/Hibernate乐观锁/" class="article-date">
-  <time datetime="2016-10-23T11:00:00.000Z" itemprop="datePublished">2016-10-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/24/Hibernate乐观锁/">理解Hibernate乐观锁</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>#理解Hibernate乐观锁</p>
-<p>##介绍</p>
-<p>Hibernate通过在持久化对象中增加Version属性(或者对某个属性增加@Version，采用Version属性会被Hibernate自动当做版本管理属性)来提供一套乐观锁方案，Version属性完全由Hibernate管理，开发者无需关心，只需要在你的代码中持久化类里增加一个数值型(Long，int，short)或者日期型(timestamp,calendars)的Version字段即可<br>。</p>
-<p>##Version与事务<br>这里采用数值型的Version来说明Hibernate如果使用Version属性来实现乐观锁与事务。Version属性都是由Hibernate自动管理，当Hibernate需要创建一个事务来更新持久化对象时，会取出本次事务中最新一次查询出的持久化对象中的Version属性，来比对当前数据库中的Version属性，如果一致，则执行事务提交，一旦发现不一致的情况，将会回滚事务，这就是Hibernate通过Version属性实现的乐观锁。如果更新成功后，Hibernate会自动增加Version属性值。</p>
-<p>##Hibernate自我管理Version VS DB自我管理<br>当然有些DBA喜欢使用数据库而不是Hibernate完成乐观锁策略，<br>Hibernate允许DB接收Version的管理，只需要在Version属性上配置generated=”always”（当然要注意，并不是所有数据库都支持管理Version）</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">hibernate-mapping</span> <span class="attr">package</span>=<span class="string">”com.ffw.entity”</span>&gt;</span> </div><div class="line">  <span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">”User”</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">name</span>=<span class="string">”id”</span>&gt;</span> </div><div class="line">       <span class="tag">&lt;<span class="name">generator</span> <span class="attr">class</span>=<span class="string">”native”</span> /&gt;</span> </div><div class="line">    <span class="tag">&lt;/<span class="name">id</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">version</span> <span class="attr">name</span>=<span class="string">”version”</span> <span class="attr">type</span>=<span class="string">”long”</span> <span class="attr">generated</span>=<span class="string">”always”/</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">”name”</span> <span class="attr">not-null</span>=<span class="string">”true”</span> /&gt;</span> </div><div class="line">  <span class="tag">&lt;/<span class="name">class</span>&gt;</span> </div><div class="line"><span class="tag">&lt;/<span class="name">hibernate-mapping</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>这么做后，当更新或者插入一条新纪录后，Hibernate需要额外的SQL来获取Version属性值，当然使用这种策略也可能存在一定风险，会出现更新或者插入记录后，额外的SQL无法查询出最新的Version变更信息结果。</p>
-<p>##数值型Version VS 日期型Version<br>数值型的Version<br>（1）好处：不需要保证多台服务器的时间同步问题。<br>（2）缺点：无法记录版本变更的时间信息，这种信息有时在一些特殊场景非常有用。</p>
-<p>日期型Version<br>（1）好处：可以记录版本变更的时间，这种信息在一些场景有非常重要的价值。<br>（2）缺点：如果多台服务器上时间不同步，将会导致乐观锁失败；又或者是时间精度不足，而此时并发量过高，同一毫秒数中有多个事务，导致事务失败。</p>
-<p>##不使用Version启动Hibernate乐观锁机制<br>当然你也可以不使用Version属性来运作乐观锁策略，有另外两种方案同样可以实现乐观锁。<br>第一种：使用该表中的所有属性，通过设置optimistic-lock=”all” 来启动所有属性比对，确认当前记录版本。<br>第二种：使用上一次更新的属性来比对记录的版本，设置optimistic-lock=”dirty”。</p>
-<p>##参考资料<br>[Versioning &amp; Optimistic Locking in Hibernate] <a href="https://www.intertech.com/Blog/versioning-optimistic-locking-in-hibernate/" target="_blank" rel="external">https://www.intertech.com/Blog/versioning-optimistic-locking-in-hibernate/</a></p>
-<p>[Chapter 5. Locking] <a href="http://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch05.html" target="_blank" rel="external">http://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch05.html</a></p>
-<p>[Chapter 11. Transactions and Concurrency] <a href="http://docs.jboss.org/hibernate/core/3.3/reference/en/html/transactions.html" target="_blank" rel="external">http://docs.jboss.org/hibernate/core/3.3/reference/en/html/transactions.html</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://datalystio.github.io/2016/10/24/Hibernate乐观锁/" data-id="civ340t050001ntj1p62e2xy6" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
 
 
-  
-    <article id="post-Docker安装Centos" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/10/24/Docker安装Centos/" class="article-date">
-  <time datetime="2016-10-23T11:00:00.000Z" itemprop="datePublished">2016-10-24</time>
-</a>
+
+
+
+
     
-  </div>
+      <article id="post-Docker安装Centos" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -457,6 +418,13 @@
 
       </header>
     
+    <div class="article-meta">
+      <a href="/2016/10/24/Docker安装Centos/" class="article-date">
+  <time datetime="2016-10-23T11:00:00.000Z" itemprop="datePublished">2016-10-24</time>
+</a>
+      
+      
+    </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p>#Docker安装Centos</p>
@@ -489,24 +457,74 @@ bash: ifconfig: command not found
 
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://datalystio.github.io/2016/10/24/Docker安装Centos/" data-id="civ340t0a0003ntj1zhtvjkl2" class="article-share-link">Share</a>
-      
-      
-    </footer>
+    
+    
   </div>
   
 </article>
 
 
+
+
+
+
+
+
+    
+      <article id="post-Hibernate乐观锁" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <article id="post-Spring事务隔离与传播" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/10/21/Spring事务隔离与传播/" class="article-date">
-  <time datetime="2016-10-20T11:00:00.000Z" itemprop="datePublished">2016-10-21</time>
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/24/Hibernate乐观锁/">理解Hibernate乐观锁</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/10/24/Hibernate乐观锁/" class="article-date">
+  <time datetime="2016-10-23T11:00:00.000Z" itemprop="datePublished">2016-10-24</time>
 </a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#理解Hibernate乐观锁</p>
+<p>##介绍</p>
+<p>Hibernate通过在持久化对象中增加Version属性(或者对某个属性增加@Version，采用Version属性会被Hibernate自动当做版本管理属性)来提供一套乐观锁方案，Version属性完全由Hibernate管理，开发者无需关心，只需要在你的代码中持久化类里增加一个数值型(Long，int，short)或者日期型(timestamp,calendars)的Version字段即可<br>。</p>
+<p>##Version与事务<br>这里采用数值型的Version来说明Hibernate如果使用Version属性来实现乐观锁与事务。Version属性都是由Hibernate自动管理，当Hibernate需要创建一个事务来更新持久化对象时，会取出本次事务中最新一次查询出的持久化对象中的Version属性，来比对当前数据库中的Version属性，如果一致，则执行事务提交，一旦发现不一致的情况，将会回滚事务，这就是Hibernate通过Version属性实现的乐观锁。如果更新成功后，Hibernate会自动增加Version属性值。</p>
+<p>##Hibernate自我管理Version VS DB自我管理<br>当然有些DBA喜欢使用数据库而不是Hibernate完成乐观锁策略，<br>Hibernate允许DB接收Version的管理，只需要在Version属性上配置generated=”always”（当然要注意，并不是所有数据库都支持管理Version）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">hibernate-mapping</span> <span class="attr">package</span>=<span class="string">”com.ffw.entity”</span>&gt;</span> </div><div class="line">  <span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">”User”</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">name</span>=<span class="string">”id”</span>&gt;</span> </div><div class="line">       <span class="tag">&lt;<span class="name">generator</span> <span class="attr">class</span>=<span class="string">”native”</span> /&gt;</span> </div><div class="line">    <span class="tag">&lt;/<span class="name">id</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">version</span> <span class="attr">name</span>=<span class="string">”version”</span> <span class="attr">type</span>=<span class="string">”long”</span> <span class="attr">generated</span>=<span class="string">”always”/</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">”name”</span> <span class="attr">not-null</span>=<span class="string">”true”</span> /&gt;</span> </div><div class="line">  <span class="tag">&lt;/<span class="name">class</span>&gt;</span> </div><div class="line"><span class="tag">&lt;/<span class="name">hibernate-mapping</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这么做后，当更新或者插入一条新纪录后，Hibernate需要额外的SQL来获取Version属性值，当然使用这种策略也可能存在一定风险，会出现更新或者插入记录后，额外的SQL无法查询出最新的Version变更信息结果。</p>
+<p>##数值型Version VS 日期型Version<br>数值型的Version<br>（1）好处：不需要保证多台服务器的时间同步问题。<br>（2）缺点：无法记录版本变更的时间信息，这种信息有时在一些特殊场景非常有用。</p>
+<p>日期型Version<br>（1）好处：可以记录版本变更的时间，这种信息在一些场景有非常重要的价值。<br>（2）缺点：如果多台服务器上时间不同步，将会导致乐观锁失败；又或者是时间精度不足，而此时并发量过高，同一毫秒数中有多个事务，导致事务失败。</p>
+<p>##不使用Version启动Hibernate乐观锁机制<br>当然你也可以不使用Version属性来运作乐观锁策略，有另外两种方案同样可以实现乐观锁。<br>第一种：使用该表中的所有属性，通过设置optimistic-lock=”all” 来启动所有属性比对，确认当前记录版本。<br>第二种：使用上一次更新的属性来比对记录的版本，设置optimistic-lock=”dirty”。</p>
+<p>##参考资料<br>[Versioning &amp; Optimistic Locking in Hibernate] <a href="https://www.intertech.com/Blog/versioning-optimistic-locking-in-hibernate/" target="_blank" rel="external">https://www.intertech.com/Blog/versioning-optimistic-locking-in-hibernate/</a></p>
+<p>[Chapter 5. Locking] <a href="http://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch05.html" target="_blank" rel="external">http://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch05.html</a></p>
+<p>[Chapter 11. Transactions and Concurrency] <a href="http://docs.jboss.org/hibernate/core/3.3/reference/en/html/transactions.html" target="_blank" rel="external">http://docs.jboss.org/hibernate/core/3.3/reference/en/html/transactions.html</a></p>
+
+      
+    </div>
+    
     
   </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-Spring事务隔离与传播" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -520,6 +538,13 @@ bash: ifconfig: command not found
 
       </header>
     
+    <div class="article-meta">
+      <a href="/2016/10/21/Spring事务隔离与传播/" class="article-date">
+  <time datetime="2016-10-20T11:00:00.000Z" itemprop="datePublished">2016-10-21</time>
+</a>
+      
+      
+    </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p>#Spring事务的传播性与隔离性</p>
@@ -537,24 +562,21 @@ bash: ifconfig: command not found
 
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://datalystio.github.io/2016/10/21/Spring事务隔离与传播/" data-id="civ340t0g0008ntj1vpzovvqf" class="article-share-link">Share</a>
-      
-      
-    </footer>
+    
+    
   </div>
   
 </article>
 
 
-  
-    <article id="post-Monty Hall(蒙蒂大厅难题)-概率趣闻" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/08/12/Monty Hall(蒙蒂大厅难题)-概率趣闻/" class="article-date">
-  <time datetime="2016-08-11T12:00:00.000Z" itemprop="datePublished">2016-08-12</time>
-</a>
+
+
+
+
+
+
     
-  </div>
+      <article id="post-Monty Hall(蒙蒂大厅难题)-概率趣闻" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -568,6 +590,13 @@ bash: ifconfig: command not found
 
       </header>
     
+    <div class="article-meta">
+      <a href="/2016/08/12/Monty Hall(蒙蒂大厅难题)-概率趣闻/" class="article-date">
+  <time datetime="2016-08-11T12:00:00.000Z" itemprop="datePublished">2016-08-12</time>
+</a>
+      
+      
+    </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p>#Monty Hall(蒙蒂大厅难题)-概率趣闻</p>
@@ -636,108 +665,32 @@ bash: ifconfig: command not found
 
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://datalystio.github.io/2016/08/12/Monty Hall(蒙蒂大厅难题)-概率趣闻/" data-id="civ340t0a0004ntj1nyku52op" class="article-share-link">Share</a>
-      
-      
-    </footer>
+    
+    
   </div>
   
 </article>
 
 
-  
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos-cloudera/">centos cloudera</a></li></ul>
-    </div>
-  </div>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/centos-cloudera/" style="font-size: 10px;">centos cloudera</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li></ul>
-    </div>
-  </div>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2016/10/25/MySQL之索引-索引与存储引擎/">MySQL-索引与存储引擎</a>
-          </li>
-        
-          <li>
-            <a href="/2016/10/25/Mysql之全文搜索函数/">Mysql之全文搜索函数</a>
-          </li>
-        
-          <li>
-            <a href="/2016/10/25/centos安装caravel/">Centos安装caravel</a>
-          </li>
-        
-          <li>
-            <a href="/2016/10/24/how-to-use-hexo/">How To Use Hexo</a>
-          </li>
-        
-          <li>
-            <a href="/2016/10/24/hello-world/">Hello World</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
 
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
+
+    </section>
+    <footer id="footer">
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 DatalystIO<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      &copy; 2016 DatalystIO&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
     </div>
   </div>
 </footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
     
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.min.js"></script>
 
 
   <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
@@ -745,7 +698,6 @@ bash: ifconfig: command not found
 
 
 <script src="/js/script.js"></script>
-
   </div>
 </body>
 </html>
