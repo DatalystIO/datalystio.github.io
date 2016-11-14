@@ -5,10 +5,101 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://datalyst.io/"/>
-  <updated>2016-11-13T10:20:07.000Z</updated>
+  <updated>2016-11-14T06:33:10.000Z</updated>
   <id>http://datalyst.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Docker系列之Dockerfile使用方法</title>
+    <link href="http://datalyst.io/2016/11/14/docker-series-dockerfile/"/>
+    <id>http://datalyst.io/2016/11/14/docker-series-dockerfile/</id>
+    <published>2016-11-13T11:00:00.000Z</published>
+    <updated>2016-11-14T06:33:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>2.3.5 Dockerfile commands summary</p>
+<p>Here’s a quick summary of the few basic commands we used in our Dockerfile.</p>
+<h4 id="FROM"><a href="#FROM" class="headerlink" title="FROM"></a>FROM</h4><p><code>FROM</code> starts the Dockerfile. It is a requirement that the Dockerfile must start with the FROM command. Images are created in layers, which means you can use another image as the base image for your own. The FROM command defines your base layer. As arguments, it takes the name of the image. Optionally, you can add the Docker Hub username of the maintainer and image version, in the format username/imagename:version.</p>
+<h4 id="RUN"><a href="#RUN" class="headerlink" title="RUN"></a>RUN</h4><p><code>RUN</code> is used to build up the Image you’re creating. For each RUN command, Docker will run the command then create a new layer of the image. This way you can roll back your image to previous states easily. The syntax for a RUN instruction is to place the full text of the shell command after the RUN (e.g., RUN mkdir /user/local/foo). This will automatically run in a /bin/sh shell. You can define a different shell like this: RUN /bin/bash -c ‘mkdir /user/local/foo’</p>
+<h4 id="COPY"><a href="#COPY" class="headerlink" title="COPY"></a>COPY</h4><p><code>COPY</code> copies local files into the container.</p>
+<h4 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h4><p><code>CMD</code> defines the commands that will run on the Image at start-up. Unlike a RUN, this does not create a new layer for the Image, but simply runs the command. There can only be one CMD per a Dockerfile/Image. If you need to run multiple commands, the best way to do that is to have the CMD run a script. CMD requires that you tell it where to run the command, unlike RUN. So example CMD commands would be:</p>
+<h4 id="EXPOSE"><a href="#EXPOSE" class="headerlink" title="EXPOSE"></a>EXPOSE</h4><p><code>EXPOSE</code> opens ports in your image to allow communication to the outside world when it runs in a container.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;2.3.5 Dockerfile commands summary&lt;/p&gt;
+&lt;p&gt;Here’s a quick summary of the few basic commands we used in our Dockerfile.&lt;/p&gt;
+&lt;h4 id=&quot;FROM&quot;&gt;&lt;a
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Docker系列之常用命令</title>
+    <link href="http://datalyst.io/2016/11/14/docker-series-common-commands/"/>
+    <id>http://datalyst.io/2016/11/14/docker-series-common-commands/</id>
+    <published>2016-11-13T11:00:00.000Z</published>
+    <updated>2016-11-14T06:23:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><h4 id="创建镜像"><a href="#创建镜像" class="headerlink" title="创建镜像"></a>创建镜像</h4><p>如果你已经有了 <strong>Dockerfile</strong>, 可以通过使用 <code>docker build</code> 命令创建镜像.</p>
+<p>例如, 我的 Dockerfile 为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">FROM nginx</div><div class="line">ENV AUTHOR=Docker</div><div class="line"></div><div class="line">WORKDIR /usr/share/nginx/html</div><div class="line">COPY hello_docker.html /usr/share/nginx/html</div><div class="line"></div><div class="line">CMD <span class="built_in">cd</span> /usr/share/nginx/html &amp;&amp; sed <span class="_">-e</span> s/Docker/<span class="string">"<span class="variable">$AUTHOR</span>"</span>/ hello_docker.html &gt; index.html ; nginx -g <span class="string">'daemon off;'</span></div></pre></td></tr></table></figure>
+<p>我可以通过使用 <code>docker build -t static-site .</code> 这条命令创建标签为 <strong>static-site</strong> 的镜像.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">vagrant@vagrant:~/static-site$ docker build -t static-site .</div><div class="line">Sending build context to Docker daemon 11.78 kB</div><div class="line">Step 1 : FROM nginx</div><div class="line">latest: Pulling from library/nginx</div><div class="line"></div><div class="line">1f2a121<span class="built_in">fc</span>3e4: Pull complete</div><div class="line">8d8b679a55bc: Pull complete</div><div class="line">a6c255f07aa8: Pull complete</div><div class="line">688deb3ebd31: Pull complete</div><div class="line">a906acdecdc6: Pull complete</div><div class="line">49c4ad89029f: Pull complete</div><div class="line">4205260e35c3: Pull complete</div><div class="line">ef068b58f0<span class="built_in">cd</span>: Pull complete</div><div class="line">Digest: sha256:55219a0643014008ee3b0ea9a6aac749867a3f42f1bd408431acc4a1b2947699</div><div class="line">Status: Downloaded newer image <span class="keyword">for</span> nginx:latest</div><div class="line"> ---&gt; ef068b58f0<span class="built_in">cd</span></div><div class="line">Step 2 : ENV AUTHOR Docker</div><div class="line"> ---&gt; Running <span class="keyword">in</span> 9847060f72e2</div><div class="line"> ---&gt; 4f56aa91a67b</div><div class="line">Removing intermediate container 9847060f72e2</div><div class="line">Step 3 : WORKDIR /usr/share/nginx/html</div><div class="line"> ---&gt; Running <span class="keyword">in</span> 0d64d28eb19e</div><div class="line"> ---&gt; 51f45ec68634</div><div class="line">Removing intermediate container 0d64d28eb19e</div><div class="line">Step 4 : COPY hello_docker.html /usr/share/nginx/html</div><div class="line"> ---&gt; 4d67df4f9678</div><div class="line">Removing intermediate container 6d6e30274514</div><div class="line">Step 5 : CMD <span class="built_in">cd</span> /usr/share/nginx/html &amp;&amp; sed <span class="_">-e</span> s/Docker/<span class="string">"<span class="variable">$AUTHOR</span>"</span>/ hello_docker.html &gt; index.html ; nginx -g <span class="string">'daemon off;'</span></div><div class="line"> ---&gt; Running <span class="keyword">in</span> 29de2f027129</div><div class="line"> ---&gt; 51cfaace4ea4</div><div class="line">Removing intermediate container 29de2f027129</div><div class="line">Successfully built 51cfaace4ea4</div></pre></td></tr></table></figure>
+<p>通过使用 <code>docker images</code> 命令可以看到, static-site 镜像已经创建成功.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">vagrant@vagrant:~/static-site$ docker images</div><div class="line">REPOSITORY                   TAG                 IMAGE ID            CREATED             VIRTUAL SIZE</div><div class="line">static-site                  latest              51cfaace4ea4        2 minutes ago       181.5 MB</div></pre></td></tr></table></figure></p>
+<p>使用 <code>docker run</code> 命令可以运行创建的镜像,</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">vagrant@vagrant:~/static-site$ docker run <span class="_">-d</span> static-site</div><div class="line">097c8468e1cb044295668a745b72d03554c5f2122364fe18d64ac3abca9b400f</div><div class="line">vagrant@vagrant:~/static-site$ docker ps</div><div class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES</div><div class="line">097c8468e1cb        static-site         <span class="string">"/bin/sh -c 'cd /usr/"</span>   6 seconds ago       Up 6 seconds        80/tcp, 443/tcp     tender_hugle</div></pre></td></tr></table></figure>
+<p>这说明镜像已经运行成功!</p>
+<p>停止镜像可以使用 <code>docker stop your-container-id</code>.</p>
+<p>删除镜像可以使用 <code>docker rm your-container-id</code>.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;常用命令&quot;&gt;&lt;a href=&quot;#常用命令&quot; class=&quot;headerlink&quot; title=&quot;常用命令&quot;&gt;&lt;/a&gt;常用命令&lt;/h3&gt;&lt;h4 id=&quot;创建镜像&quot;&gt;&lt;a href=&quot;#创建镜像&quot; class=&quot;headerlink&quot; title=&quot;创建镜像&quot;&gt;&lt;/a
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Docker系列之Docker介绍</title>
+    <link href="http://datalyst.io/2016/11/14/docker-series-introduction/"/>
+    <id>http://datalyst.io/2016/11/14/docker-series-introduction/</id>
+    <published>2016-11-13T11:00:00.000Z</published>
+    <updated>2016-11-14T06:30:38.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h3><p>2000年立项, 2013年开源. 目前有6B的镜像下载量. 得到很多公司和开发者的支持.</p>
+<h3 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h3><h4 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h4><p>镜像包含程序可运行的最基本的文件系统和配置.</p>
+<p>获得镜像可以使用 <code>docker pull</code> 命令获取.</p>
+<p>例如,</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">vagrant@vagrant:~$ docker pull alpine</div><div class="line">Using default tag: latest</div><div class="line">latest: Pulling from library/alpine</div><div class="line">f58f84d16010: Pull complete</div><div class="line">Digest: sha256:fb76bd8c78f158a05b2d7b3ad624d4be0d094c6645a5c713883eb6af47553881</div><div class="line">Status: Downloaded newer image <span class="keyword">for</span> alpine:latest</div></pre></td></tr></table></figure>
+<p>可以通过使用 <code>docker inspect your-image-name</code> 命令了解镜像的配置.</p>
+<p>例如</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line">vagrant@vagrant:~$ docker inspect alpine</div><div class="line">[</div><div class="line">&#123;</div><div class="line">    <span class="string">"Id"</span>: <span class="string">"f58f84d16010475284eae656e7c64a8efbf53f37babd7ea6078f4de2351eab05"</span>,</div><div class="line">    <span class="string">"RepoTags"</span>: [</div><div class="line">        <span class="string">"alpine:latest"</span></div><div class="line">    ],</div><div class="line">    <span class="string">"RepoDigests"</span>: [],</div><div class="line">    <span class="string">"Parent"</span>: <span class="string">""</span>,</div><div class="line">    <span class="string">"Comment"</span>: <span class="string">""</span>,</div><div class="line">    <span class="string">"Created"</span>: <span class="string">"2016-10-18T20:31:22.321427771Z"</span>,</div><div class="line">    <span class="string">"Container"</span>: <span class="string">"1d811a9194c47475510bc53700001c32f2b0eb8e3aca0914c5424109c0cd2056"</span>,</div><div class="line">    <span class="string">"ContainerConfig"</span>: &#123;</div><div class="line">        <span class="string">"Hostname"</span>: <span class="string">"1d811a9194c4"</span>,</div><div class="line">        <span class="string">"Domainname"</span>: <span class="string">""</span>,</div><div class="line">        <span class="string">"User"</span>: <span class="string">""</span>,</div><div class="line">        <span class="string">"AttachStdin"</span>: <span class="literal">false</span>,</div><div class="line">        <span class="string">"AttachStdout"</span>: <span class="literal">false</span>,</div><div class="line">        <span class="string">"AttachStderr"</span>: <span class="literal">false</span>,</div><div class="line">        <span class="string">"Tty"</span>: <span class="literal">false</span>,</div><div class="line">        <span class="string">"OpenStdin"</span>: <span class="literal">false</span>,</div><div class="line">        <span class="string">"StdinOnce"</span>: <span class="literal">false</span>,</div><div class="line">        <span class="string">"Env"</span>: [</div><div class="line">            <span class="string">"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"</span></div><div class="line">        ],</div><div class="line">        <span class="string">"Cmd"</span>: [</div><div class="line">            <span class="string">"/bin/sh"</span>,</div><div class="line">            <span class="string">"-c"</span>,</div><div class="line">            <span class="string">"#(nop) ADD file:7afbc23fda8b0b3872623c16af8e3490b2cee951aed14b3794389c2f946cc8c7 in / "</span></div><div class="line">        ],</div><div class="line">        <span class="string">"Image"</span>: <span class="string">""</span>,</div><div class="line">        <span class="string">"Volumes"</span>: null,</div><div class="line">        <span class="string">"WorkingDir"</span>: <span class="string">""</span>,</div><div class="line">        <span class="string">"Entrypoint"</span>: null,</div><div class="line">        <span class="string">"OnBuild"</span>: null,</div><div class="line">        <span class="string">"Labels"</span>: null</div><div class="line">    &#125;,</div><div class="line">    <span class="string">"DockerVersion"</span>: <span class="string">"1.12.1"</span>,</div><div class="line">    <span class="string">"Author"</span>: <span class="string">""</span>,</div><div class="line">    <span class="string">"Config"</span>: &#123;</div><div class="line">        <span class="string">"Hostname"</span>: <span class="string">"1d811a9194c4"</span>,</div><div class="line">        <span class="string">"Domainname"</span>: <span class="string">""</span>,</div><div class="line">        <span class="string">"User"</span>: <span class="string">""</span>,</div><div class="line">        <span class="string">"AttachStdin"</span>: <span class="literal">false</span>,</div><div class="line">        <span class="string">"AttachStdout"</span>: <span class="literal">false</span>,</div><div class="line">        <span class="string">"AttachStderr"</span>: <span class="literal">false</span>,</div><div class="line">        <span class="string">"Tty"</span>: <span class="literal">false</span>,</div><div class="line">        <span class="string">"OpenStdin"</span>: <span class="literal">false</span>,</div><div class="line">        <span class="string">"StdinOnce"</span>: <span class="literal">false</span>,</div><div class="line">        <span class="string">"Env"</span>: [</div><div class="line">            <span class="string">"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"</span></div><div class="line">        ],</div><div class="line">        <span class="string">"Cmd"</span>: null,</div><div class="line">        <span class="string">"Image"</span>: <span class="string">""</span>,</div><div class="line">        <span class="string">"Volumes"</span>: null,</div><div class="line">        <span class="string">"WorkingDir"</span>: <span class="string">""</span>,</div><div class="line">        <span class="string">"Entrypoint"</span>: null,</div><div class="line">        <span class="string">"OnBuild"</span>: null,</div><div class="line">        <span class="string">"Labels"</span>: null</div><div class="line">    &#125;,</div><div class="line">    <span class="string">"Architecture"</span>: <span class="string">"amd64"</span>,</div><div class="line">    <span class="string">"Os"</span>: <span class="string">"linux"</span>,</div><div class="line">    <span class="string">"Size"</span>: 4802964,</div><div class="line">    <span class="string">"VirtualSize"</span>: 4802964,</div><div class="line">    <span class="string">"GraphDriver"</span>: &#123;</div><div class="line">        <span class="string">"Name"</span>: <span class="string">"aufs"</span>,</div><div class="line">        <span class="string">"Data"</span>: null</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">]</div></pre></td></tr></table></figure>
+<p>会列出 <strong>alpine</strong> 的详细配置信息.</p>
+<h4 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h4><p>容器是真正运行程序的地方. 容器之间共享系统内核, 并且以独立进程的方式运行在宿主系统中. 可以通过使用 <code>docker ps</code> 命令查看目前正在运行的 docker 容器.</p>
+<h4 id="Docker-守护进程"><a href="#Docker-守护进程" class="headerlink" title="Docker 守护进程"></a>Docker 守护进程</h4><p>后台宿主程序, 负责管理创建,运行和分发 docker 容器.</p>
+<h4 id="Docker-客户端"><a href="#Docker-客户端" class="headerlink" title="Docker 客户端"></a>Docker 客户端</h4><p>Docker 客户端提供了命令行的方式与 Docker Daemon 进行交互.</p>
+<h4 id="Docker-Hub"><a href="#Docker-Hub" class="headerlink" title="Docker Hub"></a>Docker Hub</h4><p>免费的 Docker 镜像服务器. 可将你的 docker 镜像上传到 Docker Hub上保存分享.</p>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ul>
+<li><a href="http://training.docker.com/category/docker-mentor-week" target="_blank" rel="external">Docker Training</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;历史&quot;&gt;&lt;a href=&quot;#历史&quot; class=&quot;headerlink&quot; title=&quot;历史&quot;&gt;&lt;/a&gt;历史&lt;/h3&gt;&lt;p&gt;2000年立项, 2013年开源. 目前有6B的镜像下载量. 得到很多公司和开发者的支持.&lt;/p&gt;
+&lt;h3 id=&quot;术语&quot;&gt;&lt;a href=
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Cloudera认证简介</title>
@@ -38,45 +129,6 @@
     
       &lt;p&gt;在大数据越来越火的当下, 很多人都希望进入前景良好的大数据行业. Cloudera做为 Hadoop 商业环境中最具有号召力的企业之一, 自身推出的一系列 Hadoop 相关的认证也在业界享有很高的声誉.&lt;/p&gt;
 &lt;p&gt;目前, Cloudera 的认证体系下有三种证书:&lt;/
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Mysql之全文搜索函数</title>
-    <link href="http://datalyst.io/2016/10/25/Mysql%E4%B9%8B%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2%E5%87%BD%E6%95%B0/"/>
-    <id>http://datalyst.io/2016/10/25/Mysql之全文搜索函数/</id>
-    <published>2016-10-24T11:00:00.000Z</published>
-    <updated>2016-11-01T21:42:56.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>#Mysql之全文搜索函数(TODO)<br>MATCH (col1,col2,…) AGAINST (expr [search_modifier])</p>
-<p>##简介<br><figure class="highlight sqf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">search_modifier:</div><div class="line">  &#123;</div><div class="line">       <span class="built_in">IN</span> NATURAL <span class="built_in">LANGUAGE</span> MODE</div><div class="line">     | <span class="built_in">IN</span> NATURAL <span class="built_in">LANGUAGE</span> MODE <span class="keyword">WITH</span> QUERY EXPANSION</div><div class="line">     | <span class="built_in">IN</span> BOOLEAN MODE</div><div class="line">     | <span class="keyword">WITH</span> QUERY EXPANSION</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
-<p>Mysql支持全文索引和检索，有如下几个特征：</p>
-<ul>
-<li>全文索引类型是FULLTEXT</li>
-<li>全文索引只能被用在MyISAM引擎的表中（如果Mysql版本&gt;=5.6，全文索引也可以被用在InnoDB引擎的表中）</li>
-<li>全文索引只能被创建在CHAR、VARCHAR、TEXT类型的字段上</li>
-<li>全文索引可以在建表的时候设定，也可以在建表后进行更改</li>
-<li>如果一个表数据量很大，那么增加了全文索引，将会导致其加载数据变慢。<br>##场景<br>全文检索使用MATCH(col_name)AGAINST(…)表达格式。MATCH括号中使用逗号分隔罗列需要被检索的字段列表。AGAINST()括号中是需要被检索的内容。</li>
-</ul>
-<p>有三种全文检索查询方式:</p>
-<ol>
-<li>自然语言检索(A natural language search)：会将检索串进行自然语言分词，拆解成一个个词组，并且会使用停词列表来处理。通常情况，如果一个词出现在超过50%数据里，那么这个词将会被认为是通用词，不启动匹配。（IN NATURAL LANGUAGE MODE）</li>
-<li>真值检索(A boolean search )：真值检索使用特殊的检索<br>语言–AGAINST(string IN BOOLEAN MODE)，当然也能有其他很多种操作方式，比如包含或不包含，大于或者小于。（IN BOOLEAN MODE）</li>
-<li>查询表达式检索(A query expansion search)：这是一种修改版的自然语言检索方式，检索字符串时，第一次会使用自然语言检索的结果，然后将检索结果最相关行的单词添加到搜索字符中，再次检索，返回第二次检索结果。（The IN NATURAL LANGUAGE MODE WITH QUERY EXPANSION 或 WITH QUERY EXPANSION）</li>
-</ol>
-<p>##附录<br>1.【Full-Text Search Functions】<a href="https://dev.mysql.com/doc/refman/5.5/en/fulltext-search.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/fulltext-search.html</a></p>
-<p>2.【Natural Language Full-Text Searches】<a href="https://dev.mysql.com/doc/refman/5.5/en/fulltext-natural-language.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/fulltext-natural-language.html</a></p>
-<p>3.【Boolean Full-Text Searches】<a href="https://dev.mysql.com/doc/refman/5.5/en/fulltext-boolean.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/fulltext-boolean.html</a></p>
-<p>4.【Full-Text Searches with Query Expansion】<a href="https://dev.mysql.com/doc/refman/5.5/en/fulltext-query-expansion.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/fulltext-query-expansion.html</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;#Mysql之全文搜索函数(TODO)&lt;br&gt;MATCH (col1,col2,…) AGAINST (expr [search_modifier])&lt;/p&gt;
-&lt;p&gt;##简介&lt;br&gt;&lt;figure class=&quot;highlight sqf&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td c
     
     </summary>
     
@@ -174,6 +226,42 @@
   </entry>
   
   <entry>
+    <title>Mysql之全文搜索函数</title>
+    <link href="http://datalyst.io/2016/10/25/Mysql%E4%B9%8B%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2%E5%87%BD%E6%95%B0/"/>
+    <id>http://datalyst.io/2016/10/25/Mysql之全文搜索函数/</id>
+    <published>2016-10-24T11:00:00.000Z</published>
+    <updated>2016-11-14T01:55:53.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Mysql之全文搜索函数-TODO"><a href="#Mysql之全文搜索函数-TODO" class="headerlink" title="Mysql之全文搜索函数(TODO)"></a>Mysql之全文搜索函数(TODO)</h1><p>MATCH (col1,col2,…) AGAINST (expr [search_modifier])</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><figure class="highlight sqf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">search_modifier:</div><div class="line">  &#123;</div><div class="line">       <span class="built_in">IN</span> NATURAL <span class="built_in">LANGUAGE</span> MODE</div><div class="line">     | <span class="built_in">IN</span> NATURAL <span class="built_in">LANGUAGE</span> MODE <span class="keyword">WITH</span> QUERY EXPANSION</div><div class="line">     | <span class="built_in">IN</span> BOOLEAN MODE</div><div class="line">     | <span class="keyword">WITH</span> QUERY EXPANSION</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>Mysql支持全文索引和检索，有如下几个特征：</p>
+<ul>
+<li>全文索引类型是FULLTEXT</li>
+<li>全文索引只能被用在MyISAM引擎的表中（如果Mysql版本&gt;=5.6，全文索引也可以被用在InnoDB引擎的表中）</li>
+<li>全文索引只能被创建在CHAR、VARCHAR、TEXT类型的字段上</li>
+<li>全文索引可以在建表的时候设定，也可以在建表后进行更改</li>
+<li>如果一个表数据量很大，那么增加了全文索引，将会导致其加载数据变慢。</li>
+</ul>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>全文检索使用MATCH(col_name)AGAINST(…)表达格式。MATCH括号中使用逗号分隔罗列需要被检索的字段列表。AGAINST()括号中是需要被检索的内容。</p>
+<p>有三种全文检索查询方式:</p>
+<ol>
+<li>自然语言检索(A natural language search)：会将检索串进行自然语言分词，拆解成一个个词组，并且会使用停词列表来处理。通常情况，如果一个词出现在超过50%数据里，那么这个词将会被认为是通用词，不启动匹配。（IN NATURAL LANGUAGE MODE）</li>
+<li>真值检索(A boolean search )：真值检索使用特殊的检索<br>语言–AGAINST(string IN BOOLEAN MODE)，当然也能有其他很多种操作方式，比如包含或不包含，大于或者小于。（IN BOOLEAN MODE）</li>
+<li>查询表达式检索(A query expansion search)：这是一种修改版的自然语言检索方式，检索字符串时，第一次会使用自然语言检索的结果，然后将检索结果最相关行的单词添加到搜索字符中，再次检索，返回第二次检索结果。（The IN NATURAL LANGUAGE MODE WITH QUERY EXPANSION 或 WITH QUERY EXPANSION）</li>
+</ol>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><p>1.【Full-Text Search Functions】<a href="https://dev.mysql.com/doc/refman/5.5/en/fulltext-search.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/fulltext-search.html</a><br>2.【Natural Language Full-Text Searches】<a href="https://dev.mysql.com/doc/refman/5.5/en/fulltext-natural-language.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/fulltext-natural-language.html</a><br>3.【Boolean Full-Text Searches】<a href="https://dev.mysql.com/doc/refman/5.5/en/fulltext-boolean.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/fulltext-boolean.html</a><br>4.【Full-Text Searches with Query Expansion】<a href="https://dev.mysql.com/doc/refman/5.5/en/fulltext-query-expansion.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/fulltext-query-expansion.html</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Mysql之全文搜索函数-TODO&quot;&gt;&lt;a href=&quot;#Mysql之全文搜索函数-TODO&quot; class=&quot;headerlink&quot; title=&quot;Mysql之全文搜索函数(TODO)&quot;&gt;&lt;/a&gt;Mysql之全文搜索函数(TODO)&lt;/h1&gt;&lt;p&gt;MATCH (c
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>How To Use Hexo</title>
     <link href="http://datalyst.io/2016/10/24/how-to-use-hexo/"/>
     <id>http://datalyst.io/2016/10/24/how-to-use-hexo/</id>
@@ -226,6 +314,79 @@
   </entry>
   
   <entry>
+    <title>Centos安装Cloudera CDH（YUM方式）</title>
+    <link href="http://datalyst.io/2016/10/24/Centos%E5%AE%89%E8%A3%85Cloudera(Yum%E6%96%B9%E5%BC%8F)/"/>
+    <id>http://datalyst.io/2016/10/24/Centos安装Cloudera(Yum方式)/</id>
+    <published>2016-10-23T11:00:00.000Z</published>
+    <updated>2016-11-01T21:42:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>#Centos安装Cloudera CDH（YUM方式）</p>
+<p>##简介<br>Cloudera提供使用Yum方式或者下载RPM包进行安装，在接下来的环节，将采用Yum方式安装Cloudera。</p>
+<p>##编辑Yum的Repo<br>Cloudera的Yum安装地址：<a href="https://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/cloudera-cdh5.repo?_ga=1.50190628.383672037.1471754216" target="_blank" rel="external">https://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/cloudera-cdh5.repo?_ga=1.50190628.383672037.1471754216</a> 。</p>
+<p>在/etc/yum.repos.d目录下新建文件“cloudera-cdh5.repo”</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root<span class="meta">@e</span>38f507299b0 yum.repos.d]#vi /etc/yum.repos.d/cloudera-cdh5.repo</div><div class="line">[cloudera-cdh5]</div><div class="line"># <span class="type">Packages</span> <span class="keyword">for</span> <span class="type">Cloudera</span><span class="symbol">'s</span> <span class="type">Distribution</span> <span class="keyword">for</span> <span class="type">Hadoop</span>, <span class="type">Version</span> <span class="number">5</span>, on <span class="type">RedHat</span>	or <span class="type">CentOS</span> <span class="number">6</span> x86_64</div><div class="line">name=<span class="type">Cloudera</span><span class="symbol">'s</span> <span class="type">Distribution</span> <span class="keyword">for</span> <span class="type">Hadoop</span>, <span class="type">Version</span> <span class="number">5</span></div><div class="line">baseurl=https:<span class="comment">//archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/5/</span></div><div class="line">gpgkey =https:<span class="comment">//archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera    </span></div><div class="line">gpgcheck = <span class="number">1</span></div></pre></td></tr></table></figure>
+<p>##安装步骤（安装CDH5的YARN版本）<br>1.安装Resource Manager host</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean <span class="keyword">all</span></div><div class="line">sudo yum install hadoop-yarn-resourcemanager</div></pre></td></tr></table></figure>
+<p>2.安装NameNode</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean <span class="keyword">all</span></div><div class="line">sudo yum install hadoop-hdfs-namenode</div></pre></td></tr></table></figure>
+<p>3.安装Secondary NameNode</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean <span class="keyword">all</span></div><div class="line">sudo yum install hadoop-hdfs-secondarynamenode</div></pre></td></tr></table></figure>
+<p>4.安装DataNode/Yarn/MapReduce（所有节点需要执行，除了安装了Resource Manager的节点）</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean <span class="keyword">all</span></div><div class="line">sudo yum install hadoop-yarn-nodemanager hadoop-hdfs-datanode hadoop-mapreduce</div></pre></td></tr></table></figure>
+<p>5.安装Proxy Server/History Server（选取集群中的一个节点即可）</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean <span class="keyword">all</span></div><div class="line">sudo yum install hadoop-mapreduce-historyserver hadoop-yarn-proxyserver</div></pre></td></tr></table></figure>
+<p>6.安装Hadoop客户端</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum <span class="keyword">install</span> hadoop-<span class="keyword">client</span></div></pre></td></tr></table></figure>
+<p>##参考来源<br>1.【Cloudera CDH下载】<a href="http://www.cloudera.com/downloads/cdh/5-8-2.html" target="_blank" rel="external">http://www.cloudera.com/downloads/cdh/5-8-2.html</a><br>2.【Cloudera企业版文档】<a href="http://www.cloudera.com/content/dam/www/static/documents/datasheets/cloudera-enterprise-datasheet.pdf" target="_blank" rel="external">http://www.cloudera.com/content/dam/www/static/documents/datasheets/cloudera-enterprise-datasheet.pdf</a><br>3.【Cloudera安装文档】<a href="http://www.cloudera.com/documentation/enterprise/latest/topics/cdh_ig_cdh5_install.html#topic_4_4_1__p_32" target="_blank" rel="external">http://www.cloudera.com/documentation/enterprise/latest/topics/cdh_ig_cdh5_install.html#topic_4_4_1__p_32</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;#Centos安装Cloudera CDH（YUM方式）&lt;/p&gt;
+&lt;p&gt;##简介&lt;br&gt;Cloudera提供使用Yum方式或者下载RPM包进行安装，在接下来的环节，将采用Yum方式安装Cloudera。&lt;/p&gt;
+&lt;p&gt;##编辑Yum的Repo&lt;br&gt;Cloudera的Yum
+    
+    </summary>
+    
+    
+      <category term="centos cloudera" scheme="http://datalyst.io/tags/centos-cloudera/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>理解Hibernate乐观锁</title>
+    <link href="http://datalyst.io/2016/10/24/Hibernate%E4%B9%90%E8%A7%82%E9%94%81/"/>
+    <id>http://datalyst.io/2016/10/24/Hibernate乐观锁/</id>
+    <published>2016-10-23T11:00:00.000Z</published>
+    <updated>2016-11-01T21:42:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>#理解Hibernate乐观锁</p>
+<p>##介绍</p>
+<p>Hibernate通过在持久化对象中增加Version属性(或者对某个属性增加@Version，采用Version属性会被Hibernate自动当做版本管理属性)来提供一套乐观锁方案，Version属性完全由Hibernate管理，开发者无需关心，只需要在你的代码中持久化类里增加一个数值型(Long，int，short)或者日期型(timestamp,calendars)的Version字段即可<br>。</p>
+<p>##Version与事务<br>这里采用数值型的Version来说明Hibernate如果使用Version属性来实现乐观锁与事务。Version属性都是由Hibernate自动管理，当Hibernate需要创建一个事务来更新持久化对象时，会取出本次事务中最新一次查询出的持久化对象中的Version属性，来比对当前数据库中的Version属性，如果一致，则执行事务提交，一旦发现不一致的情况，将会回滚事务，这就是Hibernate通过Version属性实现的乐观锁。如果更新成功后，Hibernate会自动增加Version属性值。</p>
+<p>##Hibernate自我管理Version VS DB自我管理<br>当然有些DBA喜欢使用数据库而不是Hibernate完成乐观锁策略，<br>Hibernate允许DB接收Version的管理，只需要在Version属性上配置generated=”always”（当然要注意，并不是所有数据库都支持管理Version）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">hibernate-mapping</span> <span class="attr">package</span>=<span class="string">”com.ffw.entity”</span>&gt;</span> </div><div class="line">  <span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">”User”</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">name</span>=<span class="string">”id”</span>&gt;</span> </div><div class="line">       <span class="tag">&lt;<span class="name">generator</span> <span class="attr">class</span>=<span class="string">”native”</span> /&gt;</span> </div><div class="line">    <span class="tag">&lt;/<span class="name">id</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">version</span> <span class="attr">name</span>=<span class="string">”version”</span> <span class="attr">type</span>=<span class="string">”long”</span> <span class="attr">generated</span>=<span class="string">”always”/</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">”name”</span> <span class="attr">not-null</span>=<span class="string">”true”</span> /&gt;</span> </div><div class="line">  <span class="tag">&lt;/<span class="name">class</span>&gt;</span> </div><div class="line"><span class="tag">&lt;/<span class="name">hibernate-mapping</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这么做后，当更新或者插入一条新纪录后，Hibernate需要额外的SQL来获取Version属性值，当然使用这种策略也可能存在一定风险，会出现更新或者插入记录后，额外的SQL无法查询出最新的Version变更信息结果。</p>
+<p>##数值型Version VS 日期型Version<br>数值型的Version<br>（1）好处：不需要保证多台服务器的时间同步问题。<br>（2）缺点：无法记录版本变更的时间信息，这种信息有时在一些特殊场景非常有用。</p>
+<p>日期型Version<br>（1）好处：可以记录版本变更的时间，这种信息在一些场景有非常重要的价值。<br>（2）缺点：如果多台服务器上时间不同步，将会导致乐观锁失败；又或者是时间精度不足，而此时并发量过高，同一毫秒数中有多个事务，导致事务失败。</p>
+<p>##不使用Version启动Hibernate乐观锁机制<br>当然你也可以不使用Version属性来运作乐观锁策略，有另外两种方案同样可以实现乐观锁。<br>第一种：使用该表中的所有属性，通过设置optimistic-lock=”all” 来启动所有属性比对，确认当前记录版本。<br>第二种：使用上一次更新的属性来比对记录的版本，设置optimistic-lock=”dirty”。</p>
+<p>##参考资料<br>[Versioning &amp; Optimistic Locking in Hibernate] <a href="https://www.intertech.com/Blog/versioning-optimistic-locking-in-hibernate/" target="_blank" rel="external">https://www.intertech.com/Blog/versioning-optimistic-locking-in-hibernate/</a></p>
+<p>[Chapter 5. Locking] <a href="http://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch05.html" target="_blank" rel="external">http://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch05.html</a></p>
+<p>[Chapter 11. Transactions and Concurrency] <a href="http://docs.jboss.org/hibernate/core/3.3/reference/en/html/transactions.html" target="_blank" rel="external">http://docs.jboss.org/hibernate/core/3.3/reference/en/html/transactions.html</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;#理解Hibernate乐观锁&lt;/p&gt;
+&lt;p&gt;##介绍&lt;/p&gt;
+&lt;p&gt;Hibernate通过在持久化对象中增加Version属性(或者对某个属性增加@Version，采用Version属性会被Hibernate自动当做版本管理属性)来提供一套乐观锁方案，Version属性完
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Docker安装Centos</title>
     <link href="http://datalyst.io/2016/10/24/Docker%E5%AE%89%E8%A3%85Centos/"/>
     <id>http://datalyst.io/2016/10/24/Docker安装Centos/</id>
@@ -268,79 +429,6 @@ bash: ifconfig: command not found
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>理解Hibernate乐观锁</title>
-    <link href="http://datalyst.io/2016/10/24/Hibernate%E4%B9%90%E8%A7%82%E9%94%81/"/>
-    <id>http://datalyst.io/2016/10/24/Hibernate乐观锁/</id>
-    <published>2016-10-23T11:00:00.000Z</published>
-    <updated>2016-11-01T21:42:56.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>#理解Hibernate乐观锁</p>
-<p>##介绍</p>
-<p>Hibernate通过在持久化对象中增加Version属性(或者对某个属性增加@Version，采用Version属性会被Hibernate自动当做版本管理属性)来提供一套乐观锁方案，Version属性完全由Hibernate管理，开发者无需关心，只需要在你的代码中持久化类里增加一个数值型(Long，int，short)或者日期型(timestamp,calendars)的Version字段即可<br>。</p>
-<p>##Version与事务<br>这里采用数值型的Version来说明Hibernate如果使用Version属性来实现乐观锁与事务。Version属性都是由Hibernate自动管理，当Hibernate需要创建一个事务来更新持久化对象时，会取出本次事务中最新一次查询出的持久化对象中的Version属性，来比对当前数据库中的Version属性，如果一致，则执行事务提交，一旦发现不一致的情况，将会回滚事务，这就是Hibernate通过Version属性实现的乐观锁。如果更新成功后，Hibernate会自动增加Version属性值。</p>
-<p>##Hibernate自我管理Version VS DB自我管理<br>当然有些DBA喜欢使用数据库而不是Hibernate完成乐观锁策略，<br>Hibernate允许DB接收Version的管理，只需要在Version属性上配置generated=”always”（当然要注意，并不是所有数据库都支持管理Version）</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">hibernate-mapping</span> <span class="attr">package</span>=<span class="string">”com.ffw.entity”</span>&gt;</span> </div><div class="line">  <span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">”User”</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">name</span>=<span class="string">”id”</span>&gt;</span> </div><div class="line">       <span class="tag">&lt;<span class="name">generator</span> <span class="attr">class</span>=<span class="string">”native”</span> /&gt;</span> </div><div class="line">    <span class="tag">&lt;/<span class="name">id</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">version</span> <span class="attr">name</span>=<span class="string">”version”</span> <span class="attr">type</span>=<span class="string">”long”</span> <span class="attr">generated</span>=<span class="string">”always”/</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">”name”</span> <span class="attr">not-null</span>=<span class="string">”true”</span> /&gt;</span> </div><div class="line">  <span class="tag">&lt;/<span class="name">class</span>&gt;</span> </div><div class="line"><span class="tag">&lt;/<span class="name">hibernate-mapping</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>这么做后，当更新或者插入一条新纪录后，Hibernate需要额外的SQL来获取Version属性值，当然使用这种策略也可能存在一定风险，会出现更新或者插入记录后，额外的SQL无法查询出最新的Version变更信息结果。</p>
-<p>##数值型Version VS 日期型Version<br>数值型的Version<br>（1）好处：不需要保证多台服务器的时间同步问题。<br>（2）缺点：无法记录版本变更的时间信息，这种信息有时在一些特殊场景非常有用。</p>
-<p>日期型Version<br>（1）好处：可以记录版本变更的时间，这种信息在一些场景有非常重要的价值。<br>（2）缺点：如果多台服务器上时间不同步，将会导致乐观锁失败；又或者是时间精度不足，而此时并发量过高，同一毫秒数中有多个事务，导致事务失败。</p>
-<p>##不使用Version启动Hibernate乐观锁机制<br>当然你也可以不使用Version属性来运作乐观锁策略，有另外两种方案同样可以实现乐观锁。<br>第一种：使用该表中的所有属性，通过设置optimistic-lock=”all” 来启动所有属性比对，确认当前记录版本。<br>第二种：使用上一次更新的属性来比对记录的版本，设置optimistic-lock=”dirty”。</p>
-<p>##参考资料<br>[Versioning &amp; Optimistic Locking in Hibernate] <a href="https://www.intertech.com/Blog/versioning-optimistic-locking-in-hibernate/" target="_blank" rel="external">https://www.intertech.com/Blog/versioning-optimistic-locking-in-hibernate/</a></p>
-<p>[Chapter 5. Locking] <a href="http://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch05.html" target="_blank" rel="external">http://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch05.html</a></p>
-<p>[Chapter 11. Transactions and Concurrency] <a href="http://docs.jboss.org/hibernate/core/3.3/reference/en/html/transactions.html" target="_blank" rel="external">http://docs.jboss.org/hibernate/core/3.3/reference/en/html/transactions.html</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;#理解Hibernate乐观锁&lt;/p&gt;
-&lt;p&gt;##介绍&lt;/p&gt;
-&lt;p&gt;Hibernate通过在持久化对象中增加Version属性(或者对某个属性增加@Version，采用Version属性会被Hibernate自动当做版本管理属性)来提供一套乐观锁方案，Version属性完
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Centos安装Cloudera CDH（YUM方式）</title>
-    <link href="http://datalyst.io/2016/10/24/Centos%E5%AE%89%E8%A3%85Cloudera(Yum%E6%96%B9%E5%BC%8F)/"/>
-    <id>http://datalyst.io/2016/10/24/Centos安装Cloudera(Yum方式)/</id>
-    <published>2016-10-23T11:00:00.000Z</published>
-    <updated>2016-11-01T21:42:56.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>#Centos安装Cloudera CDH（YUM方式）</p>
-<p>##简介<br>Cloudera提供使用Yum方式或者下载RPM包进行安装，在接下来的环节，将采用Yum方式安装Cloudera。</p>
-<p>##编辑Yum的Repo<br>Cloudera的Yum安装地址：<a href="https://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/cloudera-cdh5.repo?_ga=1.50190628.383672037.1471754216" target="_blank" rel="external">https://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/cloudera-cdh5.repo?_ga=1.50190628.383672037.1471754216</a> 。</p>
-<p>在/etc/yum.repos.d目录下新建文件“cloudera-cdh5.repo”</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root<span class="meta">@e</span>38f507299b0 yum.repos.d]#vi /etc/yum.repos.d/cloudera-cdh5.repo</div><div class="line">[cloudera-cdh5]</div><div class="line"># <span class="type">Packages</span> <span class="keyword">for</span> <span class="type">Cloudera</span><span class="symbol">'s</span> <span class="type">Distribution</span> <span class="keyword">for</span> <span class="type">Hadoop</span>, <span class="type">Version</span> <span class="number">5</span>, on <span class="type">RedHat</span>	or <span class="type">CentOS</span> <span class="number">6</span> x86_64</div><div class="line">name=<span class="type">Cloudera</span><span class="symbol">'s</span> <span class="type">Distribution</span> <span class="keyword">for</span> <span class="type">Hadoop</span>, <span class="type">Version</span> <span class="number">5</span></div><div class="line">baseurl=https:<span class="comment">//archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/5/</span></div><div class="line">gpgkey =https:<span class="comment">//archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera    </span></div><div class="line">gpgcheck = <span class="number">1</span></div></pre></td></tr></table></figure>
-<p>##安装步骤（安装CDH5的YARN版本）<br>1.安装Resource Manager host</p>
-<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean <span class="keyword">all</span></div><div class="line">sudo yum install hadoop-yarn-resourcemanager</div></pre></td></tr></table></figure>
-<p>2.安装NameNode</p>
-<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean <span class="keyword">all</span></div><div class="line">sudo yum install hadoop-hdfs-namenode</div></pre></td></tr></table></figure>
-<p>3.安装Secondary NameNode</p>
-<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean <span class="keyword">all</span></div><div class="line">sudo yum install hadoop-hdfs-secondarynamenode</div></pre></td></tr></table></figure>
-<p>4.安装DataNode/Yarn/MapReduce（所有节点需要执行，除了安装了Resource Manager的节点）</p>
-<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean <span class="keyword">all</span></div><div class="line">sudo yum install hadoop-yarn-nodemanager hadoop-hdfs-datanode hadoop-mapreduce</div></pre></td></tr></table></figure>
-<p>5.安装Proxy Server/History Server（选取集群中的一个节点即可）</p>
-<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean <span class="keyword">all</span></div><div class="line">sudo yum install hadoop-mapreduce-historyserver hadoop-yarn-proxyserver</div></pre></td></tr></table></figure>
-<p>6.安装Hadoop客户端</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum clean all</div><div class="line">sudo yum <span class="keyword">install</span> hadoop-<span class="keyword">client</span></div></pre></td></tr></table></figure>
-<p>##参考来源<br>1.【Cloudera CDH下载】<a href="http://www.cloudera.com/downloads/cdh/5-8-2.html" target="_blank" rel="external">http://www.cloudera.com/downloads/cdh/5-8-2.html</a><br>2.【Cloudera企业版文档】<a href="http://www.cloudera.com/content/dam/www/static/documents/datasheets/cloudera-enterprise-datasheet.pdf" target="_blank" rel="external">http://www.cloudera.com/content/dam/www/static/documents/datasheets/cloudera-enterprise-datasheet.pdf</a><br>3.【Cloudera安装文档】<a href="http://www.cloudera.com/documentation/enterprise/latest/topics/cdh_ig_cdh5_install.html#topic_4_4_1__p_32" target="_blank" rel="external">http://www.cloudera.com/documentation/enterprise/latest/topics/cdh_ig_cdh5_install.html#topic_4_4_1__p_32</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;#Centos安装Cloudera CDH（YUM方式）&lt;/p&gt;
-&lt;p&gt;##简介&lt;br&gt;Cloudera提供使用Yum方式或者下载RPM包进行安装，在接下来的环节，将采用Yum方式安装Cloudera。&lt;/p&gt;
-&lt;p&gt;##编辑Yum的Repo&lt;br&gt;Cloudera的Yum
-    
-    </summary>
-    
-    
-      <category term="centos cloudera" scheme="http://datalyst.io/tags/centos-cloudera/"/>
     
   </entry>
   
